@@ -1,0 +1,1685 @@
+/* =========================================================
+   OSSP-TOM GOVERNMENT WEBSITE
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   COLOR SYSTEM
+========================================================= */
+
+:root {
+
+    --navy: #062f66;
+
+    --deep-navy: #041f45;
+
+    --royal-blue: #0756a3;
+
+    --blue: #0b63b7;
+
+    --light-blue: #eaf3fb;
+
+    --red: #c92127;
+
+    --dark-red: #a9181e;
+
+    --gold: #e5b83f;
+
+    --white: #ffffff;
+
+    --black: #111111;
+
+    --gray-50: #f7f9fc;
+
+    --gray-100: #eef2f6;
+
+    --gray-200: #dce3ea;
+
+    --gray-500: #687585;
+
+    --gray-700: #354252;
+
+    --shadow:
+        0 8px 28px rgba(0, 36, 80, 0.08);
+
+    --transition:
+        all 0.25s ease;
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        "Montserrat",
+        Arial,
+        sans-serif;
+
+    color: var(--black);
+
+    background:
+        var(--white);
+
+    line-height: 1.6;
+
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   GOVERNMENT BAR
+========================================================= */
+
+.government-bar {
+
+    background:
+        var(--deep-navy);
+
+    color:
+        rgba(255,255,255,0.92);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+.government-container {
+
+    width:
+        min(1450px, 92%);
+
+    min-height: 32px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header {
+
+    background:
+        var(--navy);
+
+    color:
+        var(--white);
+
+    border-bottom:
+        4px solid var(--gold);
+}
+
+.header-container {
+
+    width:
+        min(1450px, 92%);
+
+    min-height: 128px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        180px
+        1fr
+        180px;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+
+/* =========================================================
+   LOGOS
+========================================================= */
+
+.header-logo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.header-logo img {
+
+    width: 145px;
+
+    height: 95px;
+
+    object-fit: contain;
+
+    transition:
+        var(--transition);
+}
+
+.header-logo img:hover {
+
+    transform:
+        scale(1.04);
+}
+
+
+/* =========================================================
+   HEADER TITLE
+========================================================= */
+
+.header-title {
+
+    text-align: center;
+
+    padding:
+        10px;
+}
+
+.office-name {
+
+    font-size:
+        clamp(17px, 2vw, 28px);
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
+
+    text-transform: uppercase;
+}
+
+.city-name {
+
+    margin-top: 8px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    color:
+        rgba(255,255,255,0.9);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.main-navigation {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background:
+        var(--white);
+
+    border-bottom:
+        1px solid var(--gray-200);
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.06);
+}
+
+.nav-container {
+
+    width:
+        min(1450px, 94%);
+
+    margin: auto;
+}
+
+.nav-menu {
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+    list-style: none;
+}
+
+.nav-item {
+
+    position: relative;
+}
+
+.nav-item > a,
+.dropdown-button {
+
+    min-height: 58px;
+
+    padding:
+        0 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        var(--navy);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.25px;
+
+    cursor: pointer;
+
+    transition:
+        var(--transition);
+}
+
+.nav-item > a:hover,
+.dropdown-button:hover {
+
+    color:
+        var(--red);
+
+    background:
+        var(--gray-50);
+}
+
+.nav-item.active > a {
+
+    color:
+        var(--white);
+
+    background:
+        var(--navy);
+}
+
+.dropdown-arrow {
+
+    margin-left: 7px;
+}
+
+
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
+.dropdown-menu {
+
+    position: absolute;
+
+    top: 100%;
+
+    left: 0;
+
+    min-width: 260px;
+
+    background:
+        var(--white);
+
+    list-style: none;
+
+    border:
+        1px solid var(--gray-200);
+
+    box-shadow:
+        var(--shadow);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(8px);
+
+    transition:
+        var(--transition);
+
+    z-index: 100;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown.open .dropdown-menu {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0);
+}
+
+.dropdown-menu a {
+
+    display: block;
+
+    padding:
+        13px 18px;
+
+    color:
+        var(--gray-700);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    border-bottom:
+        1px solid var(--gray-100);
+}
+
+.dropdown-menu a:hover {
+
+    color:
+        var(--white);
+
+    background:
+        var(--royal-blue);
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu-button {
+
+    display: none;
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 4px;
+
+    background:
+        var(--navy);
+
+    cursor: pointer;
+}
+
+.mobile-menu-button span {
+
+    display: block;
+
+    width: 22px;
+
+    height: 2px;
+
+    margin: 5px auto;
+
+    background:
+        var(--white);
+
+    transition:
+        var(--transition);
+}
+
+
+/* =========================================================
+   HERO / BANNER
+========================================================= */
+
+/*
+    IMPORTANT:
+    There is NO gradient here.
+
+    Your banner already contains:
+    - blue treatment
+    - red accents
+    - OSSP-TOM title
+    - official seal
+    - imagery
+    - typography
+
+    Therefore the website simply displays
+    the artwork directly.
+*/
+
+.hero-section {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+        #071f40;
+}
+
+.banner-slider {
+
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 2048 / 704;
+
+    min-height: 320px;
+
+    max-height: 700px;
+
+    overflow: hidden;
+}
+
+.banner-slide {
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.7s ease;
+
+    background:
+        #071f40;
+}
+
+.banner-slide.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    z-index: 1;
+}
+
+.banner-slide img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+/* =========================================================
+   SLIDER BUTTONS
+========================================================= */
+
+.slider-button {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    z-index: 5;
+
+    width: 46px;
+
+    height: 46px;
+
+    border:
+        1px solid rgba(255,255,255,0.6);
+
+    border-radius: 50%;
+
+    background:
+        rgba(4,31,69,0.55);
+
+    color:
+        var(--white);
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        var(--transition);
+
+    backdrop-filter:
+        blur(4px);
+}
+
+.slider-button:hover {
+
+    background:
+        var(--red);
+
+    border-color:
+        var(--red);
+
+    transform:
+        translateY(-50%) scale(1.05);
+}
+
+.slider-prev {
+
+    left: 25px;
+}
+
+.slider-next {
+
+    right: 25px;
+}
+
+
+/* =========================================================
+   SLIDER DOTS
+========================================================= */
+
+.slider-dots {
+
+    position: absolute;
+
+    bottom: 18px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 5;
+
+    display: flex;
+
+    gap: 7px;
+}
+
+.slider-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.55);
+
+    cursor: pointer;
+
+    transition:
+        var(--transition);
+}
+
+.slider-dot.active {
+
+    width: 26px;
+
+    border-radius: 10px;
+
+    background:
+        var(--gold);
+}
+
+
+/* =========================================================
+   CONTENT CONTAINER
+========================================================= */
+
+.content-container {
+
+    width:
+        min(1200px, 92%);
+
+    margin:
+        0 auto;
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.section-heading {
+
+    margin-bottom:
+        28px;
+}
+
+.section-heading.center {
+
+    text-align: center;
+}
+
+.section-label {
+
+    color:
+        var(--red);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+
+    margin-top: 5px;
+
+    color:
+        var(--navy);
+
+    font-size:
+        clamp(26px, 3vw, 38px);
+
+    font-weight: 800;
+}
+
+.section-heading p {
+
+    margin-top: 7px;
+
+    color:
+        var(--gray-500);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   LEGISLATIVE RECORDS
+========================================================= */
+
+.records-section {
+
+    padding:
+        75px 0;
+
+    background:
+        var(--gray-50);
+}
+
+.search-card {
+
+    padding:
+        28px;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--gray-200);
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        var(--shadow);
+}
+
+#recordSearchForm {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 120px;
+
+    gap: 10px;
+}
+
+.search-input-wrapper {
+
+    position: relative;
+}
+
+.search-icon {
+
+    position: absolute;
+
+    left: 17px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    font-size: 21px;
+
+    color:
+        var(--gray-500);
+}
+
+.search-input-wrapper input {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding:
+        0 15px 0 48px;
+
+    border:
+        1px solid var(--gray-200);
+
+    border-radius:
+        5px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    transition:
+        var(--transition);
+}
+
+.search-input-wrapper input:focus {
+
+    border-color:
+        var(--royal-blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,86,163,0.1);
+}
+
+.search-button {
+
+    border: none;
+
+    border-radius: 5px;
+
+    background:
+        var(--navy);
+
+    color:
+        var(--white);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        var(--transition);
+}
+
+.search-button:hover {
+
+    background:
+        var(--red);
+}
+
+
+/* =========================================================
+   RECORD SHORTCUTS
+========================================================= */
+
+.record-shortcuts {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.record-card {
+
+    min-height: 85px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    background:
+        var(--gray-50);
+
+    border:
+        1px solid var(--gray-200);
+
+    border-radius: 6px;
+
+    color:
+        var(--navy);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        var(--transition);
+}
+
+.record-card:hover {
+
+    color:
+        var(--white);
+
+    background:
+        var(--royal-blue);
+
+    border-color:
+        var(--royal-blue);
+
+    transform:
+        translateY(-2px);
+}
+
+.record-icon {
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.information-section {
+
+    padding:
+        70px 0;
+
+    background:
+        var(--white);
+}
+
+.information-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+.information-card {
+
+    display: flex;
+
+    gap: 18px;
+
+    padding: 25px;
+
+    border:
+        1px solid var(--gray-200);
+
+    border-radius: 8px;
+
+    transition:
+        var(--transition);
+}
+
+.information-card:hover {
+
+    border-color:
+        var(--royal-blue);
+
+    box-shadow:
+        var(--shadow);
+
+    transform:
+        translateY(-3px);
+}
+
+.information-icon {
+
+    min-width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background:
+        var(--light-blue);
+
+    color:
+        var(--royal-blue);
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+.information-card h3 {
+
+    margin-bottom: 5px;
+
+    color:
+        var(--navy);
+
+    font-size: 16px;
+}
+
+.information-card p {
+
+    color:
+        var(--gray-500);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   QUICK LINKS
+========================================================= */
+
+.quick-links-section {
+
+    padding:
+        70px 0;
+
+    background:
+        var(--gray-50);
+}
+
+.quick-links-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-top: 35px;
+}
+
+.quick-link {
+
+    padding:
+        22px;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--gray-200);
+
+    color:
+        var(--navy);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        var(--transition);
+}
+
+.quick-link span {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color:
+        var(--red);
+
+    font-size: 10px;
+}
+
+.quick-link:hover {
+
+    color:
+        var(--white);
+
+    background:
+        var(--navy);
+
+    transform:
+        translateY(-3px);
+}
+
+.quick-link:hover span {
+
+    color:
+        var(--gold);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        #071f40;
+
+    color:
+        var(--white);
+}
+
+
+/*
+    The uploaded footer artwork is used directly.
+    Only a very subtle dark layer is applied for text readability.
+*/
+
+.footer-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        url("../images/footer-bg.png")
+        center / cover no-repeat;
+
+    opacity:
+        0.95;
+}
+
+.footer-background::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(4,31,69,0.18);
+}
+
+
+/* =========================================================
+   FOOTER CONTENT
+========================================================= */
+
+.footer-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    width:
+        min(1450px, 92%);
+
+    min-height: 125px;
+
+    margin:
+        0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+.footer-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.footer-developed {
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.footer-logo {
+
+    width: 145px;
+
+    height: 90px;
+
+    object-fit: contain;
+}
+
+.footer-details {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+}
+
+.footer-divider {
+
+    opacity: 0.6;
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.footer-bottom {
+
+    position: relative;
+
+    z-index: 3;
+
+    background:
+        rgba(3,25,51,0.95);
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.12);
+}
+
+.footer-bottom-container {
+
+    width:
+        min(1450px, 92%);
+
+    min-height: 55px;
+
+    margin:
+        0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color:
+        rgba(255,255,255,0.7);
+
+    font-size: 10px;
+}
+
+.footer-links {
+
+    display: flex;
+
+    gap: 20px;
+}
+
+.footer-links a:hover {
+
+    color:
+        var(--white);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .header-container {
+
+        grid-template-columns:
+            130px 1fr 130px;
+
+        gap: 15px;
+    }
+
+    .header-logo img {
+
+        width: 110px;
+
+        height: 75px;
+    }
+
+    .nav-item > a,
+    .dropdown-button {
+
+        padding:
+            0 9px;
+
+        font-size: 9px;
+    }
+
+    .quick-links-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .footer-content {
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        padding:
+            25px 0;
+
+        gap: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .government-container {
+
+        min-height: 28px;
+
+        font-size: 7px;
+    }
+
+
+    /* HEADER */
+
+    .header-container {
+
+        min-height: 100px;
+
+        grid-template-columns:
+            70px 1fr 70px;
+
+        gap: 8px;
+    }
+
+    .header-logo img {
+
+        width: 62px;
+
+        height: 60px;
+    }
+
+    .office-name {
+
+        font-size: 12px;
+
+        line-height: 1.3;
+    }
+
+    .city-name {
+
+        font-size: 7px;
+
+        margin-top: 4px;
+    }
+
+
+    /* NAVIGATION */
+
+    .main-navigation {
+
+        position: relative;
+    }
+
+    .nav-container {
+
+        width: 100%;
+
+        padding:
+            8px 4%;
+    }
+
+    .mobile-menu-button {
+
+        display: block;
+    }
+
+    .nav-menu {
+
+        display: none;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        margin-top: 8px;
+
+        border-top:
+            1px solid var(--gray-200);
+    }
+
+    .nav-menu.open {
+
+        display: flex;
+    }
+
+    .nav-item {
+
+        width: 100%;
+    }
+
+    .nav-item > a,
+    .dropdown-button {
+
+        width: 100%;
+
+        min-height: 48px;
+
+        padding:
+            0 15px;
+
+        justify-content:
+            space-between;
+
+        border-bottom:
+            1px solid var(--gray-100);
+    }
+
+    .nav-item.active > a {
+
+        color:
+            var(--navy);
+
+        background:
+            var(--gray-50);
+    }
+
+
+    /* DROPDOWN */
+
+    .dropdown-menu {
+
+        position: static;
+
+        display: none;
+
+        width: 100%;
+
+        min-width: 0;
+
+        border: none;
+
+        box-shadow: none;
+
+        opacity: 1;
+
+        visibility: visible;
+
+        transform: none;
+    }
+
+    .dropdown.open .dropdown-menu {
+
+        display: block;
+    }
+
+    .dropdown-menu a {
+
+        padding:
+            12px 30px;
+
+        background:
+            var(--gray-50);
+    }
+
+
+    /* BANNER */
+
+    .banner-slider {
+
+        aspect-ratio:
+            16 / 9;
+
+        min-height:
+            auto;
+
+        max-height:
+            none;
+    }
+
+    .banner-slide img {
+
+        object-fit:
+            cover;
+    }
+
+    .slider-button {
+
+        width: 38px;
+
+        height: 38px;
+
+        font-size: 14px;
+    }
+
+    .slider-prev {
+
+        left: 12px;
+    }
+
+    .slider-next {
+
+        right: 12px;
+    }
+
+    .slider-dots {
+
+        bottom: 10px;
+    }
+
+
+    /* SEARCH */
+
+    #recordSearchForm {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .search-button {
+
+        min-height: 48px;
+    }
+
+    .record-shortcuts {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    /* INFORMATION */
+
+    .information-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    /* QUICK LINKS */
+
+    .quick-links-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    /* FOOTER */
+
+    .footer-content {
+
+        text-align: center;
+
+        min-height: auto;
+
+        padding:
+            25px 0;
+    }
+
+    .footer-brand {
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+    .footer-developed {
+
+        font-size: 13px;
+    }
+
+    .footer-logo {
+
+        width: 120px;
+    }
+
+    .footer-details {
+
+        flex-wrap: wrap;
+
+        font-size: 11px;
+
+        gap: 8px;
+
+        justify-content: center;
+    }
+
+    .footer-bottom-container {
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        text-align: center;
+
+        padding:
+            15px 0;
+
+        gap: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .header-container {
+
+        grid-template-columns:
+            55px 1fr 55px;
+    }
+
+    .header-logo img {
+
+        width: 50px;
+
+        height: 50px;
+    }
+
+    .office-name {
+
+        font-size: 9px;
+    }
+
+    .city-name {
+
+        font-size: 6px;
+    }
+
+    .banner-slider {
+
+        aspect-ratio:
+            4 / 3;
+    }
+
+    .records-section,
+    .information-section,
+    .quick-links-section {
+
+        padding:
+            50px 0;
+    }
+
+    .search-card {
+
+        padding:
+            18px;
+    }
+
+}
