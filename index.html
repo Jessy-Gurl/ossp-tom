@@ -9,11 +9,11 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Official website of the Office of the Secretary to the Sangguniang Panlungsod, Quezon City Government.">
+          content="Official website of the Office of the Secretary to the Sangguniang Panlungsod, Quezon City.">
 
-    <title>OSSP-TOM | Quezon City Government</title>
+    <title>OSSP-TOM | Office of the Secretary to the Sangguniang Panlungsod</title>
 
-    <!-- Google Font -->
+    <!-- GOOGLE FONT -->
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -47,7 +47,27 @@
         </div>
 
         <div class="government-right">
-            QUEZON CITY GOVERNMENT
+
+            <span id="currentDay">
+                Monday
+            </span>
+
+            <span class="government-divider">
+                |
+            </span>
+
+            <span id="currentDate">
+                January 1, 2026
+            </span>
+
+            <span class="government-divider">
+                |
+            </span>
+
+            <span id="currentTime">
+                12:00:00 AM
+            </span>
+
         </div>
 
     </div>
@@ -69,11 +89,12 @@
 
         <div class="header-logo left-logo">
 
-            <a href="index.html"
+            <a href="#"
+               class="home-link"
                aria-label="OSSP-TOM Home">
 
                 <img src="images/QC.png"
-                     alt="OSSP TOM Logo">
+                     alt="Quezon City Logo">
 
             </a>
 
@@ -86,16 +107,12 @@
         <div class="header-title">
 
             <div class="office-name">
-
                 OFFICE OF THE SECRETARY TO THE
                 SANGGUNIANG PANLUNGSOD
-
             </div>
 
             <div class="city-name">
-
                 QUEZON CITY GOVERNMENT
-
             </div>
 
         </div>
@@ -106,15 +123,17 @@
 
         <div class="header-logo right-logo">
 
-            <a href="index.html"
-               aria-label="Quezon City Government">
+            <a href="#"
+               class="home-link"
+               aria-label="OSSP-TOM">
 
                 <img src="images/ossp_logo.png"
-                     alt="Quezon City Government Logo">
+                     alt="OSSP Logo">
 
             </a>
 
         </div>
+
 
     </div>
 
@@ -132,7 +151,7 @@
     <div class="nav-container">
 
 
-        <!-- MOBILE MENU -->
+        <!-- MOBILE MENU BUTTON -->
 
         <button class="mobile-menu-button"
                 id="mobileMenuButton"
@@ -148,41 +167,142 @@
 
 
 
-        <!-- NAVIGATION -->
+        <!-- NAVIGATION MENU -->
 
         <ul class="nav-menu"
             id="navMenu">
 
 
+            <!-- =================================================
+                 HOME
+            ================================================== -->
+
             <li class="nav-item active">
 
-                <a href="index.html">
+                <a href="#"
+                   class="nav-link active"
+                   data-page="home">
+
                     HOME
+
                 </a>
 
             </li>
 
 
+
+            <!-- =================================================
+                 QC CITY COUNCILS
+            ================================================== -->
+
+            <li class="nav-item dropdown">
+
+                <button class="dropdown-button"
+                        type="button"
+                        aria-expanded="false">
+
+                    QC CITY COUNCILS
+
+                    <span class="dropdown-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <ul class="dropdown-menu">
+
+
+                    <!-- CITY COUNCILORS -->
+
+                    <li>
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="councilors">
+
+                            CITY COUNCILORS
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- ORDER OF BUSINESS -->
+
+                    <li>
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="order-business">
+
+                            ORDER OF BUSINESS
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- COMMITTEE -->
+
+                    <li>
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="committee">
+
+                            COMMITTEE
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+            </li>
+
+
+
+            <!-- =================================================
+                 ABOUT OSSP
+            ================================================== -->
+
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="about">
+
                     ABOUT OSSP
+
                 </a>
 
             </li>
 
+
+
+            <!-- =================================================
+                 LEGISLATIVE RECORDS
+            ================================================== -->
 
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="legislative">
+
                     LEGISLATIVE RECORDS
+
                 </a>
 
             </li>
 
 
 
-            <!-- ONLINE SERVICES -->
+            <!-- =================================================
+                 ONLINE SERVICES
+            ================================================== -->
 
             <li class="nav-item dropdown">
 
@@ -201,29 +321,66 @@
 
                 <ul class="dropdown-menu">
 
-                    <li>
-                        <a href="#">
-                            Request Certified True Copy
-                        </a>
-                    </li>
+
+                    <!-- REQUEST CERTIFIED TRUE COPY -->
 
                     <li>
-                        <a href="#">
-                            Document Request
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="ctc">
+
+                            REQUEST CERTIFIED TRUE COPY
+
                         </a>
+
                     </li>
 
-                    <li>
-                        <a href="#">
-                            Request Tracking
-                        </a>
-                    </li>
+
+                    <!-- DOCUMENT REQUEST -->
 
                     <li>
-                        <a href="#">
-                            Citizen Services
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="document">
+
+                            DOCUMENT REQUEST
+
                         </a>
+
                     </li>
+
+
+                    <!-- REQUEST TRACKING -->
+
+                    <li>
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="tracking">
+
+                            REQUEST TRACKING
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- CITIZEN SERVICES -->
+
+                    <li>
+
+                        <a href="#"
+                           class="nav-link"
+                           data-page="services">
+
+                            CITIZEN SERVICES
+
+                        </a>
+
+                    </li>
+
 
                 </ul>
 
@@ -231,49 +388,116 @@
 
 
 
+            <!-- =================================================
+                 NEWS
+            ================================================== -->
+
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="news">
+
                     NEWS
+
                 </a>
 
             </li>
 
 
+
+            <!-- =================================================
+                 DIRECTORY
+            ================================================== -->
+
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="directory">
+
                     DIRECTORY
+
                 </a>
 
             </li>
 
 
+
+            <!-- =================================================
+                 FAQ
+            ================================================== -->
+
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="faqs">
+
                     FAQs
+
                 </a>
 
             </li>
 
 
+
+            <!-- =================================================
+                 CONTACT
+            ================================================== -->
+
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="contact">
+
                     CONTACT
+
                 </a>
 
             </li>
 
+
+
+            <!-- =================================================
+                 FEEDBACK
+            ================================================== -->
 
             <li class="nav-item">
 
-                <a href="#">
+                <a href="#"
+                   class="nav-link"
+                   data-page="feedback">
+
                     FEEDBACK
+
                 </a>
 
             </li>
+
+
+
+            <!-- =================================================
+                 LOGIN
+            ================================================== -->
+
+            <li class="nav-item login-nav-item">
+
+                <a href="#"
+                   class="login-button"
+                   data-page="login">
+
+                    <span class="login-icon">
+                        ⇥
+                    </span>
+
+                    LOGIN
+
+                </a>
+
+            </li>
+
 
         </ul>
 
@@ -284,162 +508,524 @@
 
 
 <!-- =========================================================
-     HERO / BANNER CAROUSEL
+     MAIN WEBSITE CONTENT
 ========================================================= -->
 
-<section class="hero-section"
-         aria-label="OSSP-TOM Featured Banners">
+<main id="mainContent">
 
 
-    <div class="banner-slider"
-         id="bannerSlider">
+
+<!-- =========================================================
+     HOME PAGE
+========================================================= -->
+
+<section class="page-section active-page"
+         id="page-home">
 
 
-        <!-- BANNER 1 -->
+    <!-- =====================================================
+         HERO / 10 BANNER CAROUSEL
+    ====================================================== -->
 
-        <div class="banner-slide active">
+    <section class="hero-section"
+             aria-label="OSSP-TOM Featured Banners">
 
-            <img src="images/banner1.png"
-                 alt="OSSP-TOM The Official Mandate">
+
+        <div class="banner-slider"
+             id="bannerSlider">
+
+
+            <!-- BANNER 1 -->
+
+            <div class="banner-slide active">
+
+                <img src="images/banner1.png"
+                     alt="OSSP-TOM Banner 1">
+
+            </div>
+
+
+
+            <!-- BANNER 2 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner2.png"
+                     alt="OSSP-TOM Banner 2">
+
+            </div>
+
+
+
+            <!-- BANNER 3 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner3.jpg"
+                     alt="OSSP-TOM Banner 3">
+
+            </div>
+
+
+
+            <!-- BANNER 4 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner4.png"
+                     alt="OSSP-TOM Banner 4">
+
+            </div>
+
+
+
+            <!-- BANNER 5 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner5.png"
+                     alt="OSSP-TOM Banner 5">
+
+            </div>
+
+
+
+            <!-- BANNER 6 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner6.png"
+                     alt="OSSP-TOM Banner 6">
+
+            </div>
+
+
+
+            <!-- BANNER 7 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner7.png"
+                     alt="OSSP-TOM Banner 7">
+
+            </div>
+
+
+
+            <!-- BANNER 8 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner8.png"
+                     alt="OSSP-TOM Banner 8">
+
+            </div>
+
+
+
+            <!-- BANNER 9 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner9.png"
+                     alt="OSSP-TOM Banner 9">
+
+            </div>
+
+
+
+            <!-- BANNER 10 -->
+
+            <div class="banner-slide">
+
+                <img src="images/banner10.png"
+                     alt="OSSP-TOM Banner 10">
+
+            </div>
+
 
         </div>
 
 
 
-        <!-- BANNER 2 -->
+        <!-- PREVIOUS BUTTON -->
 
-        <div class="banner-slide">
+        <button class="slider-button slider-prev"
+                id="prevBanner"
+                type="button"
+                aria-label="Previous banner">
 
-            <img src="images/banner2.png"
-                 alt="OSSP-TOM featured banner 2">
+            ❮
 
-        </div>
-
-
-
-        <!-- BANNER 3 -->
-
-        <div class="banner-slide">
-
-            <img src="images/banner3.png"
-                 alt="OSSP-TOM featured banner 3">
-
-        </div>
+        </button>
 
 
 
-        <!-- BANNER 4 -->
+        <!-- NEXT BUTTON -->
 
-        <div class="banner-slide">
+        <button class="slider-button slider-next"
+                id="nextBanner"
+                type="button"
+                aria-label="Next banner">
 
-            <img src="images/banner4.png"
-                 alt="OSSP-TOM featured banner 4">
+            ❯
 
-        </div>
-
+        </button>
 
 
-        <!-- BANNER 5 -->
 
-        <div class="banner-slide">
+        <!-- SLIDER DOTS -->
 
-            <img src="images/banner5.png"
-                 alt="OSSP-TOM featured banner 5">
+        <div class="slider-dots"
+             id="sliderDots">
 
         </div>
 
 
+    </section>
 
-        <!-- BANNER 6 -->
 
-        <div class="banner-slide">
 
-            <img src="images/banner6.png"
-                 alt="OSSP-TOM featured banner 6">
+    <!-- =====================================================
+         LEGISLATIVE RECORD SEARCH
+    ====================================================== -->
+
+    <section class="records-section">
+
+        <div class="content-container">
+
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    OSSP-TOM
+                </span>
+
+                <h2>
+                    Search Legislative Records
+                </h2>
+
+                <p>
+                    Search ordinances, resolutions and other
+                    authorized legislative documents.
+                </p>
+
+            </div>
+
+
+
+            <div class="search-card">
+
+
+                <form id="recordSearchForm">
+
+
+                    <div class="search-input-wrapper">
+
+                        <span class="search-icon">
+                            ⌕
+                        </span>
+
+                        <input
+                            type="search"
+                            id="recordSearch"
+                            placeholder="Enter title, number, keyword or year..."
+                            aria-label="Search legislative records">
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="search-button">
+
+                        SEARCH
+
+                    </button>
+
+
+                </form>
+
+
+
+                <div class="record-shortcuts">
+
+
+                    <a href="#"
+                       class="record-card"
+                       data-page="ordinances">
+
+                        <span class="record-icon">
+                            ▣
+                        </span>
+
+                        <span>
+                            Ordinances
+                        </span>
+
+                    </a>
+
+
+
+                    <a href="#"
+                       class="record-card"
+                       data-page="resolutions">
+
+                        <span class="record-icon">
+                            ▤
+                        </span>
+
+                        <span>
+                            Resolutions
+                        </span>
+
+                    </a>
+
+
+
+                    <a href="#"
+                       class="record-card"
+                       data-page="ctc">
+
+                        <span class="record-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            Request CTC
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
 
         </div>
 
+    </section>
 
 
-        <!-- BANNER 7 -->
 
-        <div class="banner-slide">
+    <!-- =====================================================
+         INFORMATION CARDS
+    ====================================================== -->
 
-            <img src="images/banner7.png"
-                 alt="OSSP-TOM featured banner 7">
+    <section class="information-section">
+
+        <div class="content-container">
+
+
+            <div class="information-grid">
+
+
+                <!-- ABOUT -->
+
+                <a href="#"
+                   class="information-card"
+                   data-page="about">
+
+                    <div class="information-icon">
+                        ◈
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            About OSSP
+                        </h3>
+
+                        <p>
+                            Mandate, functions, organizational
+                            structure and officials.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <!-- ANNOUNCEMENTS -->
+
+                <a href="#"
+                   class="information-card"
+                   data-page="news">
+
+                    <div class="information-icon">
+                        ◉
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Announcements
+                        </h3>
+
+                        <p>
+                            Official notices, news and
+                            public advisories.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <!-- SERVICES -->
+
+                <a href="#"
+                   class="information-card"
+                   data-page="services">
+
+                    <div class="information-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Citizen Services
+                        </h3>
+
+                        <p>
+                            Service requirements, procedures
+                            and online requests.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <!-- FEEDBACK -->
+
+                <a href="#"
+                   class="information-card"
+                   data-page="feedback">
+
+                    <div class="information-icon">
+                        ◌
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Feedback
+                        </h3>
+
+                        <p>
+                            Rate services, submit comments
+                            and report issues.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+            </div>
 
         </div>
 
+    </section>
 
 
-        <!-- BANNER 8 -->
 
-        <div class="banner-slide">
+    <!-- =====================================================
+         QUICK LINKS
+    ====================================================== -->
 
-            <img src="images/banner8.png"
-                 alt="OSSP-TOM featured banner 8">
+    <section class="quick-links-section">
+
+        <div class="content-container">
+
+
+            <div class="section-heading center">
+
+                <span class="section-label">
+                    QUICK ACCESS
+                </span>
+
+                <h2>
+                    Government Services
+                </h2>
+
+                <p>
+                    Access important OSSP-TOM information
+                    and public services.
+                </p>
+
+            </div>
+
+
+
+            <div class="quick-links-grid">
+
+
+                <a href="#"
+                   class="quick-link"
+                   data-page="legislative">
+
+                    <span>
+                        01
+                    </span>
+
+                    Legislative Records
+
+                </a>
+
+
+
+                <a href="#"
+                   class="quick-link"
+                   data-page="services">
+
+                    <span>
+                        02
+                    </span>
+
+                    Online Services
+
+                </a>
+
+
+
+                <a href="#"
+                   class="quick-link"
+                   data-page="directory">
+
+                    <span>
+                        03
+                    </span>
+
+                    Directory
+
+                </a>
+
+
+
+                <a href="#"
+                   class="quick-link"
+                   data-page="faqs">
+
+                    <span>
+                        04
+                    </span>
+
+                    FAQs
+
+                </a>
+
+
+            </div>
 
         </div>
 
-
-
-        <!-- BANNER 9 -->
-
-        <div class="banner-slide">
-
-            <img src="images/banner9.png"
-                 alt="OSSP-TOM featured banner 9">
-
-        </div>
-
-
-
-        <!-- BANNER 10 -->
-
-        <div class="banner-slide">
-
-            <img src="images/banner10.png"
-                 alt="OSSP-TOM featured banner 10">
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- PREVIOUS -->
-
-    <button class="slider-button slider-prev"
-            id="prevBanner"
-            type="button"
-            aria-label="Previous banner">
-
-        ❮
-
-    </button>
-
-
-
-    <!-- NEXT -->
-
-    <button class="slider-button slider-next"
-            id="nextBanner"
-            type="button"
-            aria-label="Next banner">
-
-        ❯
-
-    </button>
-
-
-
-    <!-- DOTS -->
-
-    <div class="slider-dots"
-         id="sliderDots">
-
-    </div>
+    </section>
 
 
 </section>
@@ -447,112 +1033,108 @@
 
 
 <!-- =========================================================
-     LEGISLATIVE RECORD SEARCH
+     ABOUT OSSP
 ========================================================= -->
 
-<section class="records-section">
+<section class="page-section"
+         id="page-about">
 
-    <div class="content-container">
+    <div class="page-header">
 
-
-        <div class="section-heading">
+        <div class="content-container">
 
             <span class="section-label">
-                OSSP-TOM
+                ABOUT OSSP
             </span>
 
-            <h2>
-                Search Legislative Records
-            </h2>
+            <h1>
+                Office of the Secretary to the
+                Sangguniang Panlungsod
+            </h1>
 
             <p>
-                Search ordinances, resolutions and other
-                authorized legislative documents.
+                Learn more about the mandate, functions,
+                organization and responsibilities of the OSSP.
             </p>
 
         </div>
 
+    </div>
 
 
-        <div class="search-card">
+    <div class="content-container page-content">
+
+        <div class="information-grid">
 
 
-            <form id="recordSearchForm">
+            <div class="information-card">
 
+                <div class="information-icon">
+                    ◈
+                </div>
 
-                <div class="search-input-wrapper">
+                <div>
 
-                    <span class="search-icon">
-                        ⌕
-                    </span>
+                    <h3>
+                        Our Mandate
+                    </h3>
 
-                    <input
-                        type="search"
-                        id="recordSearch"
-                        placeholder="Enter title, number, keyword or year..."
-                        aria-label="Search legislative records">
+                    <p>
+                        The Office of the Secretary to the
+                        Sangguniang Panlungsod provides legislative,
+                        secretariat and administrative support to
+                        the City Council.
+                    </p>
 
                 </div>
 
-
-                <button type="submit"
-                        class="search-button">
-
-                    SEARCH
-
-                </button>
-
-
-            </form>
+            </div>
 
 
 
-            <div class="record-shortcuts">
+            <div class="information-card">
 
+                <div class="information-icon">
+                    ▣
+                </div>
 
-                <a href="#"
-                   class="record-card">
+                <div>
 
-                    <span class="record-icon">
-                        ▣
-                    </span>
+                    <h3>
+                        Our Functions
+                    </h3>
 
-                    <span>
-                        Ordinances
-                    </span>
+                    <p>
+                        The office supports the preparation,
+                        processing, recording and management of
+                        legislative documents and proceedings.
+                    </p>
 
-                </a>
+                </div>
 
-
-
-                <a href="#"
-                   class="record-card">
-
-                    <span class="record-icon">
-                        ▤
-                    </span>
-
-                    <span>
-                        Resolutions
-                    </span>
-
-                </a>
+            </div>
 
 
 
-                <a href="#"
-                   class="record-card">
+            <div class="information-card">
 
-                    <span class="record-icon">
-                        ✓
-                    </span>
+                <div class="information-icon">
+                    ◉
+                </div>
 
-                    <span>
-                        Request CTC
-                    </span>
+                <div>
 
-                </a>
+                    <h3>
+                        Legislative Support
+                    </h3>
 
+                    <p>
+                        OSSP provides essential secretariat
+                        services that support the legislative
+                        operations of the Sangguniang Panlungsod.
+                    </p>
+
+                </div>
 
             </div>
 
@@ -566,43 +1148,58 @@
 
 
 <!-- =========================================================
-     INFORMATION CARDS
+     CITY COUNCILORS
 ========================================================= -->
 
-<section class="information-section">
+<section class="page-section"
+         id="page-councilors">
 
-    <div class="content-container">
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                QC CITY COUNCILS
+            </span>
+
+            <h1>
+                City Councilors
+            </h1>
+
+            <p>
+                Information about the members of the
+                Quezon City Sangguniang Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                SANGGUNIANG PANLUNGSOD
+            </span>
+
+            <h2>
+                City Councilors
+            </h2>
+
+            <p>
+                This section contains information about the
+                current members of the Quezon City Council.
+            </p>
+
+        </div>
 
 
         <div class="information-grid">
 
 
-            <a href="#"
-               class="information-card">
-
-                <div class="information-icon">
-                    ◈
-                </div>
-
-                <div>
-
-                    <h3>
-                        About OSSP
-                    </h3>
-
-                    <p>
-                        Mandate, functions, organizational
-                        structure and officials.
-                    </p>
-
-                </div>
-
-            </a>
-
-
-
-            <a href="#"
-               class="information-card">
+            <div class="information-card">
 
                 <div class="information-icon">
                     ◉
@@ -611,12 +1208,444 @@
                 <div>
 
                     <h3>
-                        Announcements
+                        Council Members
                     </h3>
 
                     <p>
-                        Official notices, news and
-                        public advisories.
+                        Councilor profiles and official
+                        information will be displayed here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        District Representatives
+                    </h3>
+
+                    <p>
+                        Information regarding district
+                        representatives will be available here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <h3>
+                        Council Leadership
+                    </h3>
+
+                    <p>
+                        Official information regarding the
+                        leadership of the City Council.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ORDER OF BUSINESS
+========================================================= -->
+
+<section class="page-section"
+         id="page-order-business">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                QC CITY COUNCILS
+            </span>
+
+            <h1>
+                Order of Business
+            </h1>
+
+            <p>
+                View the scheduled order of business and
+                legislative agenda of the City Council.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    LEGISLATIVE AGENDA
+                </span>
+
+                <h2>
+                    Order of Business
+                </h2>
+
+                <p>
+                    Official orders of business and related
+                    legislative information will be displayed here.
+                </p>
+
+            </div>
+
+
+            <div class="record-shortcuts">
+
+                <a href="#"
+                   class="record-card">
+
+                    <span class="record-icon">
+                        ▤
+                    </span>
+
+                    <span>
+                        Current Order of Business
+                    </span>
+
+                </a>
+
+
+                <a href="#"
+                   class="record-card">
+
+                    <span class="record-icon">
+                        ▣
+                    </span>
+
+                    <span>
+                        Previous Sessions
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COMMITTEE
+========================================================= -->
+
+<section class="page-section"
+         id="page-committee">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                QC CITY COUNCILS
+            </span>
+
+            <h1>
+                Committees
+            </h1>
+
+            <p>
+                Information about the committees of the
+                Quezon City Sangguniang Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Standing Committees
+                    </h3>
+
+                    <p>
+                        Information regarding the standing
+                        committees of the City Council.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <h3>
+                        Committee Assignments
+                    </h3>
+
+                    <p>
+                        View committee assignments and
+                        responsibilities.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <h3>
+                        Committee Hearings
+                    </h3>
+
+                    <p>
+                        Information regarding committee
+                        meetings and hearings.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LEGISLATIVE RECORDS
+========================================================= -->
+
+<section class="page-section"
+         id="page-legislative">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                LEGISLATIVE SERVICES
+            </span>
+
+            <h1>
+                Legislative Records
+            </h1>
+
+            <p>
+                Search and access authorized legislative
+                records of the Sangguniang Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    OSSP-TOM RECORDS
+                </span>
+
+                <h2>
+                    Search Legislative Records
+                </h2>
+
+                <p>
+                    Search ordinances, resolutions and other
+                    authorized legislative documents.
+                </p>
+
+            </div>
+
+
+            <form id="legislativeSearchForm">
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        id="legislativeSearch"
+                        placeholder="Enter title, number, keyword or year..."
+                        aria-label="Search legislative records">
+
+                </div>
+
+
+                <button type="submit"
+                        class="search-button">
+
+                    SEARCH
+
+                </button>
+
+            </form>
+
+
+            <div class="record-shortcuts">
+
+                <a href="#"
+                   class="record-card"
+                   data-page="ordinances">
+
+                    <span class="record-icon">
+                        ▣
+                    </span>
+
+                    <span>
+                        Ordinances
+                    </span>
+
+                </a>
+
+
+                <a href="#"
+                   class="record-card"
+                   data-page="resolutions">
+
+                    <span class="record-icon">
+                        ▤
+                    </span>
+
+                    <span>
+                        Resolutions
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ONLINE SERVICES
+========================================================= -->
+
+<section class="page-section"
+         id="page-services">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                PUBLIC SERVICES
+            </span>
+
+            <h1>
+                Online Services
+            </h1>
+
+            <p>
+                Access available online services provided
+                by the Office of the Secretary.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <a href="#"
+               class="information-card"
+               data-page="ctc">
+
+                <div class="information-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <h3>
+                        Request Certified True Copy
+                    </h3>
+
+                    <p>
+                        Submit a request for an authorized
+                        certified true copy of a document.
                     </p>
 
                 </div>
@@ -626,10 +1655,61 @@
 
 
             <a href="#"
-               class="information-card">
+               class="information-card"
+               data-page="document">
 
                 <div class="information-icon">
                     ▣
+                </div>
+
+                <div>
+
+                    <h3>
+                        Document Request
+                    </h3>
+
+                    <p>
+                        Submit an online request for available
+                        legislative documents.
+                    </p>
+
+                </div>
+
+            </a>
+
+
+
+            <a href="#"
+               class="information-card"
+               data-page="tracking">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Request Tracking
+                    </h3>
+
+                    <p>
+                        Track the status of your submitted
+                        document or service request.
+                    </p>
+
+                </div>
+
+            </a>
+
+
+
+            <a href="#"
+               class="information-card"
+               data-page="services">
+
+                <div class="information-icon">
+                    ◉
                 </div>
 
                 <div>
@@ -639,32 +1719,8 @@
                     </h3>
 
                     <p>
-                        Service requirements, procedures
-                        and online requests.
-                    </p>
-
-                </div>
-
-            </a>
-
-
-
-            <a href="#"
-               class="information-card">
-
-                <div class="information-icon">
-                    ◌
-                </div>
-
-                <div>
-
-                    <h3>
-                        Feedback
-                    </h3>
-
-                    <p>
-                        Rate services, submit comments
-                        and report issues.
+                        View available services, requirements
+                        and procedures.
                     </p>
 
                 </div>
@@ -681,85 +1737,318 @@
 
 
 <!-- =========================================================
-     QUICK LINKS
+     CERTIFIED TRUE COPY
 ========================================================= -->
 
-<section class="quick-links-section">
+<section class="page-section"
+         id="page-ctc">
 
-    <div class="content-container">
+    <div class="page-header">
 
-
-        <div class="section-heading center">
+        <div class="content-container">
 
             <span class="section-label">
-                QUICK ACCESS
+                ONLINE SERVICES
             </span>
 
-            <h2>
-                Government Services
-            </h2>
+            <h1>
+                Request Certified True Copy
+            </h1>
 
             <p>
-                Access important OSSP-TOM information
-                and public services.
+                Submit a request for an authorized
+                certified true copy.
             </p>
 
         </div>
 
+    </div>
 
 
-        <div class="quick-links-grid">
+    <div class="content-container page-content">
 
+        <div class="search-card">
 
-            <a href="#"
-               class="quick-link">
+            <div class="section-heading">
 
-                <span>
-                    01
+                <span class="section-label">
+                    DOCUMENT REQUEST
                 </span>
 
-                Legislative Records
+                <h2>
+                    Certified True Copy Request
+                </h2>
 
-            </a>
+                <p>
+                    Request details and requirements will
+                    be provided through this service.
+                </p>
+
+            </div>
+
+
+            <div class="record-shortcuts">
+
+                <a href="#"
+                   class="record-card">
+
+                    <span class="record-icon">
+                        ✓
+                    </span>
+
+                    <span>
+                        Start Request
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
 
-            <a href="#"
-               class="quick-link">
+<!-- =========================================================
+     DOCUMENT REQUEST
+========================================================= -->
 
-                <span>
-                    02
+<section class="page-section"
+         id="page-document">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                ONLINE SERVICES
+            </span>
+
+            <h1>
+                Document Request
+            </h1>
+
+            <p>
+                Request available legislative documents
+                through the online service.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    REQUEST DOCUMENT
                 </span>
 
-                Online Services
+                <h2>
+                    Document Request
+                </h2>
 
-            </a>
+                <p>
+                    Select the document you wish to request
+                    and provide the required information.
+                </p>
+
+            </div>
+
+
+            <div class="record-shortcuts">
+
+                <a href="#"
+                   class="record-card">
+
+                    <span class="record-icon">
+                        ▣
+                    </span>
+
+                    <span>
+                        Submit Document Request
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
 
-            <a href="#"
-               class="quick-link">
+<!-- =========================================================
+     REQUEST TRACKING
+========================================================= -->
 
-                <span>
-                    03
+<section class="page-section"
+         id="page-tracking">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                ONLINE SERVICES
+            </span>
+
+            <h1>
+                Request Tracking
+            </h1>
+
+            <p>
+                Check the status of your submitted request.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    TRACK REQUEST
                 </span>
 
-                Directory
+                <h2>
+                    Request Tracking
+                </h2>
 
-            </a>
+                <p>
+                    Enter your request reference number
+                    to check its current status.
+                </p>
+
+            </div>
+
+
+            <form id="trackingForm">
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        #
+                    </span>
+
+                    <input
+                        type="text"
+                        id="trackingNumber"
+                        placeholder="Enter request reference number..."
+                        aria-label="Request reference number">
+
+                </div>
+
+
+                <button type="submit"
+                        class="search-button">
+
+                    TRACK REQUEST
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
 
 
 
-            <a href="#"
-               class="quick-link">
+<!-- =========================================================
+     NEWS
+========================================================= -->
 
-                <span>
-                    04
-                </span>
+<section class="page-section"
+         id="page-news">
 
-                FAQs
+    <div class="page-header">
 
-            </a>
+        <div class="content-container">
+
+            <span class="section-label">
+                UPDATES
+            </span>
+
+            <h1>
+                News & Announcements
+            </h1>
+
+            <p>
+                Official notices, news and public advisories
+                from the OSSP.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <h3>
+                        Official Announcements
+                    </h3>
+
+                    <p>
+                        Important announcements and notices
+                        will be displayed here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        OSSP Activities
+                    </h3>
+
+                    <p>
+                        Information regarding office activities
+                        and legislative events.
+                    </p>
+
+                </div>
+
+            </div>
 
 
         </div>
@@ -767,6 +2056,835 @@
     </div>
 
 </section>
+
+
+
+<!-- =========================================================
+     DIRECTORY
+========================================================= -->
+
+<section class="page-section"
+         id="page-directory">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                OSSP DIRECTORY
+            </span>
+
+            <h1>
+                Directory
+            </h1>
+
+            <p>
+                Office directory and contact information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◉
+                </div>
+
+                <div>
+
+                    <h3>
+                        Administrative Division
+                    </h3>
+
+                    <p>
+                        Contact information and personnel
+                        directory will be displayed here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Legislative Services
+                    </h3>
+
+                    <p>
+                        Contact information for legislative
+                        support services.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <h3>
+                        Journal & Minutes
+                    </h3>
+
+                    <p>
+                        Contact information for journal and
+                        minutes-related services.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FAQs
+========================================================= -->
+
+<section class="page-section"
+         id="page-faqs">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                INFORMATION
+            </span>
+
+            <h1>
+                Frequently Asked Questions
+            </h1>
+
+            <p>
+                Common questions about OSSP services and
+                legislative records.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <h3>
+                        How can I request a document?
+                    </h3>
+
+                    <p>
+                        Use the available online document
+                        request service or contact the OSSP.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <h3>
+                        How can I track my request?
+                    </h3>
+
+                    <p>
+                        Use the Request Tracking service and
+                        enter your reference number.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <h3>
+                        How can I contact OSSP?
+                    </h3>
+
+                    <p>
+                        Visit the Contact page for office
+                        contact information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section class="page-section"
+         id="page-contact">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                GET IN TOUCH
+            </span>
+
+            <h1>
+                Contact Us
+            </h1>
+
+            <p>
+                Contact information for the Office of the
+                Secretary to the Sangguniang Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="information-grid">
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ☎
+                </div>
+
+                <div>
+
+                    <h3>
+                        Telephone
+                    </h3>
+
+                    <p>
+                        8988-4242 local 8336
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ◈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Office
+                    </h3>
+
+                    <p>
+                        Office of the Secretary to the
+                        Sangguniang Panlungsod,
+                        Quezon City.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    ✉
+                </div>
+
+                <div>
+
+                    <h3>
+                        Email
+                    </h3>
+
+                    <p>
+                        Official office email information
+                        will be displayed here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEEDBACK
+========================================================= -->
+
+<section class="page-section"
+         id="page-feedback">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                CITIZEN FEEDBACK
+            </span>
+
+            <h1>
+                Feedback
+            </h1>
+
+            <p>
+                Share your comments, suggestions and
+                experience with our services.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    YOUR VOICE MATTERS
+                </span>
+
+                <h2>
+                    Submit Feedback
+                </h2>
+
+                <p>
+                    Your feedback helps improve the delivery
+                    of OSSP services.
+                </p>
+
+            </div>
+
+
+            <form id="feedbackForm">
+
+
+                <div class="form-group">
+
+                    <label for="feedbackName">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="feedbackName"
+                        placeholder="Enter your name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="feedbackEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="feedbackEmail"
+                        placeholder="Enter your email">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="feedbackMessage">
+                        Feedback
+                    </label>
+
+                    <textarea
+                        id="feedbackMessage"
+                        rows="6"
+                        placeholder="Write your feedback..."></textarea>
+
+                </div>
+
+
+                <button type="submit"
+                        class="search-button">
+
+                    SUBMIT FEEDBACK
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<section class="page-section"
+         id="page-login">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                OSSP-TOM
+            </span>
+
+            <h1>
+                Login
+            </h1>
+
+            <p>
+                Sign in to access the OSSP-TOM system.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="login-container">
+
+            <div class="search-card login-card">
+
+
+                <div class="information-icon">
+                    ◉
+                </div>
+
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        SECURE ACCESS
+                    </span>
+
+                    <h2>
+                        OSSP-TOM Login
+                    </h2>
+
+                    <p>
+                        Enter your account credentials
+                        to continue.
+                    </p>
+
+                </div>
+
+
+                <form id="loginForm">
+
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            autocomplete="username"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            autocomplete="current-password"
+                            required>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="search-button">
+
+                        LOGIN
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ORDINANCES
+========================================================= -->
+
+<section class="page-section"
+         id="page-ordinances">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                LEGISLATIVE RECORDS
+            </span>
+
+            <h1>
+                Ordinances
+            </h1>
+
+            <p>
+                Authorized ordinances of the Sangguniang
+                Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    RECORDS
+                </span>
+
+                <h2>
+                    Ordinances
+                </h2>
+
+                <p>
+                    Search and access available ordinance
+                    records.
+                </p>
+
+            </div>
+
+
+            <form>
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        placeholder="Search ordinance number, title or year...">
+
+                </div>
+
+
+                <button type="submit"
+                        class="search-button">
+
+                    SEARCH
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     RESOLUTIONS
+========================================================= -->
+
+<section class="page-section"
+         id="page-resolutions">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                LEGISLATIVE RECORDS
+            </span>
+
+            <h1>
+                Resolutions
+            </h1>
+
+            <p>
+                Authorized resolutions of the Sangguniang
+                Panlungsod.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="search-card">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    RECORDS
+                </span>
+
+                <h2>
+                    Resolutions
+                </h2>
+
+                <p>
+                    Search and access available resolution
+                    records.
+                </p>
+
+            </div>
+
+
+            <form>
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        placeholder="Search resolution number, title or year...">
+
+                </div>
+
+
+                <button type="submit"
+                        class="search-button">
+
+                    SEARCH
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRIVACY
+========================================================= -->
+
+<section class="page-section"
+         id="page-privacy">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                INFORMATION
+            </span>
+
+            <h1>
+                Privacy
+            </h1>
+
+            <p>
+                Privacy information for the OSSP-TOM website.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="content-card">
+
+            <h2>
+                Privacy Notice
+            </h2>
+
+            <p>
+                Privacy information, policies and notices
+                applicable to the website and its services
+                will be published here.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ACCESSIBILITY
+========================================================= -->
+
+<section class="page-section"
+         id="page-accessibility">
+
+    <div class="page-header">
+
+        <div class="content-container">
+
+            <span class="section-label">
+                WEBSITE INFORMATION
+            </span>
+
+            <h1>
+                Accessibility
+            </h1>
+
+            <p>
+                Information about accessibility features
+                of the OSSP-TOM website.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-container page-content">
+
+        <div class="content-card">
+
+            <h2>
+                Accessibility
+            </h2>
+
+            <p>
+                The OSSP-TOM website aims to provide
+                accessible information and services to
+                website visitors.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
 
 
 
@@ -777,13 +2895,13 @@
 <footer class="site-footer">
 
 
-    <div class="footer-background"></div>
+    <div class="footer-background">
+    </div>
+
 
 
     <div class="footer-content">
 
-
-        <!-- DEVELOPED BY -->
 
         <div class="footer-brand">
 
@@ -791,15 +2909,13 @@
                 Developed by.
             </span>
 
-            <img src="images/footer5.png"
+            <img src="images/finalfooter.png"
                  alt="OSSP Logo"
                  class="footer-logo">
 
         </div>
 
 
-
-        <!-- FOOTER DETAILS -->
 
         <div class="footer-details">
 
@@ -820,7 +2936,7 @@
             </span>
 
             <span>
-                T.O.M ver 1.0
+                B.O.O.M ver 1.0
             </span>
 
         </div>
@@ -829,8 +2945,6 @@
     </div>
 
 
-
-    <!-- FOOTER BOTTOM -->
 
     <div class="footer-bottom">
 
@@ -845,18 +2959,33 @@
             </div>
 
 
+
             <div class="footer-links">
 
-                <a href="#">
+                <a href="#"
+                   class="footer-nav-link"
+                   data-page="privacy">
+
                     Privacy
+
                 </a>
 
-                <a href="#">
+
+                <a href="#"
+                   class="footer-nav-link"
+                   data-page="accessibility">
+
                     Accessibility
+
                 </a>
 
-                <a href="#">
+
+                <a href="#"
+                   class="footer-nav-link"
+                   data-page="contact">
+
                     Contact
+
                 </a>
 
             </div>
@@ -871,9 +3000,12 @@
 
 
 
-<!-- JAVASCRIPT -->
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
 
 <script src="js/index.js"></script>
+
 
 </body>
 
