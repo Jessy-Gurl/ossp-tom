@@ -1356,17 +1356,39 @@ button {
         background: var(--gray-50);
     }
 
-    /* BANNER */
+    /* BANNER
+       MOBILE HEIGHT IS EASY TO ADJUST
+       Change --mobile-banner-height below.
+       Examples:
+       45vw = shorter
+       50vw = balanced
+       60vw = taller
+    */
 
     .banner-slider {
-        aspect-ratio: 16 / 9;
+        --mobile-banner-height: 50vw;
 
-        min-height: auto;
-        max-height: none;
+        width: 100%;
+        height: var(--mobile-banner-height);
+
+        min-height: 180px;
+        max-height: 420px;
+
+        aspect-ratio: auto;
+        overflow: hidden;
+    }
+
+    .banner-slide {
+        width: 100%;
+        height: 100%;
     }
 
     .banner-slide img {
+        width: 100%;
+        height: 100%;
+
         object-fit: cover;
+        object-position: center center;
     }
 
     .slider-button {
@@ -1528,8 +1550,19 @@ button {
         font-size: 6px;
     }
 
+    /* SMALL MOBILE BANNER
+       Change 55vw to adjust banner height for phones.
+    */
     .banner-slider {
-        aspect-ratio: 4 / 3;
+        --mobile-banner-height: 55vw;
+
+        width: 100%;
+        height: var(--mobile-banner-height);
+
+        min-height: 165px;
+        max-height: 300px;
+
+        aspect-ratio: auto;
     }
 
     .slider-button {
@@ -1608,6 +1641,21 @@ button {
 
     .government-bar {
         font-size: 6px;
+    }
+
+    /* EXTRA SMALL MOBILE BANNER
+       Change 55vw to adjust banner height on very small screens.
+    */
+    .banner-slider {
+        --mobile-banner-height: 55vw;
+
+        width: 100%;
+        height: var(--mobile-banner-height);
+
+        min-height: 150px;
+        max-height: 240px;
+
+        aspect-ratio: auto;
     }
 
     .slider-button {
@@ -1885,5 +1933,86 @@ button {
     .page-content {
         padding-top: 32px;
         padding-bottom: 42px;
+    }
+}
+
+
+/* =========================================================
+   FINAL MOBILE BANNER FIX
+   SHOW THE ENTIRE BANNER WITHOUT CROPPING
+   ========================================================= */
+
+/*
+   The original mobile rules used a fixed/minimum height together
+   with object-fit: cover. That combination crops the left/right
+   portions of a wide banner on phones.
+
+   This final override keeps the original banner aspect ratio and
+   uses contain so the COMPLETE banner remains visible.
+*/
+
+@media (max-width: 768px) {
+
+    .hero-section {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .banner-slider {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 2048 / 704;
+        overflow: hidden;
+    }
+
+    .banner-slide {
+        width: 100%;
+        height: 100%;
+    }
+
+    .banner-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .banner-slider {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 2048 / 704;
+    }
+
+    .banner-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .banner-slider {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 2048 / 704;
+    }
+
+    .banner-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
     }
 }
