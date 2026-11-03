@@ -28,6 +28,167 @@
     <link rel="stylesheet"
           href="css/index.css">
 
+
+
+    <!-- DEPARTMENT DIRECTORY RESPONSIVE STYLES -->
+    <style>
+        .department-head-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 42px;
+        }
+
+        .department-head-card {
+            height: 100%;
+            align-items: flex-start;
+        }
+
+        .department-head-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .department-head-card p {
+            margin: 5px 0;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
+        }
+
+        .department-head-card a,
+        .directory-table a {
+            color: #075ca8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            overflow-wrap: anywhere;
+        }
+
+        .department-head-card a:hover,
+        .directory-table a:hover {
+            color: #c92127;
+        }
+
+        .directory-table-section {
+            margin-top: 34px;
+        }
+
+        .directory-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #dce4ed;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 8px 24px rgba(6, 59, 115, 0.07);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .directory-table {
+            width: 100%;
+            min-width: 1080px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .directory-table th,
+        .directory-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e5eaf0;
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .directory-table thead th {
+            color: #ffffff;
+            background: #063b73;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.045em;
+            text-transform: uppercase;
+        }
+
+        .directory-table tbody tr:nth-child(even) {
+            background: #f5f8fc;
+        }
+
+        .directory-table tbody tr:hover {
+            background: #edf4fb;
+        }
+
+        .directory-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .directory-table td:first-child {
+            width: 21%;
+            font-weight: 700;
+            color: #063b73;
+        }
+
+        .directory-table td:nth-child(2) {
+            width: 25%;
+        }
+
+        .directory-table td:nth-child(3) {
+            width: 26%;
+        }
+
+        .directory-table td:nth-child(4) {
+            width: 28%;
+        }
+
+        .directory-table .person-name {
+            font-weight: 700;
+        }
+
+        .directory-table .contact-line {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .directory-table-hint {
+            display: none;
+            margin: 10px 2px 14px;
+            color: #586779;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .department-head-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                margin-bottom: 30px;
+            }
+
+            .directory-table-section {
+                margin-top: 26px;
+            }
+
+            .directory-table-wrap {
+                border-radius: 9px;
+            }
+
+            .directory-table {
+                min-width: 1000px;
+            }
+
+            .directory-table th,
+            .directory-table td {
+                padding: 13px 14px;
+                font-size: 13px;
+            }
+
+            .directory-table-hint {
+                display: block;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .directory-table {
+                min-width: 940px;
+            }
+        }
+    </style>
+
 </head>
 
 
@@ -440,40 +601,6 @@
 
             </li>
 
-
-
-            <!-- =================================================
-                 CONTACT
-            ================================================== -->
-
-            <li class="nav-item">
-
-                <a href="#"
-                   class="nav-link"
-                   data-page="contact">
-
-                    CONTACT
-
-                </a>
-
-            </li>
-
-
-
-            <!-- =================================================
-                 FEEDBACK
-            ================================================== -->
-
-            <li class="nav-item">
-
-                <a href="#"
-                   class="nav-link"
-                   data-page="feedback">
-
-                    FEEDBACK
-
-                </a>
-
             </li>
 
         </ul>
@@ -814,8 +941,7 @@
                         </h3>
 
                         <p>
-                            Mandate, functions, organizational
-                            structure and officials.
+                            The Office of the Secretary to the Sangguniang Panlungsod (OSSP) provides administrative, secretarial, legislative, and technical support services to the Sangguniang Panlungsod in the performance of its functions as the legislative, deliberative, and policy-making body of the City Government.
                         </p>
 
                     </div>
@@ -1030,8 +1156,8 @@
             </h1>
 
             <p>
-                Learn more about the mandate, functions,
-                organization and responsibilities of the OSSP.
+                Learn more about the mandate, mission, vision, legal bases,
+                and service commitment of the OSSP.
             </p>
 
         </div>
@@ -1041,8 +1167,38 @@
 
     <div class="content-container page-content">
 
-        <div class="information-grid">
+        <!-- =====================================================
+             DESCRIPTION
+        ====================================================== -->
+        <div class="about-content-block">
 
+            <div class="section-heading">
+
+                <span class="section-label">
+                    DESCRIPTION
+                </span>
+
+                <h2>
+                    Office of the Secretary to the Sangguniang Panlungsod
+                </h2>
+
+                <p>
+                    The Office of the Secretary to the Sangguniang Panlungsod (OSSP)
+                    provides administrative, secretarial, legislative, and technical
+                    support services to the Sangguniang Panlungsod in the performance
+                    of its functions as the legislative, deliberative, and policy-making
+                    body of the City Government.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             MISSION AND VISION
+        ====================================================== -->
+        <div class="information-grid about-mission-vision">
 
             <div class="information-card">
 
@@ -1053,44 +1209,20 @@
                 <div>
 
                     <h3>
-                        Our Mandate
+                        Mission
                     </h3>
 
                     <p>
-                        The Office of the Secretary to the
-                        Sangguniang Panlungsod provides legislative,
-                        secretariat and administrative support to
-                        the City Council.
+                        To provide efficient, responsive, transparent, and professional
+                        legislative, secretariat, administrative, and technical support
+                        services to the Sangguniang Panlungsod, ensuring the timely and
+                        accurate processing, recording, preservation, and accessibility
+                        of legislative documents and proceedings.
                     </p>
 
                 </div>
 
             </div>
-
-
-
-            <div class="information-card">
-
-                <div class="information-icon">
-                    ▣
-                </div>
-
-                <div>
-
-                    <h3>
-                        Our Functions
-                    </h3>
-
-                    <p>
-                        The office supports the preparation,
-                        processing, recording and management of
-                        legislative documents and proceedings.
-                    </p>
-
-                </div>
-
-            </div>
-
 
 
             <div class="information-card">
@@ -1102,26 +1234,183 @@
                 <div>
 
                     <h3>
-                        Legislative Support
+                        Vision
                     </h3>
 
                     <p>
-                        OSSP provides essential secretariat
-                        services that support the legislative
-                        operations of the Sangguniang Panlungsod.
+                        A modern, accountable, and service-oriented Office of the Secretary
+                        to the Sangguniang Panlungsod that upholds excellence in legislative
+                        support, promotes transparency and good governance, and continuously
+                        improves its systems and services for the people of Quezon City.
                     </p>
 
                 </div>
 
             </div>
 
+        </div>
+
+
+        <!-- =====================================================
+             LEGAL BASES
+        ====================================================== -->
+        <div class="about-content-block">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    LEGAL BASES
+                </span>
+
+                <h2>
+                    Legal Foundations
+                </h2>
+
+            </div>
+
+            <div class="information-grid">
+
+                <div class="information-card">
+
+                    <div class="information-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Commonwealth Act No. 502, as amended by RA 537
+                        </h3>
+
+                        <p>
+                            Revised Charter of Quezon City.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="information-card">
+
+                    <div class="information-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Republic Act No. 7160, as amended
+                        </h3>
+
+                        <p>
+                            Local Government Code of 1991.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             SERVICE PLEDGE
+        ====================================================== -->
+        <div class="about-content-block service-pledge-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    SERVICE PLEDGE
+                </span>
+
+                <h2>
+                    Our Commitment to the Public
+                </h2>
+
+                <p>
+                    In fulfilling its mandate, the OSSP is committed to delivering
+                    quality public service guided by the following principles:
+                </p>
+
+            </div>
+
+
+            <div class="information-grid service-pledge-grid">
+
+                <div class="information-card">
+                    <div class="information-icon">01</div>
+                    <div>
+                        <h3>Accessibility</h3>
+                        <p>We make information, assistance, and services accessible to the public and authorized stakeholders.</p>
+                    </div>
+                </div>
+
+                <div class="information-card">
+                    <div class="information-icon">02</div>
+                    <div>
+                        <h3>Timeliness</h3>
+                        <p>We strive to process requests, documents, and legislative matters promptly and efficiently.</p>
+                    </div>
+                </div>
+
+                <div class="information-card">
+                    <div class="information-icon">03</div>
+                    <div>
+                        <h3>Transparency</h3>
+                        <p>We promote openness and provide clear and reliable information within the bounds of applicable laws and policies.</p>
+                    </div>
+                </div>
+
+                <div class="information-card">
+                    <div class="information-icon">04</div>
+                    <div>
+                        <h3>Accountability</h3>
+                        <p>We take responsibility for our actions, decisions, records, and services.</p>
+                    </div>
+                </div>
+
+                <div class="information-card">
+                    <div class="information-icon">05</div>
+                    <div>
+                        <h3>Professionalism</h3>
+                        <p>We uphold competence, integrity, courtesy, and respect in serving the Sangguniang Panlungsod and the public.</p>
+                    </div>
+                </div>
+
+                <div class="information-card">
+                    <div class="information-icon">06</div>
+                    <div>
+                        <h3>Continuous Improvement</h3>
+                        <p>We continuously improve our systems, processes, and services to better respond to the needs of the City.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             CLOSING STATEMENT
+        ====================================================== -->
+        <div class="about-closing-message">
+
+            <p>
+                The Office of the Secretary to the Sangguniang Panlungsod remains
+                committed to serving Quezon City with integrity, excellence, and
+                dedication, while supporting effective legislative governance and
+                responsive public service.
+            </p>
 
         </div>
 
     </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -2052,11 +2341,11 @@
             </span>
 
             <h1>
-                Directory
+                Department Directory
             </h1>
 
             <p>
-                Office directory and contact information.
+                Find the office leadership, divisions, sections, and official contact information of the OSSP.
             </p>
 
         </div>
@@ -2066,76 +2355,204 @@
 
     <div class="content-container page-content">
 
-        <div class="information-grid">
+        <!-- =====================================================
+             DEPARTMENT HEADS
+        ====================================================== -->
+        <div class="section-heading">
+
+            <span class="section-label">
+                OFFICE LEADERSHIP
+            </span>
+
+            <h2>
+                Department Directory
+            </h2>
+
+            <p>
+                Office leadership and direct contact information.
+            </p>
+
+        </div>
 
 
-            <div class="information-card">
+        <div class="department-head-grid">
 
-                <div class="information-icon">
-                    ◉
-                </div>
+            <div class="information-card department-head-card">
+
+                <div class="information-icon">◉</div>
 
                 <div>
 
-                    <h3>
-                        Administrative Division
-                    </h3>
+                    <h3>Atty. John Thomas S. Alferos III</h3>
 
-                    <p>
-                        Contact information and personnel
-                        directory will be displayed here.
-                    </p>
+                    <p><em>City Government Department Head III</em></p>
+                    <p><em>(Secretary to the Sanggunian)</em></p>
+                    <p>8988-4242 local 8334, 8336</p>
+                    <p><a href="mailto:john.alferosIII@quezoncity.gov.ph">john.alferosIII@quezoncity.gov.ph</a></p>
 
                 </div>
 
             </div>
 
 
+            <div class="information-card department-head-card">
 
-            <div class="information-card">
-
-                <div class="information-icon">
-                    ◈
-                </div>
+                <div class="information-icon">◈</div>
 
                 <div>
 
-                    <h3>
-                        Legislative Services
-                    </h3>
+                    <h3>Mr. Angelo A. De Leon, MPSA</h3>
 
-                    <p>
-                        Contact information for legislative
-                        support services.
-                    </p>
+                    <p><em>Executive Assistant V</em></p>
+                    <p>8988-4242 local 8336</p>
+                    <p><a href="mailto:angelo.deleon@quezoncity.gov.ph">angelo.deleon@quezoncity.gov.ph</a></p>
 
                 </div>
 
             </div>
 
+        </div>
 
 
-            <div class="information-card">
+        <!-- =====================================================
+             DIVISIONS AND SECTIONS
+        ====================================================== -->
+        <div class="section-heading directory-table-section">
 
-                <div class="information-icon">
-                    ▣
-                </div>
+            <span class="section-label">
+                DIVISIONS / SECTIONS
+            </span>
 
-                <div>
+            <h2>
+                Divisions and Sections
+            </h2>
 
-                    <h3>
-                        Journal & Minutes
-                    </h3>
+            <p>
+                Office assignments, addresses, and contact information.
+            </p>
 
-                    <p>
-                        Contact information for journal and
-                        minutes-related services.
-                    </p>
+        </div>
 
-                </div>
+        <p class="directory-table-hint">
+            Swipe horizontally to view all directory columns.
+        </p>
 
-            </div>
+        <div class="directory-table-wrap" role="region" aria-label="OSSP divisions and sections directory" tabindex="0">
 
+            <table class="directory-table">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Divisions</th>
+                        <th scope="col">Officer Name</th>
+                        <th scope="col">Office Address</th>
+                        <th scope="col">Contact Information</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Administrative Division</td>
+                        <td><span class="person-name">Atty. Ian C. Duero</span><br><em>Chief</em><br><em>Acting Chief Administrative Officer</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8312<br><a href="mailto:admin.ossp@quezoncity.gov.ph">admin.ossp@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Personnel Section</td>
+                        <td><span class="person-name">Ms. Milagros D. Acoba</span><br><em>Chief</em><br><em>Supervising Administrative Officer</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8312<br><a href="mailto:personnel.citysec@quezoncity.gov.ph">personnel.citysec@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Records and Correspondence Section</td>
+                        <td><span class="person-name">Ms. Cherry Ann DC. Avellana</span><br><em>Supervising Administrative Officer</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8336<br><a href="mailto:records.citysec@quezoncity.gov.ph">records.ossp@quezoncity.gov.ph</a><br><a href="mailto:cherry.avellana@quezoncity.gov.ph">cherry.avellana@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Finance and Accounting Section</td>
+                        <td><span class="person-name">Ms. Ma. Teresa A. De Belen</span><br><em>Chief</em><br><em>Supervising Administrative Officer</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8312<br><a href="https://quezoncity.gov.ph/departments/office-of-the-city-secretary/teresa.debelen@quezoncity.gov.ph">teresa.debelen@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>General Services Section</td>
+                        <td><span class="person-name">Mr. Angelo A. De Leon, MPA</span><br><em>Executive Assistant V /</em><br><em>General Services Section</em><br><em>(Officer in Charge Chief)</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8312<br><a href="mailto:angelo.deleon@quezoncity.gov.ph">angelo.deleon@quezoncity.gov.ph</a><br><a href="mailto:it.citysec@quezoncity.gov.ph">it.citysec@quezoncity.gov.ph</a><br><a href="mailto:gss.ossp@quezoncity.gov.ph">gss.ossp@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Legislative Division</td>
+                        <td><span class="person-name">Ms. Wilmamae Lenore M. Reboja</span><br><em>Chief</em><br><em>Local Legislative Staff Officer VI</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8314<br><a href="mailto:legislative.citysec.@quezoncity.gov.ph">legislative.citysec.@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ordinance and Resolution Section</td>
+                        <td><span class="person-name">Mr. Arvin R. Padual</span><br><em>Chief</em><br><em>Legislative Staff Officer V</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8314<br><a href="mailto:arvin.padual@quezoncity.gov.ph">arvin.padual@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Agenda and Briefing Section</td>
+                        <td><span class="person-name">Ms. Maureen B. Taberdo</span><br><em>Chief</em><br><em>Legislative Staff Officer V</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8314<br><a href="mailto:maureen.taberdo@quezoncity.gov.ph">maureen.taberdo@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Legislative Research Section</td>
+                        <td><span class="person-name">Mr. Al Hadjie M. Salting</span><br><em>Officer in Charge</em><br><em>Local Legislative Staff Officer III</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8314<br><a href="http://alhadjie.salting@quezoncity.gov,ph/">alhadjie.salting@quezoncity.gov,ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Reference and Archives Section</td>
+                        <td><span class="person-name">Ms. Wilmamae Lenore M. Reboja</span><br><em>Local Legislative Staff Officer VI</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8315<br><a href="mailto:legislative.citysec@quezoncity.gov.ph">archives.citysec@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Journal and Minutes Division</td>
+                        <td><span class="person-name">Ms. Marilyn Janet B. Bul-lalayao</span><br><em>Chief</em><br><em>Legislative Staff Officer VI</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8335<br><a href="mailto:journalminutes.citysec@quezoncity.gov.ph">journalandminutes.ossp@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Minutes Section</td>
+                        <td><span class="person-name">Ms. Marilyn B. dela Cruz</span><br><em>Chief Legislative Staff Officer V</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8335<br><a href="mailto:marilyn.delacruz@quezoncity.gov.ph">marilyn.delacruz@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Committee Affairs Section</td>
+                        <td><span class="person-name">Ms. Rizalina E. Cuya</span><br><em>Chief Legislative Staff Officer V</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8335<br><a href="mailto:rizalina.cuya@quezoncity.gov.ph">rizalina.cuya@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Journal and Transcription Section</td>
+                        <td><span class="person-name">Ms. Julieta F. Barbosa</span><br><em>Chief Legislative Staff Officer V</em></td>
+                        <td>Ground Floor, Legislative Wing, Quezon City Hall, Quezon City, Philippines</td>
+                        <td>8988-4242 local 8335<br><a href="mailto:julieta.barbosa@gmail.com">julieta.barbosa@gmail.com</a><br><a href="mailto:journalminutes.ossp@quezoncity.gov.ph">journalandminutes.ossp@quezoncity.gov.ph</a></td>
+                    </tr>
+
+                </tbody>
+
+            </table>
 
         </div>
 
@@ -2348,8 +2765,7 @@
                     </h3>
 
                     <p>
-                        Official office email information
-                        will be displayed here.
+                        ossp@quezoncity.gov.ph
                     </p>
 
                 </div>
