@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#062f66">
+  <meta name="description" content="Secure officer access portal for the Office of the Secretary to the Sangguniang Panlungsod, Quezon City.">
+  <title>OSSP-TOM | Officer Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+  <script src="js/login.js" defer></script>
+</head>
+<body>
+  <div class="government-bar">
+    <div class="government-bar-inner">
+      <span class="government-bar-left">REPUBLIC OF THE PHILIPPINES</span>
+
+      <div class="government-bar-right">
+        <span class="government-city">QUEZON CITY GOVERNMENT</span>
+        <span class="government-divider" aria-hidden="true">|</span>
+
+        <div class="government-clock" aria-label="Current date and time in the Philippines">
+          <span id="currentDay">Wednesday</span>
+          <span class="government-divider" aria-hidden="true">|</span>
+          <span id="currentDate">November 4, 2026</span>
+          <span class="government-divider" aria-hidden="true">|</span>
+          <time id="currentTime">1:16:00 PM</time>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-shell">
+    <section class="auth-card" aria-label="OSSP-TOM officer access portal">
+      <aside class="brand-panel">
+        <div class="brand-topline">
+          <div class="logo-pair" aria-label="Quezon City and OSSP logos">
+            <img class="qc-logo" src="images/QC.png" alt="Quezon City Government seal">
+            <span class="logo-divider" aria-hidden="true"></span>
+            <img class="ossp-logo" src="images/ossp_logo.png" alt="OSSP logo">
+          </div>
+          <div class="brand-office">
+            OFFICE OF THE SECRETARY TO THE<br>SANGGUNIANG PANLUNGSOD
+            <span>QUEZON CITY GOVERNMENT</span>
+          </div>
+        </div>
+
+        <div class="brand-copy">
+          <span class="brand-kicker">RESTRICTED OFFICER ACCESS</span>
+          <h1>OSSP-TOM<br>Officer Portal</h1>
+          <p>A secure workspace for authorized OSSP officers responsible for uploading, updating, and managing ordinances and official legislative records.</p>
+
+          <div class="portal-points">
+            <div class="portal-point"><span class="point-icon" aria-hidden="true">01</span><span>Upload and manage ordinance records</span></div>
+            <div class="portal-point"><span class="point-icon" aria-hidden="true">02</span><span>Maintain accurate legislative information</span></div>
+            <div class="portal-point"><span class="point-icon" aria-hidden="true">03</span><span>Access for designated OSSP personnel only</span></div>
+          </div>
+        </div>
+
+        <div class="brand-bottom">
+          <strong>OFFICE OF THE SECRETARY TO THE SANGGUNIANG PANLUNGSOD</strong>
+          <span>Transparency&nbsp; • &nbsp;Accountability&nbsp; • &nbsp;Timely Service</span>
+        </div>
+      </aside>
+
+      <section class="form-panel">
+        <div class="mobile-brand">
+          <div class="logo-pair" aria-label="Quezon City and OSSP logos">
+            <img class="qc-logo" src="images/QC.png" alt="Quezon City Government seal">
+            <span class="logo-divider" aria-hidden="true"></span>
+            <img class="ossp-logo" src="images/ossp_logo.png" alt="OSSP logo">
+          </div>
+          <div class="brand-office">
+            OFFICE OF THE SECRETARY TO THE<br>SANGGUNIANG PANLUNGSOD
+            <span>QUEZON CITY GOVERNMENT</span>
+          </div>
+        </div>
+
+        <div class="form-heading">
+          <div class="form-eyebrow">OFFICIAL PERSONNEL ACCESS</div>
+          <h2 id="formTitle">Welcome back, Officer</h2>
+          <p id="formSubtitle">Sign in using your officially assigned Quezon City Government account to access ordinance uploading and legislative record management.</p>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Officer account options">
+          <button class="auth-tab active" type="button" id="loginTab" role="tab" aria-controls="loginForm" aria-selected="true">OFFICER SIGN IN</button>
+          <button class="auth-tab" type="button" id="accessTab" role="tab" aria-controls="accessForm" aria-selected="false">REQUEST ACCESS</button>
+        </div>
+
+        <form class="auth-form active" id="loginForm" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="loginEmail">Official Email Address</label>
+            <div class="input-wrap">
+              <input id="loginEmail" name="email" type="email" placeholder="name@quezoncity.gov.ph" autocomplete="username" required>
+              <span class="field-icon" aria-hidden="true">✉</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <div class="input-wrap">
+              <input id="loginPassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button class="password-toggle" type="button" data-toggle-password="loginPassword" aria-label="Show password">◉</button>
+            </div>
+          </div>
+
+          <button class="primary-button" type="submit" id="loginButton">SIGN IN TO OSSP-TOM</button>
+          <p class="form-note">Access is limited to officially authorized OSSP officers. Use your assigned government email account.</p>
+        </form>
+
+        <form class="auth-form" id="accessForm" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="officerName">Full Name</label>
+            <div class="input-wrap">
+              <input id="officerName" name="name" type="text" placeholder="Enter your full name" autocomplete="name" required>
+              <span class="field-icon" aria-hidden="true">♙</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="officerEmail">Official Quezon City Email</label>
+            <div class="input-wrap">
+              <input id="officerEmail" name="email" type="email" placeholder="name@quezoncity.gov.ph" autocomplete="email" required>
+              <span class="field-icon" aria-hidden="true">✉</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="officerDivision">Division / Section</label>
+            <div class="input-wrap select-wrap">
+              <select id="officerDivision" name="division" required>
+                <option value="" selected disabled>Select your division or section</option>
+                <option>Administrative Division</option>
+                <option>Personnel Section</option>
+                <option>Records and Correspondence Section</option>
+                <option>Finance and Accounting Section</option>
+                <option>General Services Section</option>
+                <option>Legislative Division</option>
+                <option>Ordinance and Resolution Section</option>
+                <option>Agenda and Briefing Section</option>
+                <option>Legislative Research Section</option>
+                <option>Reference and Archives Section</option>
+                <option>Journal and Minutes Division</option>
+                <option>Minutes Section</option>
+                <option>Committee Affairs Section</option>
+                <option>Journal and Transcription Section</option>
+              </select>
+              <span class="field-icon" aria-hidden="true">⌄</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="officerPosition">Position / Designation</label>
+            <div class="input-wrap">
+              <input id="officerPosition" name="position" type="text" placeholder="Enter your position or designation" required>
+              <span class="field-icon" aria-hidden="true">▤</span>
+            </div>
+          </div>
+
+          <button class="primary-button" type="submit" id="accessButton">SUBMIT ACCESS REQUEST</button>
+          <p class="form-note">Requests are subject to verification and approval by the authorized OSSP administrator. Submission does not grant immediate access.</p>
+        </form>
+
+        <div class="security-note">
+          <span class="security-icon" aria-hidden="true">▣</span>
+          <div><strong>SECURE GOVERNMENT ACCESS</strong><br>Only designated OSSP personnel may access this portal. All account activity and ordinance submissions should be handled through authorized accounts.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-background" aria-hidden="true"></div>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-developed">Developed by.</span>
+        <img src="images/finalfooter.png" alt="OSSP development logo" class="footer-logo">
+      </div>
+
+      <div class="footer-details" aria-label="Portal information">
+        <span>IT.26</span>
+        <span class="footer-divider">|</span>
+        <span>ALWAYS AHEAD OF TIME</span>
+        <span class="footer-divider">|</span>
+        <span>OSSP-T.O.M ver 1.0</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-container">
+        <span>© 2026 Office of the Secretary to the Sangguniang Panlungsod, Quezon City</span>
+        <span class="footer-security">OFFICIAL OSSP OFFICER PORTAL</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div class="modal" id="forgotModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog">
+      <button class="modal-close" type="button" aria-label="Close forgot password dialog" data-close-modal>×</button>
+      <div class="modal-symbol" aria-hidden="true">✉</div>
+      <h3 id="forgotTitle">Reset your password</h3>
+      <p class="modal-description" id="forgotDescription">Enter your registered government email address. A verification code will be sent to your inbox.</p>
+
+      <form class="modal-step active" id="sendCodeForm" novalidate>
+        <div class="field">
+          <label for="resetEmail">Official Email Address</label>
+          <div class="input-wrap">
+            <input id="resetEmail" type="email" placeholder="name@quezoncity.gov.ph" autocomplete="email" required>
+            <span class="field-icon" aria-hidden="true">✉</span>
+          </div>
+        </div>
+        <button class="primary-button" type="submit" id="sendCodeButton">SEND VERIFICATION CODE</button>
+      </form>
+
+      <form class="modal-step" id="verifyCodeForm" novalidate>
+        <div class="field">
+          <label for="verificationCode">6-Digit Verification Code</label>
+          <div class="input-wrap">
+            <input id="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6" pattern="[0-9]{6}" required>
+            <span class="field-icon" aria-hidden="true">#</span>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="back-button" type="button" id="backToEmail">Back</button>
+          <button class="primary-button" type="submit">VERIFY CODE</button>
+        </div>
+        <div class="resend-row">Didn't receive it? <button class="text-button" type="button" id="resendCodeButton">Resend code</button></div>
+      </form>
+
+      <form class="modal-step" id="newPasswordForm" novalidate>
+        <div class="field">
+          <label for="newPassword">New Password</label>
+          <div class="input-wrap">
+            <input id="newPassword" type="password" minlength="8" placeholder="At least 8 characters" autocomplete="new-password" required>
+            <button class="password-toggle" type="button" data-toggle-password="newPassword" aria-label="Show password">◉</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="confirmNewPassword">Confirm New Password</label>
+          <div class="input-wrap">
+            <input id="confirmNewPassword" type="password" minlength="8" placeholder="Re-enter your new password" autocomplete="new-password" required>
+            <button class="password-toggle" type="button" data-toggle-password="confirmNewPassword" aria-label="Show password">◉</button>
+          </div>
+        </div>
+        <button class="primary-button" type="submit">UPDATE PASSWORD</button>
+      </form>
+      <p class="modal-footnote">Password recovery is processed by the OSSP-TOM authentication service.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
