@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#062f66">
+    <title>OSSP-TOM | Officer Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="js/dashboard.js" defer></script>
+</head>
+<body>
+
+    <!-- GOVERNMENT BAR WITH LIVE DATE AND TIME -->
+    <div class="government-bar">
+        <div class="government-bar-inner">
+            <span>REPUBLIC OF THE PHILIPPINES</span>
+
+            <div class="government-right">
+                <span>QUEZON CITY GOVERNMENT</span>
+                <span class="divider">|</span>
+
+                <div class="government-clock">
+                    <span id="currentDay">Tuesday</span>
+                    <span class="divider">|</span>
+                    <span id="currentDate">November 10, 2026</span>
+                    <span class="divider">|</span>
+                    <time id="currentTime">9:00:00 AM</time>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD NAVBAR -->
+    <header class="dashboard-header">
+        <div class="header-inner">
+
+            <a href="dashboard.html" class="brand">
+                <div class="logo-pair">
+                    <img src="images/QC.png" alt="Quezon City Logo">
+                    <span class="logo-divider"></span>
+                    <img src="images/ossp_logo.png" alt="OSSP Logo">
+                </div>
+
+                <div class="brand-office">
+                    OFFICE OF THE SECRETARY TO THE
+                    <br>SANGGUNIANG PANLUNGSOD
+                    <span>QUEZON CITY GOVERNMENT</span>
+                </div>
+            </a>
+
+            <div class="header-actions">
+                <div class="officer-info">
+                    <span>OFFICER WORKSPACE</span>
+                    <strong id="officerName">Welcome, Officer</strong>
+                </div>
+
+                <button class="notification-button" id="notificationButton" type="button" aria-label="View chatbot messages" title="View chatbot messages">
+                    <i class="fa-regular fa-message" aria-hidden="true"></i>
+                    <span id="notificationCount">2</span>
+                </button>
+
+                <button class="logout-button" id="logoutButton" type="button">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> LOG OUT
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard-main">
+
+        <section class="welcome-section">
+            <div>
+                <span class="eyebrow">OSSP-TOM / OFFICER PORTAL</span>
+                <h1>Dashboard Overview</h1>
+                <p>Monitor ordinance records, submissions, and legislative reading progress.</p>
+            </div>
+        </section>
+
+        <!-- ORDINANCE STATISTICS -->
+        <section class="stats-grid" aria-label="Ordinance statistics">
+
+            <button class="stat-card total" type="button" data-stat-stage="all" aria-label="View total ordinances">
+                <span class="stat-card-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></span>
+                <span class="stat-caption">ALL RECORDS</span>
+                <strong id="totalOrdinances">0</strong>
+                <span class="stat-card-title">TOTAL ORDINANCES</span>
+                <span class="stat-card-description">All ordinance records</span>
+                <span class="stat-card-hint">VIEW RECORDS <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </button>
+
+            <button class="stat-card first" type="button" data-stat-stage="1st Reading" aria-label="View 1st reading">
+                <span class="stat-card-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
+                <span class="stat-caption">LEGISLATIVE STATUS</span>
+                <strong id="firstReading">0</strong>
+                <span class="stat-card-title">1ST READING</span>
+                <span class="stat-card-description">First reading records</span>
+                <span class="stat-card-hint">VIEW RECORDS <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </button>
+
+            <button class="stat-card second" type="button" data-stat-stage="2nd Reading" aria-label="View 2nd reading">
+                <span class="stat-card-icon"><i class="fa-solid fa-book-open-reader" aria-hidden="true"></i></span>
+                <span class="stat-caption">LEGISLATIVE STATUS</span>
+                <strong id="secondReading">0</strong>
+                <span class="stat-card-title">2ND READING</span>
+                <span class="stat-card-description">Second reading records</span>
+                <span class="stat-card-hint">VIEW RECORDS <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </button>
+
+            <button class="stat-card third" type="button" data-stat-stage="3rd Reading" aria-label="View 3rd reading">
+                <span class="stat-card-icon"><i class="fa-solid fa-file-circle-check" aria-hidden="true"></i></span>
+                <span class="stat-caption">LEGISLATIVE STATUS</span>
+                <strong id="thirdReading">0</strong>
+                <span class="stat-card-title">3RD READING</span>
+                <span class="stat-card-description">Third reading records</span>
+                <span class="stat-card-hint">VIEW RECORDS <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </button>
+
+            <button class="stat-card completed" type="button" data-stat-stage="Complete" aria-label="View completed ordinances">
+                <span class="stat-card-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span>
+                <span class="stat-caption">FINAL STATUS</span>
+                <strong id="completedOrdinances">0</strong>
+                <span class="stat-card-title">COMPLETED</span>
+                <span class="stat-card-description">Completed ordinance records</span>
+                <span class="stat-card-hint">VIEW RECORDS <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </button>
+
+        </section>
+
+        <!-- ORDINANCE RECORDS -->
+        <section class="panel records-panel">
+
+            <div class="records-heading">
+                <div>
+                    <span class="eyebrow">RECORD MANAGEMENT</span>
+                    <h2>Ordinance Records</h2>
+                    <p>View, update, and monitor uploaded ordinance documents.</p>
+                </div>
+
+                <div class="records-toolbar">
+                    <button class="primary-button" id="openUploadModal" type="button">
+                        <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                        UPLOAD ORDINANCE
+                    </button>
+
+                    <div class="record-filters">
+                        <input type="search" id="recordSearch" placeholder="Search ordinance...">
+
+                        <select id="stageFilter">
+                            <option value="all">All Reading Stages</option>
+                            <option value="1st Reading">1st Reading</option>
+                            <option value="2nd Reading">2nd Reading</option>
+                            <option value="3rd Reading">3rd Reading</option>
+                            <option value="Complete">Complete</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ORDINANCE TITLE</th>
+                            <th>SP NUMBER</th>
+                            <th>AUTHOR</th>
+                            <th>READING STAGE</th>
+                            <th>DATE UPLOADED</th>
+                            <th>FILE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ordinanceTable">
+                        <tr>
+                            <td colspan="7" class="empty-record">
+                                No ordinance records uploaded yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-background"></div>
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+                <span class="footer-developed">Developed by.</span>
+                <img src="images/finalfooter.png" alt="OSSP Development Logo" class="footer-logo">
+            </div>
+
+            <div class="footer-details">
+                <span>IT.26</span>
+                <span class="footer-divider">|</span>
+                <span>ALWAYS AHEAD OF TIME</span>
+                <span class="footer-divider">|</span>
+                <span>OSSP-T.O.M ver 1.0</span>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <span>
+                    © 2026 Office of the Secretary to the Sangguniang Panlungsod, Quezon City
+                </span>
+                <span class="footer-security">OFFICIAL OSSP OFFICER PORTAL</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- UPLOAD ORDINANCE MODAL -->
+    <div class="modal" id="uploadModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="uploadModal"></div>
+
+        <div class="modal-dialog">
+            <button class="modal-close" type="button" data-close="uploadModal" aria-label="Close">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <span class="eyebrow">LEGISLATIVE RECORD SUBMISSION</span>
+            <h2>Upload Ordinance</h2>
+            <p class="modal-description">
+                Complete the ordinance information and attach the official document.
+            </p>
+
+            <form id="ordinanceForm">
+
+                <div class="form-field">
+                    <label for="ordinanceTitle">Ordinance Title <b>*</b></label>
+                    <input type="text" id="ordinanceTitle" required
+                        placeholder="Enter the complete ordinance title">
+                </div>
+
+                <div class="form-field">
+                    <label for="spNumber">SP Number <b>*</b></label>
+                    <input type="text" id="spNumber" required
+                        placeholder="Enter SP number">
+                </div>
+
+                <div class="form-field">
+                    <label for="ordinanceAuthor">Author <b>*</b></label>
+                    <input type="text" id="ordinanceAuthor" required
+                        placeholder="Enter ordinance author">
+                </div>
+
+                <div class="form-field">
+                    <label for="readingStage">Reading Stage</label>
+                    <select id="readingStage">
+                        <option value="1st Reading">1st Reading</option>
+                        <option value="2nd Reading">2nd Reading</option>
+                        <option value="3rd Reading">3rd Reading</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label>Ordinance File <b>*</b></label>
+
+                    <label class="file-picker" for="ordinanceFile">
+                        <span><i class="fa-solid fa-file-pdf" aria-hidden="true"></i></span>
+                        <div>
+                            <strong id="fileName">Choose PDF file</strong>
+                            <small>PDF format only</small>
+                        </div>
+                        <b class="browse-text">BROWSE</b>
+                    </label>
+
+                    <input type="file" id="ordinanceFile"
+                        accept=".pdf,application/pdf" required hidden>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="secondary-button" type="button"
+                        data-close="uploadModal">CANCEL</button>
+
+                    <button class="primary-button" type="submit">
+                        UPLOAD ORDINANCE
+                    </button>
+                </div>
+
+                <p class="form-note">
+                    Front-end demonstration only. Permanent document storage requires
+                    a secure server connection.
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- FIRST LOGOUT MODAL -->
+    <div class="modal" id="logoutModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="logoutModal"></div>
+
+        <div class="modal-dialog compact-modal">
+            <button class="modal-close" type="button" data-close="logoutModal" aria-label="Close">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <div class="modal-symbol">
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+            </div>
+
+            <span class="eyebrow">OFFICER SESSION</span>
+            <h2>Log out of OSSP-TOM?</h2>
+
+            <p class="modal-description">
+                You are about to leave your officer dashboard.
+                Would you like to continue?
+            </p>
+
+            <div class="modal-actions">
+                <button class="secondary-button" type="button"
+                    data-close="logoutModal">STAY ON DASHBOARD</button>
+
+                <button class="primary-button danger-button" id="continueLogout"
+                    type="button">CONTINUE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECOND LOGOUT CONFIRMATION -->
+    <div class="modal" id="confirmLogoutModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="confirmLogoutModal"></div>
+
+        <div class="modal-dialog compact-modal">
+            <button class="modal-close" type="button"
+                data-close="confirmLogoutModal" aria-label="Close">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <div class="modal-symbol warning-symbol">!</div>
+
+            <span class="eyebrow">FINAL CONFIRMATION</span>
+            <h2>Are you sure you want to log out?</h2>
+
+            <p class="modal-description">
+                Your OSSP-TOM officer session will be ended.
+            </p>
+
+            <div class="modal-actions">
+                <button class="secondary-button" type="button"
+                    data-close="confirmLogoutModal">CANCEL</button>
+
+                <button class="primary-button danger-button" id="confirmLogout"
+                    type="button">YES, LOG OUT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR CHATBOT PANEL -->
+    <div class="modal chat-modal" id="chatModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="chatModal"></div>
+
+        <section class="chat-dialog" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
+
+            <div class="chat-dialog-header">
+                <div class="chat-dialog-brand">
+                    <span class="chat-dialog-icon">
+                        <i class="fa-solid fa-robot" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                        <span class="eyebrow">OSSP-TOM ASSISTANT</span>
+                        <h2 id="chatModalTitle">Messages</h2>
+                        <small><i class="chat-online-dot"></i> Demo conversation</small>
+                    </div>
+                </div>
+
+                <button class="modal-close" type="button"
+                    data-close="chatModal" aria-label="Close messages">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="chat-dialog-messages" id="chatDialogMessages" aria-live="polite"></div>
+
+            <form class="chat-reply-form" id="chatReplyForm">
+                <input type="text" id="chatReplyInput"
+                    placeholder="Type your reply..." autocomplete="off" required>
+
+                <button type="submit" aria-label="Send reply">
+                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <p class="chat-demo-note">
+                Front-end demo: replies are saved in this browser.
+                Connect an AI or messaging backend for real responses.
+            </p>
+        </section>
+    </div>
+
+    <!-- EDIT ORDINANCE MODAL -->
+    <div class="modal" id="editOrdinanceModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="editOrdinanceModal"></div>
+
+        <div class="modal-dialog">
+            <button class="modal-close" type="button"
+                data-close="editOrdinanceModal" aria-label="Close">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <span class="eyebrow">RECORD MANAGEMENT</span>
+            <h2>Edit Ordinance</h2>
+
+            <p class="modal-description">
+                Update the ordinance information or change its legislative status.
+            </p>
+
+            <form id="editOrdinanceForm">
+                <input type="hidden" id="editRecordId">
+
+                <div class="form-field">
+                    <label for="editOrdinanceTitle">Ordinance Title <b>*</b></label>
+                    <input type="text" id="editOrdinanceTitle" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="editSpNumber">SP Number <b>*</b></label>
+                    <input type="text" id="editSpNumber" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="editOrdinanceAuthor">Author <b>*</b></label>
+                    <input type="text" id="editOrdinanceAuthor" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="editReadingStage">Reading Stage / Status <b>*</b></label>
+                    <select id="editReadingStage" required>
+                        <option value="1st Reading">1st Reading</option>
+                        <option value="2nd Reading">2nd Reading</option>
+                        <option value="3rd Reading">3rd Reading</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="editOrdinanceFile">Replace PDF (optional)</label>
+                    <input type="file" id="editOrdinanceFile" accept=".pdf,application/pdf">
+                    <small class="field-hint">Leave empty to keep the current PDF.</small>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="secondary-button" type="button"
+                        data-close="editOrdinanceModal">CANCEL</button>
+
+                    <button class="primary-button" type="submit">
+                        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                        SAVE CHANGES
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- STAT CARD DETAILS MODAL -->
+    <div class="modal" id="statDetailsModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close="statDetailsModal"></div>
+
+        <div class="modal-dialog stat-details-dialog">
+            <button class="modal-close" type="button"
+                data-close="statDetailsModal" aria-label="Close">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <span class="eyebrow">ORDINANCE RECORD BREAKDOWN</span>
+
+            <h2 id="statDetailsTitle">Ordinance Records</h2>
+
+            <p class="modal-description" id="statDetailsDescription">
+                Records under the selected category.
+            </p>
+
+            <div class="stat-details-summary">
+                <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                <strong id="statDetailsCount">0</strong>
+                <span>matching records</span>
+            </div>
+
+            <div class="stat-details-list" id="statDetailsList"></div>
+
+            <div class="modal-actions">
+                <button class="secondary-button" type="button"
+                    data-close="statDetailsModal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+</body>
+</html>

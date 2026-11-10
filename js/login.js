@@ -185,7 +185,7 @@ function switchAuth(mode) {
     document.getElementById("formTitle").textContent =
         showLogin
             ? "Welcome back, Officer"
-            : "SIGN UP";
+            : "Request Officer Access";
 
 
     document.getElementById("formSubtitle").textContent =
