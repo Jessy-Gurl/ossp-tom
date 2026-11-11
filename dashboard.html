@@ -56,13 +56,13 @@
 
             <div class="header-actions">
                 <div class="officer-info">
-                    <span>OFFICER WORKSPACE</span>
-                    <strong id="officerName">Welcome, Officer</strong>
+                    <span>WORKSPACE</span>
+                    <strong id="officerName">Welcome</strong>
                 </div>
 
-                <button class="notification-button" id="notificationButton" type="button" aria-label="View chatbot messages" title="View chatbot messages">
-                    <i class="fa-regular fa-message" aria-hidden="true"></i>
-                    <span id="notificationCount">2</span>
+                <button class="notification-button" id="notificationButton" type="button" aria-label="Open visitor inbox" title="Open visitor inbox">
+                    <i class="fa-solid fa-inbox" aria-hidden="true"></i>
+                    <span id="notificationCount" style="display:none">0</span>
                 </button>
 
                 <button class="logout-button" id="logoutButton" type="button">
@@ -362,46 +362,73 @@
         </div>
     </div>
 
-    <!-- NAVBAR CHATBOT PANEL -->
+    <!-- LIVE AGENT INBOX: OFFICER-MANAGED ANONYMOUS VISITOR QUESTIONS -->
     <div class="modal chat-modal" id="chatModal" aria-hidden="true">
         <div class="modal-backdrop" data-close="chatModal"></div>
 
-        <section class="chat-dialog" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
-
+        <section class="chat-dialog inbox-dialog" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle">
             <div class="chat-dialog-header">
                 <div class="chat-dialog-brand">
                     <span class="chat-dialog-icon">
-                        <i class="fa-solid fa-robot" aria-hidden="true"></i>
+                        <i class="fa-solid fa-headset" aria-hidden="true"></i>
                     </span>
-
                     <div>
-                        <span class="eyebrow">OSSP-TOM ASSISTANT</span>
-                        <h2 id="chatModalTitle">Messages</h2>
-                        <small><i class="chat-online-dot"></i> Demo conversation</small>
+                        <span class="eyebrow">OSSP-TOM / OFFICER SUPPORT</span>
+                        <h2 id="chatModalTitle">Live Agent Inbox</h2>
+                        <small><i class="chat-online-dot"></i> Visitor inquiries are answered manually</small>
                     </div>
                 </div>
-
-                <button class="modal-close" type="button"
-                    data-close="chatModal" aria-label="Close messages">
+                <button class="modal-close" type="button" data-close="chatModal" aria-label="Close inbox">
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
             </div>
 
-            <div class="chat-dialog-messages" id="chatDialogMessages" aria-live="polite"></div>
+            <div class="inbox-layout">
+                <aside class="inbox-sidebar">
+                    <div class="inbox-sidebar-heading">
+                        <div>
+                            <strong>Visitor Questions</strong>
+                            <small>Anonymous inquiries</small>
+                        </div>
+                        <span id="inboxCount" class="inbox-count">0</span>
+                    </div>
+                    <div class="conversation-list" id="conversationList" aria-label="Visitor conversations">
+                        <div class="inbox-list-empty">No visitor inquiries yet.</div>
+                    </div>
+                </aside>
 
-            <form class="chat-reply-form" id="chatReplyForm">
-                <input type="text" id="chatReplyInput"
-                    placeholder="Type your reply..." autocomplete="off" required>
+                <div class="inbox-conversation">
+                    <div class="inbox-empty" id="inboxEmpty">
+                        <i class="fa-regular fa-comments" aria-hidden="true"></i>
+                        <strong>Select a visitor inquiry</strong>
+                        <span>Choose a reference number from the list to read the question and send your reply.</span>
+                    </div>
 
-                <button type="submit" aria-label="Send reply">
-                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
-                </button>
-            </form>
+                    <div class="active-conversation" id="activeConversation" hidden>
+                        <div class="conversation-heading">
+                            <div>
+                                <span class="eyebrow">ANONYMOUS VISITOR</span>
+                                <strong id="visitorConversationId">OSSP-2026-0001</strong>
+                                <small id="visitorConversationMeta">Inquiry details</small>
+                            </div>
+                            <div class="conversation-heading-actions">
+                                <span class="conversation-status" id="visitorConversationStatus">OPEN</span>
+                                <button type="button" class="resolve-button" id="resolveInquiryButton">MARK RESOLVED</button>
+                            </div>
+                        </div>
 
-            <p class="chat-demo-note">
-                Front-end demo: replies are saved in this browser.
-                Connect an AI or messaging backend for real responses.
-            </p>
+                        <div class="chat-dialog-messages" id="chatDialogMessages" aria-live="polite"></div>
+
+                        <form class="chat-reply-form" id="chatReplyForm">
+                            <input type="text" id="chatReplyInput" placeholder="Write your reply to this visitor..." autocomplete="off" required>
+                            <button type="submit" aria-label="Send reply">
+                                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                        <p class="chat-demo-note">Your reply is shown under this anonymous reference number. No automated chatbot replies are sent.</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 

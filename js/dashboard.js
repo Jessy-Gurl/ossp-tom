@@ -12,10 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     const RECORDS_STORAGE_KEY = "osspTomOrdinances";
-    const CHAT_STORAGE_KEY = "osspTomMessages";
+    const INQUIRIES_STORAGE_KEY = "osspTomInquiries";
 
     let ordinances = loadRecords();
-    let chatMessages = loadMessages();
+    let inquiries = loadInquiries();
+    let activeInquiryId = null;
 
     // PDF object URLs only remain available during this browser session.
     const pdfObjectUrls = new Map();
@@ -66,6 +67,14 @@ document.addEventListener("DOMContentLoaded", function () {
         chatDialogMessages: document.getElementById("chatDialogMessages"),
         chatReplyForm: document.getElementById("chatReplyForm"),
         chatReplyInput: document.getElementById("chatReplyInput"),
+        conversationList: document.getElementById("conversationList"),
+        inboxCount: document.getElementById("inboxCount"),
+        inboxEmpty: document.getElementById("inboxEmpty"),
+        activeConversation: document.getElementById("activeConversation"),
+        visitorConversationId: document.getElementById("visitorConversationId"),
+        visitorConversationMeta: document.getElementById("visitorConversationMeta"),
+        visitorConversationStatus: document.getElementById("visitorConversationStatus"),
+        resolveInquiryButton: document.getElementById("resolveInquiryButton"),
 
         statDetailsTitle: document.getElementById("statDetailsTitle"),
         statDetailsDescription: document.getElementById("statDetailsDescription"),
@@ -81,33 +90,24 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function loadRecords() {
-
         try {
-
             const saved = localStorage.getItem(RECORDS_STORAGE_KEY);
 
-            if (!saved) {
-                return [];
-            }
+            if (!saved) return [];
 
             const parsed = JSON.parse(saved);
 
             return Array.isArray(parsed) ? parsed : [];
 
         } catch (error) {
-
             console.error("Unable to load ordinance records:", error);
-
             return [];
-
         }
     }
 
 
     function saveRecords() {
-
         try {
-
             localStorage.setItem(
                 RECORDS_STORAGE_KEY,
                 JSON.stringify(ordinances)
@@ -116,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
 
         } catch (error) {
-
             console.error("Unable to save ordinance records:", error);
 
             showToast(
@@ -125,65 +124,56 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
             return false;
-
         }
     }
 
 
-    function loadMessages() {
-
+    function loadInquiries() {
         try {
+            const saved = localStorage.getItem(INQUIRIES_STORAGE_KEY);
 
-            const saved = localStorage.getItem(CHAT_STORAGE_KEY);
-
-            if (!saved) {
-
-                return [
-                    {
-                        id: createId(),
-                        sender: "assistant",
-                        name: "OSSP-TOM Assistant",
-                        message: "Welcome to OSSP-TOM! How can I assist you today?",
-                        time: new Date().toISOString()
-                    },
-                    {
-                        id: createId(),
-                        sender: "assistant",
-                        name: "OSSP-TOM Assistant",
-                        message: "You can send a message here to try the dashboard chat demonstration.",
-                        time: new Date().toISOString()
-                    }
-                ];
-
-            }
+            if (!saved) return [];
 
             const parsed = JSON.parse(saved);
 
-            return Array.isArray(parsed) ? parsed : [];
+            if (!Array.isArray(parsed)) return [];
+
+            return parsed.map(function (inquiry) {
+                return {
+                    id: String(inquiry.id || ""),
+                    status: inquiry.status || "Open",
+                    createdAt: inquiry.createdAt || inquiry.time || new Date().toISOString(),
+                    updatedAt: inquiry.updatedAt || inquiry.createdAt || inquiry.time || new Date().toISOString(),
+                    read: Boolean(inquiry.read),
+                    messages: Array.isArray(inquiry.messages) ? inquiry.messages : []
+                };
+            });
 
         } catch (error) {
-
-            console.error("Unable to load chat messages:", error);
-
+            console.error("Unable to load visitor inquiries:", error);
             return [];
-
         }
     }
 
 
-    function saveMessages() {
-
+    function saveInquiries() {
         try {
-
             localStorage.setItem(
-                CHAT_STORAGE_KEY,
-                JSON.stringify(chatMessages)
+                INQUIRIES_STORAGE_KEY,
+                JSON.stringify(inquiries)
             );
 
+            return true;
+
         } catch (error) {
+            console.error("Unable to save visitor inquiries:", error);
 
-            console.error("Unable to save chat messages:", error);
+            showToast(
+                "Unable to save inbox changes. Browser storage may be full.",
+                "error"
+            );
 
+            return false;
         }
     }
 
@@ -193,26 +183,20 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function createId() {
-
         if (
             window.crypto &&
             typeof window.crypto.randomUUID === "function"
         ) {
-
             return window.crypto.randomUUID();
-
         }
 
         return "record-" + Date.now() + "-" +
             Math.random().toString(36).substring(2, 10);
-
     }
 
 
     function escapeHTML(value) {
-
         return String(value ?? "").replace(/[&<>"']/g, function (character) {
-
             const replacements = {
                 "&": "&amp;",
                 "<": "&lt;",
@@ -222,23 +206,16 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             return replacements[character];
-
         });
-
     }
 
 
     function formatDate(dateValue) {
-
-        if (!dateValue) {
-            return "N/A";
-        }
+        if (!dateValue) return "N/A";
 
         const date = new Date(dateValue);
 
-        if (Number.isNaN(date.getTime())) {
-            return "N/A";
-        }
+        if (Number.isNaN(date.getTime())) return "N/A";
 
         return new Intl.DateTimeFormat("en-PH", {
             timeZone: "Asia/Manila",
@@ -246,12 +223,10 @@ document.addEventListener("DOMContentLoaded", function () {
             day: "2-digit",
             year: "numeric"
         }).format(date);
-
     }
 
 
     function formatTime(dateValue) {
-
         const date = new Date(dateValue);
 
         return new Intl.DateTimeFormat("en-PH", {
@@ -260,18 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
             minute: "2-digit",
             hour12: true
         }).format(date);
-
     }
 
 
     function showToast(message, type = "success") {
-
-        if (!elements.toast) {
-            return;
-        }
+        if (!elements.toast) return;
 
         elements.toast.textContent = message;
-
         elements.toast.className = "toast show";
 
         if (type === "error") {
@@ -283,11 +253,8 @@ document.addEventListener("DOMContentLoaded", function () {
         clearTimeout(showToast.timeout);
 
         showToast.timeout = setTimeout(function () {
-
             elements.toast.classList.remove("show");
-
         }, 3500);
-
     }
 
 
@@ -296,7 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function updateDateTime() {
-
         const now = new Date();
 
         const options = {
@@ -304,17 +270,14 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         if (elements.currentDay) {
-
             elements.currentDay.textContent =
                 new Intl.DateTimeFormat("en-PH", {
                     ...options,
                     weekday: "long"
                 }).format(now);
-
         }
 
         if (elements.currentDate) {
-
             elements.currentDate.textContent =
                 new Intl.DateTimeFormat("en-PH", {
                     ...options,
@@ -322,11 +285,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     day: "numeric",
                     year: "numeric"
                 }).format(now);
-
         }
 
         if (elements.currentTime) {
-
             elements.currentTime.textContent =
                 new Intl.DateTimeFormat("en-PH", {
                     ...options,
@@ -335,14 +296,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     second: "2-digit",
                     hour12: true
                 }).format(now);
-
         }
-
     }
 
-
     updateDateTime();
-
     setInterval(updateDateTime, 1000);
 
 
@@ -351,23 +308,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function loadOfficerName() {
+        if (!elements.officerName) return;
 
-        if (!elements.officerName) {
-            return;
-        }
-
-        const savedName =
-            localStorage.getItem("osspOfficerName");
+        const savedName = localStorage.getItem("osspOfficerName");
 
         if (savedName) {
-
-            elements.officerName.textContent =
-                "Welcome, " + savedName;
-
+            elements.officerName.textContent = "Welcome, " + savedName;
         }
-
     }
-
 
     loadOfficerName();
 
@@ -377,28 +325,21 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function openModal(modalId) {
-
         const modal = document.getElementById(modalId);
 
-        if (!modal) {
-            return;
-        }
+        if (!modal) return;
 
         modal.classList.add("active");
         modal.setAttribute("aria-hidden", "false");
 
         document.body.style.overflow = "hidden";
-
     }
 
 
     function closeModal(modalId) {
-
         const modal = document.getElementById(modalId);
 
-        if (!modal) {
-            return;
-        }
+        if (!modal) return;
 
         modal.classList.remove("active");
         modal.setAttribute("aria-hidden", "true");
@@ -410,57 +351,37 @@ document.addEventListener("DOMContentLoaded", function () {
         if (openModals.length === 0) {
             document.body.style.overflow = "";
         }
-
     }
 
 
     function closeAllModals() {
-
         document.querySelectorAll(".modal").forEach(function (modal) {
-
             modal.classList.remove("active", "open");
             modal.setAttribute("aria-hidden", "true");
-
         });
 
         document.body.style.overflow = "";
-
     }
 
 
-    // Close buttons and modal backdrops.
-
     document.querySelectorAll("[data-close]").forEach(function (button) {
-
         button.addEventListener("click", function () {
-
             closeModal(button.dataset.close);
-
         });
-
     });
 
 
-    // Escape key closes the topmost active modal.
-
     document.addEventListener("keydown", function (event) {
-
-        if (event.key !== "Escape") {
-            return;
-        }
+        if (event.key !== "Escape") return;
 
         const activeModals = document.querySelectorAll(
             ".modal.active, .modal.open"
         );
 
         if (activeModals.length > 0) {
-
             const lastModal = activeModals[activeModals.length - 1];
-
             closeModal(lastModal.id);
-
         }
-
     });
 
 
@@ -471,11 +392,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const openUploadButton =
         document.getElementById("openUploadModal");
 
-
     if (openUploadButton) {
-
         openUploadButton.addEventListener("click", function () {
-
             if (elements.ordinanceForm) {
                 elements.ordinanceForm.reset();
             }
@@ -485,9 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             openModal("uploadModal");
-
         });
-
     }
 
 
@@ -496,10 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function isValidPDF(file) {
-
-        if (!file) {
-            return false;
-        }
+        if (!file) return false;
 
         const extensionIsPDF =
             file.name.toLowerCase().endsWith(".pdf");
@@ -509,29 +422,21 @@ document.addEventListener("DOMContentLoaded", function () {
             file.type === "";
 
         return extensionIsPDF && typeIsPDF;
-
     }
 
 
     function getPDFObjectURL(recordId) {
-
         return pdfObjectUrls.get(recordId) || null;
-
     }
 
 
     function releasePDFObjectURL(recordId) {
-
         const oldURL = pdfObjectUrls.get(recordId);
 
         if (oldURL) {
-
             URL.revokeObjectURL(oldURL);
-
             pdfObjectUrls.delete(recordId);
-
         }
-
     }
 
 
@@ -540,23 +445,17 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     if (elements.ordinanceFile) {
-
         elements.ordinanceFile.addEventListener("change", function () {
-
             const file = this.files[0];
 
             if (!file) {
-
                 if (elements.fileName) {
                     elements.fileName.textContent = "Choose PDF file";
                 }
-
                 return;
-
             }
 
             if (!isValidPDF(file)) {
-
                 this.value = "";
 
                 if (elements.fileName) {
@@ -564,19 +463,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 showToast("Please select a valid PDF file.", "error");
-
                 return;
-
             }
 
             if (elements.fileName) {
-
                 elements.fileName.textContent = file.name;
-
             }
-
         });
-
     }
 
 
@@ -585,9 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function getStageClass(stage) {
-
         switch (stage) {
-
             case "1st Reading":
                 return "stage-1";
 
@@ -602,9 +493,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             default:
                 return "stage-1";
-
         }
-
     }
 
 
@@ -613,9 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     if (elements.ordinanceForm) {
-
         elements.ordinanceForm.addEventListener("submit", function (event) {
-
             event.preventDefault();
 
             const title = elements.ordinanceTitle.value.trim();
@@ -625,72 +512,48 @@ document.addEventListener("DOMContentLoaded", function () {
             const file = elements.ordinanceFile.files[0];
 
             if (!title || !spNumber || !author) {
-
                 showToast("Please complete all required fields.", "error");
-
                 return;
-
             }
 
             if (!file) {
-
                 showToast("Please attach the ordinance PDF file.", "error");
-
                 return;
-
             }
 
             if (!isValidPDF(file)) {
-
                 showToast("Only PDF files are accepted.", "error");
-
                 return;
-
             }
 
             const duplicate = ordinances.some(function (record) {
-
-                return record.spNumber.toLowerCase() === spNumber.toLowerCase();
-
+                return String(record.spNumber || "").toLowerCase() ===
+                    spNumber.toLowerCase();
             });
 
             if (duplicate) {
-
                 showToast("An ordinance with this SP number already exists.", "error");
-
                 return;
-
             }
 
             const newRecord = {
-
                 id: createId(),
-
                 title: title,
-
                 spNumber: spNumber,
-
                 author: author,
-
                 stage: stage,
-
                 dateUploaded: new Date().toISOString(),
-
                 fileName: file.name
-
             };
 
             ordinances.unshift(newRecord);
 
             if (!saveRecords()) {
-
                 ordinances.shift();
-
                 return;
-
             }
 
-            // Create a temporary PDF URL for the current browser session.
+            // Temporary PDF URL for the current browser session.
             pdfObjectUrls.set(
                 newRecord.id,
                 URL.createObjectURL(file)
@@ -705,11 +568,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             closeModal("uploadModal");
-
             showToast("Ordinance uploaded successfully.");
-
         });
-
     }
 
 
@@ -718,7 +578,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function getFilteredRecords() {
-
         let filtered = [...ordinances];
 
         const searchTerm = elements.recordSearch
@@ -729,59 +588,39 @@ document.addEventListener("DOMContentLoaded", function () {
             ? elements.stageFilter.value
             : "all";
 
-
         if (activeStatFilter !== "all") {
-
             filtered = filtered.filter(function (record) {
-
                 return record.stage === activeStatFilter;
-
             });
-
         }
-
 
         if (selectedStage !== "all") {
-
             filtered = filtered.filter(function (record) {
-
                 return record.stage === selectedStage;
-
             });
-
         }
 
-
         if (searchTerm) {
-
             filtered = filtered.filter(function (record) {
-
                 return (
-                    record.title.toLowerCase().includes(searchTerm) ||
-                    record.spNumber.toLowerCase().includes(searchTerm) ||
-                    record.author.toLowerCase().includes(searchTerm) ||
-                    record.stage.toLowerCase().includes(searchTerm)
+                    String(record.title || "").toLowerCase().includes(searchTerm) ||
+                    String(record.spNumber || "").toLowerCase().includes(searchTerm) ||
+                    String(record.author || "").toLowerCase().includes(searchTerm) ||
+                    String(record.stage || "").toLowerCase().includes(searchTerm)
                 );
-
             });
-
         }
 
         return filtered;
-
     }
 
 
     function renderTable() {
-
-        if (!elements.ordinanceTable) {
-            return;
-        }
+        if (!elements.ordinanceTable) return;
 
         const records = getFilteredRecords();
 
         if (records.length === 0) {
-
             elements.ordinanceTable.innerHTML = `
                 <tr>
                     <td colspan="7" class="empty-record">
@@ -793,12 +632,9 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
             return;
-
         }
 
-
         elements.ordinanceTable.innerHTML = records.map(function (record) {
-
             const pdfURL = getPDFObjectURL(record.id);
 
             const fileHTML = pdfURL
@@ -858,24 +694,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     </td>
                 </tr>
             `;
-
         }).join("");
-
-
-        // Attach edit events after rendering.
 
         elements.ordinanceTable
             .querySelectorAll("[data-edit-id]")
             .forEach(function (button) {
-
                 button.addEventListener("click", function () {
-
                     openEditModal(this.dataset.editId);
-
                 });
-
             });
-
     }
 
 
@@ -884,7 +711,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function updateStatistics() {
-
         const total = ordinances.length;
 
         const first = ordinances.filter(function (record) {
@@ -902,7 +728,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const completed = ordinances.filter(function (record) {
             return record.stage === "Complete";
         }).length;
-
 
         if (elements.totalOrdinances) {
             elements.totalOrdinances.textContent = total;
@@ -923,7 +748,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (elements.completedOrdinances) {
             elements.completedOrdinances.textContent = completed;
         }
-
     }
 
 
@@ -932,11 +756,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function renderDashboard() {
-
         updateStatistics();
-
         renderTable();
-
     }
 
 
@@ -945,26 +766,16 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     if (elements.recordSearch) {
-
         elements.recordSearch.addEventListener("input", function () {
-
             renderTable();
-
         });
-
     }
 
-
     if (elements.stageFilter) {
-
         elements.stageFilter.addEventListener("change", function () {
-
             activeStatFilter = "all";
-
             renderTable();
-
         });
-
     }
 
 
@@ -973,9 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     document.querySelectorAll("[data-stat-stage]").forEach(function (card) {
-
         card.addEventListener("click", function () {
-
             const selectedStage = this.dataset.statStage;
 
             activeStatFilter = selectedStage;
@@ -989,9 +798,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             openStatDetails(selectedStage);
-
         });
-
     });
 
 
@@ -1000,19 +807,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     function openStatDetails(stage) {
-
         let filteredRecords = [...ordinances];
 
         let title = "All Ordinance Records";
-
         let description = "Showing all ordinance records.";
 
         if (stage !== "all") {
-
             filteredRecords = ordinances.filter(function (record) {
-
                 return record.stage === stage;
-
             });
 
             title = stage === "Complete"
@@ -1020,9 +822,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 : stage + " Records";
 
             description = "Showing all ordinances under " + stage + ".";
-
         }
-
 
         if (elements.statDetailsTitle) {
             elements.statDetailsTitle.textContent = title;
@@ -1036,11 +836,8 @@ document.addEventListener("DOMContentLoaded", function () {
             elements.statDetailsCount.textContent = filteredRecords.length;
         }
 
-
         if (elements.statDetailsList) {
-
             if (filteredRecords.length === 0) {
-
                 elements.statDetailsList.innerHTML = `
                     <div class="stat-details-empty">
                         <i class="fa-solid fa-folder-open"></i>
@@ -1048,12 +845,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span>There are currently no ordinances in this category.</span>
                     </div>
                 `;
-
             } else {
-
                 elements.statDetailsList.innerHTML =
                     filteredRecords.map(function (record) {
-
                         const pdfURL = getPDFObjectURL(record.id);
 
                         const fileButton = pdfURL
@@ -1072,9 +866,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         return `
                             <div class="stat-detail-item">
-
                                 <div class="stat-detail-info">
-
                                     <strong>
                                         ${escapeHTML(record.title)}
                                     </strong>
@@ -1094,11 +886,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <span class="stage-badge ${getStageClass(record.stage)}">
                                         ${escapeHTML(record.stage)}
                                     </span>
-
                                 </div>
 
                                 <div class="stat-detail-actions">
-
                                     ${fileButton}
 
                                     <button
@@ -1108,70 +898,45 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <i class="fa-solid fa-pen-to-square"></i>
                                         EDIT
                                     </button>
-
                                 </div>
-
                             </div>
                         `;
-
                     }).join("");
-
 
                 elements.statDetailsList
                     .querySelectorAll("[data-detail-edit]")
                     .forEach(function (button) {
-
                         button.addEventListener("click", function () {
-
                             const recordId = this.dataset.detailEdit;
 
                             closeModal("statDetailsModal");
-
                             openEditModal(recordId);
-
                         });
-
                     });
-
             }
-
         }
 
-
         openModal("statDetailsModal");
-
     }
 
-
-    /* =====================================================
+        /* =====================================================
        EDIT ORDINANCE MODAL
     ===================================================== */
 
     function openEditModal(recordId) {
-
         const record = ordinances.find(function (item) {
-
             return item.id === recordId;
-
         });
 
         if (!record) {
-
             showToast("Ordinance record not found.", "error");
-
             return;
-
         }
 
-
         elements.editRecordId.value = record.id;
-
         elements.editOrdinanceTitle.value = record.title;
-
         elements.editSpNumber.value = record.spNumber;
-
         elements.editOrdinanceAuthor.value = record.author;
-
         elements.editReadingStage.value = record.stage;
 
         if (elements.editOrdinanceFile) {
@@ -1179,7 +944,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         openModal("editOrdinanceModal");
-
     }
 
 
@@ -1188,97 +952,63 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     if (elements.editOrdinanceForm) {
-
         elements.editOrdinanceForm.addEventListener("submit", function (event) {
-
             event.preventDefault();
 
             const recordId = elements.editRecordId.value;
 
             const recordIndex = ordinances.findIndex(function (record) {
-
                 return record.id === recordId;
-
             });
 
             if (recordIndex === -1) {
-
                 showToast("Unable to find the selected ordinance.", "error");
-
                 return;
-
             }
 
-
             const title = elements.editOrdinanceTitle.value.trim();
-
             const spNumber = elements.editSpNumber.value.trim();
-
             const author = elements.editOrdinanceAuthor.value.trim();
-
             const stage = elements.editReadingStage.value;
 
             const replacementFile = elements.editOrdinanceFile
                 ? elements.editOrdinanceFile.files[0]
                 : null;
 
-
             if (!title || !spNumber || !author) {
-
                 showToast("Please complete all required fields.", "error");
-
                 return;
-
             }
-
 
             const duplicate = ordinances.some(function (record) {
-
                 return (
                     record.id !== recordId &&
-                    record.spNumber.toLowerCase() === spNumber.toLowerCase()
+                    String(record.spNumber || "").toLowerCase() ===
+                    spNumber.toLowerCase()
                 );
-
             });
 
-
             if (duplicate) {
-
                 showToast("Another ordinance already uses this SP number.", "error");
-
                 return;
-
             }
-
 
             if (replacementFile && !isValidPDF(replacementFile)) {
-
                 showToast("Please select a valid PDF file.", "error");
-
                 return;
-
             }
-
 
             const oldRecord = { ...ordinances[recordIndex] };
 
             const updatedRecord = {
-
                 ...ordinances[recordIndex],
-
                 title: title,
-
                 spNumber: spNumber,
-
                 author: author,
-
                 stage: stage
-
             };
 
-
             if (replacementFile) {
-
                 releasePDFObjectURL(recordId);
 
                 pdfObjectUrls.set(
@@ -1287,239 +1017,381 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 updatedRecord.fileName = replacementFile.name;
-
             }
-
 
             ordinances[recordIndex] = updatedRecord;
 
-
             if (!saveRecords()) {
-
                 ordinances[recordIndex] = oldRecord;
-
                 return;
-
             }
 
-
             renderDashboard();
-
             closeModal("editOrdinanceModal");
 
             showToast("Ordinance information updated successfully.");
-
         });
-
     }
 
 
     /* =====================================================
-       CHAT MESSAGE SYSTEM
+       LIVE AGENT INBOX
+       The officer manually replies to anonymous visitor inquiries.
+       No AI or automatic response is generated here.
     ===================================================== */
 
-    function updateNotificationCount() {
+    function createInquiryReference() {
+        const year = new Date().getFullYear();
+        const prefix = "OSSP-" + year + "-";
+        let highest = 0;
 
-        if (!elements.notificationCount) {
+        inquiries.forEach(function (inquiry) {
+            const match = String(inquiry.id || "").match(/OSSP-\d{4}-(\d+)/);
+
+            if (match) {
+                highest = Math.max(highest, Number(match[1]));
+            }
+        });
+
+        return prefix + String(highest + 1).padStart(4, "0");
+    }
+
+
+    function updateNotificationCount() {
+        const unreadCount = inquiries.filter(function (inquiry) {
+            return !inquiry.read && inquiry.status !== "Resolved";
+        }).length;
+
+        if (elements.notificationCount) {
+            elements.notificationCount.textContent = unreadCount;
+
+            elements.notificationCount.style.display =
+                unreadCount > 0 ? "grid" : "none";
+        }
+
+        if (elements.inboxCount) {
+            elements.inboxCount.textContent = inquiries.length;
+        }
+    }
+
+
+    function getLatestInquiryMessage(inquiry) {
+        const messages = Array.isArray(inquiry.messages)
+            ? inquiry.messages
+            : [];
+
+        return messages.length
+            ? messages[messages.length - 1]
+            : null;
+    }
+
+
+    function renderInquiryList() {
+        if (!elements.conversationList) return;
+
+        if (inquiries.length === 0) {
+            elements.conversationList.innerHTML = `
+                <div class="inbox-list-empty">
+                    <i class="fa-regular fa-envelope-open"></i>
+                    <strong>No visitor inquiries yet</strong>
+                    <span>New anonymous questions will appear here.</span>
+                </div>
+            `;
+
+            updateNotificationCount();
             return;
         }
 
-        const unreadCount = chatMessages.filter(function (message) {
+        const sorted = [...inquiries].sort(function (a, b) {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
 
-            return message.sender === "assistant" && !message.read;
+        elements.conversationList.innerHTML = sorted.map(function (inquiry) {
+            const latest = getLatestInquiryMessage(inquiry);
 
-        }).length;
+            const preview = latest
+                ? latest.message
+                : "No message content";
 
-        elements.notificationCount.textContent = unreadCount;
+            const selected = inquiry.id === activeInquiryId
+                ? " selected"
+                : "";
 
-        elements.notificationCount.style.display =
-            unreadCount > 0 ? "grid" : "none";
+            const unread = !inquiry.read && inquiry.status !== "Resolved"
+                ? " unread"
+                : "";
 
+            return `
+                <button
+                    type="button"
+                    class="conversation-item${selected}${unread}"
+                    data-inquiry-id="${escapeHTML(inquiry.id)}">
+
+                    <span class="conversation-item-top">
+                        <strong>${escapeHTML(inquiry.id || "Unassigned inquiry")}</strong>
+                        <small>${formatDate(inquiry.updatedAt)}</small>
+                    </span>
+
+                    <span class="conversation-preview">
+                        ${escapeHTML(preview)}
+                    </span>
+
+                    <span class="conversation-item-bottom">
+                        <small>Anonymous visitor</small>
+
+                        <span class="mini-status ${
+                            inquiry.status === "Resolved"
+                                ? "resolved"
+                                : inquiry.status === "Replied"
+                                    ? "replied"
+                                    : "open"
+                        }">
+                            ${escapeHTML(inquiry.status || "Open")}
+                        </span>
+                    </span>
+                </button>
+            `;
+        }).join("");
+
+        elements.conversationList
+            .querySelectorAll("[data-inquiry-id]")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    selectInquiry(this.dataset.inquiryId);
+                });
+            });
+
+        updateNotificationCount();
+    }
+
+
+    function renderActiveInquiry() {
+        const inquiry = inquiries.find(function (item) {
+            return item.id === activeInquiryId;
+        });
+
+        if (!inquiry) {
+            if (elements.inboxEmpty) {
+                elements.inboxEmpty.hidden = false;
+            }
+
+            if (elements.activeConversation) {
+                elements.activeConversation.hidden = true;
+            }
+
+            return;
+        }
+
+        if (elements.inboxEmpty) {
+            elements.inboxEmpty.hidden = true;
+        }
+
+        if (elements.activeConversation) {
+            elements.activeConversation.hidden = false;
+        }
+
+        if (elements.visitorConversationId) {
+            elements.visitorConversationId.textContent = inquiry.id;
+        }
+
+        if (elements.visitorConversationMeta) {
+            elements.visitorConversationMeta.textContent =
+                "Received " + formatDate(inquiry.createdAt);
+        }
+
+        if (elements.visitorConversationStatus) {
+            elements.visitorConversationStatus.textContent =
+                String(inquiry.status || "Open").toUpperCase();
+
+            elements.visitorConversationStatus.className =
+                "conversation-status " +
+                String(inquiry.status || "Open").toLowerCase();
+        }
+
+        if (elements.resolveInquiryButton) {
+            elements.resolveInquiryButton.textContent =
+                inquiry.status === "Resolved"
+                    ? "REOPEN INQUIRY"
+                    : "MARK RESOLVED";
+        }
+
+        if (elements.chatDialogMessages) {
+            const messages = Array.isArray(inquiry.messages)
+                ? inquiry.messages
+                : [];
+
+            if (messages.length === 0) {
+                elements.chatDialogMessages.innerHTML = `
+                    <div class="inbox-list-empty">
+                        This inquiry has no messages yet.
+                    </div>
+                `;
+            } else {
+                elements.chatDialogMessages.innerHTML =
+                    messages.map(function (message) {
+                        const isOfficer = message.sender === "officer";
+
+                        return `
+                            <div class="chat-bubble ${
+                                isOfficer
+                                    ? "chat-bubble-user"
+                                    : "chat-bubble-assistant"
+                            }">
+
+                                <strong>
+                                    ${isOfficer
+                                        ? "OSSP Officer"
+                                        : "Anonymous Visitor"}
+                                </strong>
+
+                                <p>${escapeHTML(message.message || "")}</p>
+
+                                <time>
+                                    ${formatTime(
+                                        message.time ||
+                                        message.createdAt ||
+                                        new Date().toISOString()
+                                    )}
+                                </time>
+
+                            </div>
+                        `;
+                    }).join("");
+
+                elements.chatDialogMessages.scrollTop =
+                    elements.chatDialogMessages.scrollHeight;
+            }
+        }
+    }
+
+
+    function selectInquiry(inquiryId) {
+        activeInquiryId = inquiryId;
+
+        const inquiry = inquiries.find(function (item) {
+            return item.id === inquiryId;
+        });
+
+        if (inquiry) {
+            inquiry.read = true;
+
+            if (!saveInquiries()) return;
+        }
+
+        renderInquiryList();
+        renderActiveInquiry();
+        updateNotificationCount();
+
+        if (elements.chatReplyInput) {
+            elements.chatReplyInput.focus();
+        }
     }
 
 
     function renderChatMessages() {
-
-        if (!elements.chatDialogMessages) {
-            return;
-        }
-
-        if (chatMessages.length === 0) {
-
-            elements.chatDialogMessages.innerHTML = `
-                <div class="stat-details-empty">
-                    <i class="fa-regular fa-message"></i>
-                    <strong>No messages yet</strong>
-                    <span>Start a conversation by sending a message.</span>
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        elements.chatDialogMessages.innerHTML =
-            chatMessages.map(function (message) {
-
-                const isUser = message.sender === "user";
-
-                const bubbleClass = isUser
-                    ? "chat-bubble-user"
-                    : "chat-bubble-assistant";
-
-                const senderName = isUser
-                    ? "You"
-                    : "OSSP-TOM Assistant";
-
-                return `
-                    <div class="chat-bubble ${bubbleClass}">
-
-                        <strong>${senderName}</strong>
-
-                        <p>${escapeHTML(message.message)}</p>
-
-                        <time>
-                            ${formatTime(message.time)}
-                        </time>
-
-                    </div>
-                `;
-
-            }).join("");
-
-
-        elements.chatDialogMessages.scrollTop =
-            elements.chatDialogMessages.scrollHeight;
-
-    }
-
-
-    function markMessagesAsRead() {
-
-        chatMessages = chatMessages.map(function (message) {
-
-            if (message.sender === "assistant") {
-
-                return {
-                    ...message,
-                    read: true
-                };
-
-            }
-
-            return message;
-
-        });
-
-        saveMessages();
-
-        updateNotificationCount();
-
+        renderInquiryList();
+        renderActiveInquiry();
     }
 
 
     /* =====================================================
-       OPEN CHAT PANEL
+       OPEN LIVE AGENT INBOX
     ===================================================== */
 
     if (elements.notificationButton) {
-
         elements.notificationButton.addEventListener("click", function () {
-
-            markMessagesAsRead();
-
             renderChatMessages();
-
             openModal("chatModal");
-
-            if (elements.chatReplyInput) {
-
-                setTimeout(function () {
-
-                    elements.chatReplyInput.focus();
-
-                }, 150);
-
-            }
-
         });
-
     }
 
 
     /* =====================================================
-       SEND CHAT MESSAGE
+       MANUAL OFFICER REPLY
     ===================================================== */
 
     if (elements.chatReplyForm) {
-
         elements.chatReplyForm.addEventListener("submit", function (event) {
-
             event.preventDefault();
 
-            const message = elements.chatReplyInput.value.trim();
+            const reply = elements.chatReplyInput.value.trim();
 
-            if (!message) {
+            if (!reply || !activeInquiryId) {
+                showToast(
+                    "Select a visitor inquiry before replying.",
+                    "error"
+                );
+
                 return;
             }
 
+            const inquiry = inquiries.find(function (item) {
+                return item.id === activeInquiryId;
+            });
 
-            const userMessage = {
+            if (!inquiry) {
+                showToast(
+                    "This visitor inquiry could not be found.",
+                    "error"
+                );
 
-                id: createId(),
+                return;
+            }
 
-                sender: "user",
+            inquiry.messages = Array.isArray(inquiry.messages)
+                ? inquiry.messages
+                : [];
 
-                message: message,
-
+            inquiry.messages.push({
+                sender: "officer",
+                message: reply,
                 time: new Date().toISOString()
+            });
 
-            };
+            inquiry.status = "Replied";
+            inquiry.updatedAt = new Date().toISOString();
+            inquiry.read = true;
 
-
-            chatMessages.push(userMessage);
-
-            saveMessages();
+            if (!saveInquiries()) return;
 
             elements.chatReplyInput.value = "";
 
             renderChatMessages();
 
-
-            // DEMO RESPONSE
-            // This is not a live AI connection.
-
-            setTimeout(function () {
-
-                const assistantMessage = {
-
-                    id: createId(),
-
-                    sender: "assistant",
-
-                    message:
-                        "Thank you for your message. Your response has been recorded in this OSSP-TOM demonstration. For actual assistance, please coordinate with the authorized OSSP personnel.",
-
-                    time: new Date().toISOString(),
-
-                    read: false
-
-                };
-
-
-                chatMessages.push(assistantMessage);
-
-                saveMessages();
-
-                renderChatMessages();
-
-                updateNotificationCount();
-
-            }, 900);
-
+            showToast("Your reply has been added to the inquiry.");
         });
+    }
 
+
+    /* =====================================================
+       RESOLVE / REOPEN INQUIRY
+    ===================================================== */
+
+    if (elements.resolveInquiryButton) {
+        elements.resolveInquiryButton.addEventListener("click", function () {
+            const inquiry = inquiries.find(function (item) {
+                return item.id === activeInquiryId;
+            });
+
+            if (!inquiry) return;
+
+            inquiry.status = inquiry.status === "Resolved"
+                ? "Open"
+                : "Resolved";
+
+            inquiry.updatedAt = new Date().toISOString();
+            inquiry.read = true;
+
+            if (!saveInquiries()) return;
+
+            renderChatMessages();
+
+            showToast(
+                inquiry.status === "Resolved"
+                    ? "Inquiry marked as resolved."
+                    : "Inquiry reopened."
+            );
+        });
     }
 
 
@@ -1527,47 +1399,36 @@ document.addEventListener("DOMContentLoaded", function () {
        LOGOUT PROCESS
     ===================================================== */
 
-    const logoutButton = document.getElementById("logoutButton");
+    const logoutButton =
+        document.getElementById("logoutButton");
 
-    const continueLogout = document.getElementById("continueLogout");
+    const continueLogout =
+        document.getElementById("continueLogout");
 
-    const confirmLogout = document.getElementById("confirmLogout");
+    const confirmLogout =
+        document.getElementById("confirmLogout");
 
 
     if (logoutButton) {
-
         logoutButton.addEventListener("click", function () {
-
             openModal("logoutModal");
-
         });
-
     }
 
 
     if (continueLogout) {
-
         continueLogout.addEventListener("click", function () {
-
             closeModal("logoutModal");
-
             openModal("confirmLogoutModal");
-
         });
-
     }
 
 
     if (confirmLogout) {
-
         confirmLogout.addEventListener("click", function () {
-
             closeAllModals();
-
             window.location.href = "login.html";
-
         });
-
     }
 
 
@@ -1576,15 +1437,11 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     window.addEventListener("beforeunload", function () {
-
         pdfObjectUrls.forEach(function (url) {
-
             URL.revokeObjectURL(url);
-
         });
 
         pdfObjectUrls.clear();
-
     });
 
 
