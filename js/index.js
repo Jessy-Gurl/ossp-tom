@@ -1,14 +1,14 @@
+
 /* =========================================================
    OSSP-TOM WEBSITE
    MAIN JAVASCRIPT
-   FULL UPDATED VERSION
-   MATCHED TO CURRENT INDEX.HTML
+   UI-ONLY VERSION
+   NO SERVER / NO FETCH
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
     "use strict";
-
 
     /* =====================================================
        SETTINGS
@@ -19,1565 +19,514 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       ELEMENTS
-    ====================================================== */
-
-    const body =
-        document.body;
-
-    const navMenu =
-        document.getElementById("navMenu");
-
-    const mobileMenuButton =
-        document.getElementById("mobileMenuButton");
-
-    const mainNavigation =
-        document.querySelector(".main-navigation");
-
-    const pageSections =
-        Array.from(
-            document.querySelectorAll(".page-section")
-        );
-
-    const dropdowns =
-        Array.from(
-            document.querySelectorAll(
-                ".nav-item.dropdown"
-            )
-        );
-
-
-    /* =====================================================
        DATE AND TIME
     ====================================================== */
 
-    const currentDay =
-        document.getElementById("currentDay");
-
-    const currentDate =
-        document.getElementById("currentDate");
-
-    const currentTime =
-        document.getElementById("currentTime");
-
+    const currentDay = document.getElementById("currentDay");
+    const currentDate = document.getElementById("currentDate");
+    const currentTime = document.getElementById("currentTime");
 
     function updateDateTime() {
 
         const now = new Date();
 
-
         if (currentDay) {
-
-            currentDay.textContent =
-                new Intl.DateTimeFormat(
-                    "en-US",
-                    {
-                        weekday: "long"
-                    }
-                ).format(now);
-
+            currentDay.textContent = new Intl.DateTimeFormat("en-US", {
+                weekday: "long"
+            }).format(now);
         }
-
 
         if (currentDate) {
-
-            currentDate.textContent =
-                new Intl.DateTimeFormat(
-                    "en-US",
-                    {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric"
-                    }
-                ).format(now);
-
+            currentDate.textContent = new Intl.DateTimeFormat("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            }).format(now);
         }
-
 
         if (currentTime) {
-
-            currentTime.textContent =
-                new Intl.DateTimeFormat(
-                    "en-US",
-                    {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        second: "2-digit",
-                        hour12: true
-                    }
-                ).format(now);
-
+            currentTime.textContent = new Intl.DateTimeFormat("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            }).format(now);
         }
-
     }
 
-
     updateDateTime();
-
-    setInterval(
-        updateDateTime,
-        1000
-    );
+    setInterval(updateDateTime, 1000);
 
 
     /* =====================================================
-       MOBILE MENU
+       MOBILE NAVIGATION
     ====================================================== */
+
+    const navMenu = document.getElementById("navMenu");
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
 
     function openMobileMenu() {
 
-        if (!navMenu) {
-            return;
-        }
-
+        if (!navMenu) return;
 
         navMenu.classList.add("open");
-
-        navMenu.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
+        navMenu.setAttribute("aria-hidden", "false");
 
         if (mobileMenuButton) {
-
-            mobileMenuButton.classList.add(
-                "open"
-            );
-
-            mobileMenuButton.setAttribute(
-                "aria-expanded",
-                "true"
-            );
-
-            mobileMenuButton.setAttribute(
-                "aria-label",
-                "Close navigation"
-            );
-
+            mobileMenuButton.classList.add("open");
+            mobileMenuButton.setAttribute("aria-expanded", "true");
+            mobileMenuButton.setAttribute("aria-label", "Close navigation");
         }
-
     }
-
 
     function closeMobileMenu() {
 
-        if (!navMenu) {
-            return;
-        }
-
+        if (!navMenu) return;
 
         navMenu.classList.remove("open");
-
-        navMenu.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
+        navMenu.setAttribute("aria-hidden", "true");
 
         if (mobileMenuButton) {
-
-            mobileMenuButton.classList.remove(
-                "open"
-            );
-
-            mobileMenuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            mobileMenuButton.setAttribute(
-                "aria-label",
-                "Open navigation"
-            );
-
+            mobileMenuButton.classList.remove("open");
+            mobileMenuButton.setAttribute("aria-expanded", "false");
+            mobileMenuButton.setAttribute("aria-label", "Open navigation");
         }
-
     }
-
-
-    function toggleMobileMenu() {
-
-        if (!navMenu) {
-            return;
-        }
-
-
-        if (
-            navMenu.classList.contains("open")
-        ) {
-
-            closeMobileMenu();
-
-        }
-        else {
-
-            openMobileMenu();
-
-        }
-
-    }
-
 
     if (mobileMenuButton) {
 
-        mobileMenuButton.addEventListener(
-            "click",
-            function (event) {
+        mobileMenuButton.addEventListener("click", function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
+            event.stopPropagation();
 
-                event.stopPropagation();
-
-                toggleMobileMenu();
-
+            if (navMenu && navMenu.classList.contains("open")) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
             }
-        );
-
+        });
     }
 
 
     /* =====================================================
-       DROPDOWNS
+       DROPDOWN MENUS
     ====================================================== */
+
+    const dropdowns = document.querySelectorAll(".nav-item.dropdown");
 
     function closeAllDropdowns() {
 
-        dropdowns.forEach(
-            function (dropdown) {
+        dropdowns.forEach(function (dropdown) {
 
-                dropdown.classList.remove(
-                    "open"
-                );
+            dropdown.classList.remove("open");
 
-
-                const button =
-                    dropdown.querySelector(
-                        ".dropdown-button"
-                    );
-
-
-                if (button) {
-
-                    button.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    function toggleDropdown(dropdown) {
-
-        if (!dropdown) {
-            return;
-        }
-
-
-        const currentlyOpen =
-            dropdown.classList.contains(
-                "open"
-            );
-
-
-        closeAllDropdowns();
-
-
-        if (!currentlyOpen) {
-
-            dropdown.classList.add(
-                "open"
-            );
-
-
-            const button =
-                dropdown.querySelector(
-                    ".dropdown-button"
-                );
-
+            const button = dropdown.querySelector(".dropdown-button");
 
             if (button) {
-
-                button.setAttribute(
-                    "aria-expanded",
-                    "true"
-                );
-
+                button.setAttribute("aria-expanded", "false");
             }
-
-        }
-
-    }
-
-
-    dropdowns.forEach(
-        function (dropdown) {
-
-            const button =
-                dropdown.querySelector(
-                    ".dropdown-button"
-                );
-
-
-            if (!button) {
-                return;
-            }
-
-
-            button.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    toggleDropdown(
-                        dropdown
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       ACTIVE NAVIGATION
-    ====================================================== */
-
-    function clearActiveNavigation() {
-
-        document
-            .querySelectorAll(
-                "#navMenu .nav-item"
-            )
-            .forEach(
-                function (item) {
-
-                    item.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                "#navMenu .nav-link"
-            )
-            .forEach(
-                function (link) {
-
-                    link.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                "#navMenu .login-button"
-            )
-            .forEach(
-                function (link) {
-
-                    link.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-    }
-
-
-    function setActiveNavigation(page) {
-
-        clearActiveNavigation();
-
-
-        if (!page) {
-            return;
-        }
-
-
-        const matchingLinks =
-            document.querySelectorAll(
-                '#navMenu [data-page="' +
-                page +
-                '"]'
-            );
-
-
-        matchingLinks.forEach(
-            function (link) {
-
-                link.classList.add(
-                    "active"
-                );
-
-
-                const parentItem =
-                    link.closest(
-                        ".nav-item"
-                    );
-
-
-                if (parentItem) {
-
-                    parentItem.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                const parentDropdown =
-                    link.closest(
-                        ".dropdown"
-                    );
-
-
-                if (parentDropdown) {
-
-                    parentDropdown.classList.add(
-                        "active"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       PAGE VISIBILITY
-       
-       IMPORTANT:
-       This explicitly controls display.
-       It does NOT depend on CSS alone.
-    ====================================================== */
-
-    function hideAllPages() {
-
-        pageSections.forEach(
-            function (section) {
-
-                section.classList.remove(
-                    "active-page"
-                );
-
-
-                section.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
-
-
-                section.style.display =
-                    "none";
-
-                section.style.visibility =
-                    "hidden";
-
-                section.style.opacity =
-                    "0";
-
-            }
-        );
-
-    }
-
-
-    function showPage(page, updateHistory = true) {
-
-        if (!page) {
-            page = "home";
-        }
-
-
-        const targetPage =
-            document.getElementById(
-                "page-" + page
-            );
-
-
-        /*
-            If the requested page does not exist,
-            automatically return to Home.
-        */
-
-        if (!targetPage) {
-
-            console.warn(
-                "OSSP-TOM: Page not found:",
-                "page-" + page
-            );
-
-
-            page = "home";
-
-
-            const homePage =
-                document.getElementById(
-                    "page-home"
-                );
-
-
-            if (!homePage) {
-
-                console.error(
-                    "OSSP-TOM: page-home does not exist."
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        const finalTarget =
-            document.getElementById(
-                "page-" + page
-            );
-
-
-        if (!finalTarget) {
-            return;
-        }
-
-
-        /*
-            Hide all sections.
-        */
-
-        hideAllPages();
-
-
-        /*
-            Show selected section.
-            
-            We explicitly set display here so
-            the page works even if the CSS does
-            not contain .active-page.
-        */
-
-        finalTarget.classList.add(
-            "active-page"
-        );
-
-
-        finalTarget.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-
-        finalTarget.style.display =
-            "block";
-
-        finalTarget.style.visibility =
-            "visible";
-
-        finalTarget.style.opacity =
-            "1";
-
-
-        /*
-            Update navigation.
-        */
-
-        setActiveNavigation(
-            page
-        );
-
-
-        /*
-            Close menus.
-        */
-
-        closeAllDropdowns();
-
-        closeMobileMenu();
-
-
-        /*
-            Scroll to top.
-        */
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
         });
-
-
-        /*
-            Update URL.
-        */
-
-        if (updateHistory) {
-
-            const newHash =
-                page === "home"
-                    ? "#"
-                    : "#" + page;
-
-
-            try {
-
-                history.pushState(
-                    {
-                        page: page
-                    },
-                    "",
-                    newHash
-                );
-
-            }
-            catch (error) {
-
-                console.warn(
-                    "OSSP-TOM: Unable to update URL.",
-                    error
-                );
-
-            }
-
-        }
-
     }
+
+    dropdowns.forEach(function (dropdown) {
+
+        const button = dropdown.querySelector(".dropdown-button");
+
+        if (!button) return;
+
+        button.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isOpen = dropdown.classList.contains("open");
+
+            closeAllDropdowns();
+
+            if (!isOpen) {
+                dropdown.classList.add("open");
+                button.setAttribute("aria-expanded", "true");
+            }
+        });
+    });
 
 
     /* =====================================================
-       GET PAGE FROM HASH
+       NORMAL HTML PAGE NAVIGATION
+       NO FETCH / NO DYNAMIC HTML LOADING
     ====================================================== */
 
-    function getPageFromHash() {
+    const PAGE_LINKS = {
+        home: "index.html",
+        councilors: "pages/councilors.html",
+        "order-business": "pages/order-business.html",
+        committee: "pages/committee.html",
+        about: "pages/about.html",
+        legislative: "pages/legislative.html",
+        ordinances: "pages/ordinances.html",
+        resolutions: "pages/resolutions.html",
+        ctc: "pages/ctc.html",
+        document: "pages/document.html",
+        tracking: "pages/tracking.html",
+        services: "pages/services.html",
+        news: "pages/announcements.html",
+        announcements: "pages/announcements.html",
+        directory: "pages/directory.html",
+        faqs: "pages/faqs.html",
+        feedback: "pages/feedback.html",
+        privacy: "pages/privacy.html",
+        accessibility: "pages/accessibility.html",
+        contact: "pages/contact.html"
+    };
 
-        let hash =
-            window.location.hash;
+    document.addEventListener("click", function (event) {
 
+        const link = event.target.closest("[data-page]");
 
-        if (!hash) {
+        if (!link) return;
 
-            return "home";
+        if (link.classList.contains("dropdown-button")) return;
 
-        }
+        const page = link.getAttribute("data-page");
 
+        if (!page || !PAGE_LINKS[page]) return;
 
-        hash =
-            hash
-                .replace(
-                    /^#/,
-                    ""
-                )
-                .trim();
+        event.preventDefault();
 
+        window.location.href = PAGE_LINKS[page];
 
-        if (!hash) {
-
-            return "home";
-
-        }
-
-
-        /*
-            Only accept a page that actually
-            exists in the HTML.
-        */
-
-        const target =
-            document.getElementById(
-                "page-" + hash
-            );
-
-
-        if (target) {
-
-            return hash;
-
-        }
-
-
-        return "home";
-
-    }
-
-
-    /* =====================================================
-       NAVIGATION LINKS
-    ====================================================== */
-
-    const allPageLinks =
-        document.querySelectorAll(
-            "[data-page]"
-        );
-
-
-    allPageLinks.forEach(
-        function (link) {
-
-            link.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-
-                    const page =
-                        link.getAttribute(
-                            "data-page"
-                        );
-
-
-                    if (!page) {
-                        return;
-                    }
-
-
-                    showPage(
-                        page,
-                        true
-                    );
-
-                }
-            );
-
-        }
-    );
+    });
 
 
     /* =====================================================
        HOME LOGO LINKS
     ====================================================== */
 
-    const homeLinks =
-        document.querySelectorAll(
-            ".home-link"
-        );
+    document.addEventListener("click", function (event) {
 
+        const homeLink = event.target.closest(".home-link");
 
-    homeLinks.forEach(
-        function (link) {
+        if (!homeLink) return;
 
-            link.addEventListener(
-                "click",
-                function (event) {
+        event.preventDefault();
 
-                    event.preventDefault();
+        window.location.href = "index.html";
 
-                    showPage(
-                        "home",
-                        true
-                    );
-
-                }
-            );
-
-        }
-    );
+    });
 
 
     /* =====================================================
-       CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
+       ACTIVE NAVIGATION
     ====================================================== */
 
-    document.addEventListener(
-        "click",
-        function (event) {
+    const currentFile = window.location.pathname.split("/").pop();
 
-            const dropdown =
-                event.target.closest(
-                    ".nav-item.dropdown"
-                );
+    const currentPage = currentFile.replace(".html", "");
 
+    document.querySelectorAll("#navMenu [data-page]").forEach(function (link) {
 
-            if (!dropdown) {
+        const page = link.getAttribute("data-page");
 
-                closeAllDropdowns();
+        const target = PAGE_LINKS[page];
 
+        if (!target) return;
+
+        const targetFile = target.split("/").pop();
+
+        if (
+            targetFile === currentFile ||
+            (currentFile === "index.html" && page === "home")
+        ) {
+            link.classList.add("active");
+
+            const parent = link.closest(".nav-item");
+
+            if (parent) {
+                parent.classList.add("active");
             }
 
+            const dropdown = link.closest(".dropdown");
+
+            if (dropdown) {
+                dropdown.classList.add("active");
+            }
         }
-    );
+    });
 
 
     /* =====================================================
-       CLOSE MOBILE MENU OUTSIDE
+       CLOSE MENUS WHEN CLICKING OUTSIDE
     ====================================================== */
 
-    document.addEventListener(
-        "click",
-        function (event) {
+    document.addEventListener("click", function (event) {
 
-            if (
-                !navMenu ||
-                !mobileMenuButton
-            ) {
-
-                return;
-
-            }
-
-
-            const insideMenu =
-                navMenu.contains(
-                    event.target
-                );
-
-
-            const insideButton =
-                mobileMenuButton.contains(
-                    event.target
-                );
-
-
-            if (
-                !insideMenu &&
-                !insideButton
-            ) {
-
-                closeMobileMenu();
-
-            }
-
+        if (!event.target.closest(".nav-item.dropdown")) {
+            closeAllDropdowns();
         }
-    );
+
+        if (
+            navMenu &&
+            mobileMenuButton &&
+            !navMenu.contains(event.target) &&
+            !mobileMenuButton.contains(event.target)
+        ) {
+            closeMobileMenu();
+        }
+    });
 
 
     /* =====================================================
        ESCAPE KEY
     ====================================================== */
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+    document.addEventListener("keydown", function (event) {
 
-            if (
-                event.key === "Escape"
-            ) {
+        if (event.key === "Escape") {
 
-                closeAllDropdowns();
-
-                closeMobileMenu();
-
-            }
+            closeAllDropdowns();
+            closeMobileMenu();
+            closeChatbot();
 
         }
-    );
-
-
-    /* =====================================================
-       BROWSER BACK / FORWARD
-    ====================================================== */
-
-    window.addEventListener(
-        "popstate",
-        function () {
-
-            const page =
-                getPageFromHash();
-
-
-            showPage(
-                page,
-                false
-            );
-
-        }
-    );
-
-
-    window.addEventListener(
-        "hashchange",
-        function () {
-
-            const page =
-                getPageFromHash();
-
-
-            showPage(
-                page,
-                false
-            );
-
-        }
-    );
+    });
 
 
     /* =====================================================
        BANNER SLIDER
     ====================================================== */
 
-    const slides =
-        Array.from(
-            document.querySelectorAll(
-                ".banner-slide"
-            )
-        );
+    const slides = Array.from(
+        document.querySelectorAll(".banner-slide")
+    );
 
-
-    const prevButton =
-        document.getElementById(
-            "prevBanner"
-        );
-
-
-    const nextButton =
-        document.getElementById(
-            "nextBanner"
-        );
-
-
-    const dotsContainer =
-        document.getElementById(
-            "sliderDots"
-        );
-
-
-    const bannerSlider =
-        document.getElementById(
-            "bannerSlider"
-        );
-
+    const prevButton = document.getElementById("prevBanner");
+    const nextButton = document.getElementById("nextBanner");
+    const dotsContainer = document.getElementById("sliderDots");
+    const bannerSlider = document.getElementById("bannerSlider");
 
     let currentSlide = 0;
-
     let sliderTimer = null;
-
 
     function createSliderDots() {
 
-        if (
-            !dotsContainer ||
-            slides.length === 0
-        ) {
+        if (!dotsContainer || slides.length === 0) return;
 
-            return;
+        dotsContainer.innerHTML = "";
 
-        }
+        slides.forEach(function (_, index) {
 
+            const dot = document.createElement("button");
 
-        dotsContainer.innerHTML =
-            "";
+            dot.type = "button";
+            dot.className = "slider-dot";
+            dot.setAttribute("aria-label", "Go to banner " + (index + 1));
 
+            dot.addEventListener("click", function () {
+                showSlide(index);
+                restartSlider();
+            });
 
-        slides.forEach(
-            function (_, index) {
-
-                const dot =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                dot.type =
-                    "button";
-
-
-                dot.className =
-                    "slider-dot";
-
-
-                dot.setAttribute(
-                    "aria-label",
-                    "Go to banner " +
-                    (index + 1)
-                );
-
-
-                dot.addEventListener(
-                    "click",
-                    function () {
-
-                        showSlide(
-                            index
-                        );
-
-
-                        restartSlider();
-
-                    }
-                );
-
-
-                dotsContainer.appendChild(
-                    dot
-                );
-
-            }
-        );
-
+            dotsContainer.appendChild(dot);
+        });
     }
-
 
     function updateSliderDots() {
 
-        if (!dotsContainer) {
-            return;
-        }
+        if (!dotsContainer) return;
 
+        const dots = dotsContainer.querySelectorAll(".slider-dot");
 
-        const dots =
-            dotsContainer.querySelectorAll(
-                ".slider-dot"
+        dots.forEach(function (dot, index) {
+
+            dot.classList.toggle("active", index === currentSlide);
+
+            dot.setAttribute(
+                "aria-current",
+                index === currentSlide ? "true" : "false"
             );
-
-
-        dots.forEach(
-            function (dot, index) {
-
-                dot.classList.toggle(
-                    "active",
-                    index === currentSlide
-                );
-
-            }
-        );
-
+        });
     }
-
 
     function showSlide(index) {
 
-        if (
-            slides.length === 0
-        ) {
+        if (slides.length === 0) return;
 
-            return;
-
-        }
-
-
-        if (
-            index >=
-            slides.length
-        ) {
-
+        if (index >= slides.length) {
             currentSlide = 0;
-
-        }
-        else if (
-            index < 0
-        ) {
-
-            currentSlide =
-                slides.length - 1;
-
-        }
-        else {
-
-            currentSlide =
-                index;
-
+        } else if (index < 0) {
+            currentSlide = slides.length - 1;
+        } else {
+            currentSlide = index;
         }
 
+        slides.forEach(function (slide, slideIndex) {
 
-        slides.forEach(
-            function (
-                slide,
-                slideIndex
-            ) {
-
-                slide.classList.toggle(
-                    "active",
-                    slideIndex ===
-                    currentSlide
-                );
-
-            }
-        );
-
+            slide.classList.toggle(
+                "active",
+                slideIndex === currentSlide
+            );
+        });
 
         updateSliderDots();
-
     }
-
 
     function nextSlide() {
-
-        showSlide(
-            currentSlide + 1
-        );
-
+        showSlide(currentSlide + 1);
     }
-
 
     function previousSlide() {
-
-        showSlide(
-            currentSlide - 1
-        );
-
+        showSlide(currentSlide - 1);
     }
-
-
-    function startSlider() {
-
-        if (
-            slides.length <= 1
-        ) {
-
-            return;
-
-        }
-
-
-        stopSlider();
-
-
-        sliderTimer =
-            setInterval(
-                function () {
-
-                    nextSlide();
-
-                },
-                SLIDER_INTERVAL
-            );
-
-    }
-
 
     function stopSlider() {
 
         if (sliderTimer) {
-
-            clearInterval(
-                sliderTimer
-            );
-
-            sliderTimer =
-                null;
-
+            clearInterval(sliderTimer);
+            sliderTimer = null;
         }
-
     }
 
+    function startSlider() {
 
-    function restartSlider() {
+        if (slides.length <= 1) return;
 
         stopSlider();
 
-        startSlider();
-
+        sliderTimer = setInterval(function () {
+            nextSlide();
+        }, SLIDER_INTERVAL);
     }
 
+    function restartSlider() {
+        stopSlider();
+        startSlider();
+    }
 
     createSliderDots();
 
-
-    if (
-        slides.length > 0
-    ) {
-
+    if (slides.length > 0) {
         showSlide(0);
-
         startSlider();
-
     }
-
 
     if (nextButton) {
-
-        nextButton.addEventListener(
-            "click",
-            function () {
-
-                nextSlide();
-
-                restartSlider();
-
-            }
-        );
-
+        nextButton.addEventListener("click", function () {
+            nextSlide();
+            restartSlider();
+        });
     }
-
 
     if (prevButton) {
-
-        prevButton.addEventListener(
-            "click",
-            function () {
-
-                previousSlide();
-
-                restartSlider();
-
-            }
-        );
-
+        prevButton.addEventListener("click", function () {
+            previousSlide();
+            restartSlider();
+        });
     }
-
 
     if (bannerSlider) {
 
-        bannerSlider.addEventListener(
-            "mouseenter",
-            stopSlider
-        );
-
-
-        bannerSlider.addEventListener(
-            "mouseleave",
-            startSlider
-        );
-
-
-        bannerSlider.addEventListener(
-            "focusin",
-            stopSlider
-        );
-
-
-        bannerSlider.addEventListener(
-            "focusout",
-            startSlider
-        );
+        bannerSlider.addEventListener("mouseenter", stopSlider);
+        bannerSlider.addEventListener("mouseleave", startSlider);
+        bannerSlider.addEventListener("focusin", stopSlider);
+        bannerSlider.addEventListener("focusout", startSlider);
 
     }
 
+    document.addEventListener("visibilitychange", function () {
+
+        if (document.hidden) {
+            stopSlider();
+        } else {
+            startSlider();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+
+        const activeElement = document.activeElement;
+
+        const isTyping = activeElement &&
+            (
+                activeElement.tagName === "INPUT" ||
+                activeElement.tagName === "TEXTAREA" ||
+                activeElement.tagName === "SELECT"
+            );
+
+        if (isTyping) return;
+
+        if (event.key === "ArrowRight") {
+            nextSlide();
+            restartSlider();
+        }
+
+        if (event.key === "ArrowLeft") {
+            previousSlide();
+            restartSlider();
+        }
+    });
+
 
     /* =====================================================
-       KEYBOARD BANNER CONTROL
+       LEGISLATIVE RECORD SEARCH
     ====================================================== */
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+    document.querySelectorAll(
+        "#recordSearchForm, #legislativeSearchForm"
+    ).forEach(function (form) {
 
-            const activeElement =
-                document.activeElement;
+        form.addEventListener("submit", function (event) {
 
+            event.preventDefault();
 
-            const isTyping =
-                activeElement &&
-                (
-                    activeElement.tagName ===
-                        "INPUT" ||
-                    activeElement.tagName ===
-                        "TEXTAREA" ||
-                    activeElement.tagName ===
-                        "SELECT"
-                );
+            const input = form.querySelector(
+                'input[type="search"], input[type="text"]'
+            );
 
+            if (!input) return;
 
-            if (isTyping) {
+            const value = input.value.trim();
+
+            if (!value) {
+                alert("Please enter a search term.");
+                input.focus();
                 return;
             }
 
-
-            if (
-                event.key ===
-                "ArrowRight"
-            ) {
-
-                nextSlide();
-
-                restartSlider();
-
-            }
-
-
-            if (
-                event.key ===
-                "ArrowLeft"
-            ) {
-
-                previousSlide();
-
-                restartSlider();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       LEGISLATIVE SEARCH
-    ====================================================== */
-
-    const recordSearchForm =
-        document.getElementById(
-            "recordSearchForm"
-        );
-
-
-    const recordSearch =
-        document.getElementById(
-            "recordSearch"
-        );
-
-
-    function performSearch(
-        input,
-        message
-    ) {
-
-        if (!input) {
-            return;
-        }
-
-
-        const value =
-            input.value.trim();
-
-
-        if (!value) {
-
             alert(
-                "Please enter a search term."
+                "Search interface only.\n\nYour search term:\n" + value
             );
 
-
-            input.focus();
-
-            return;
-
-        }
-
-
-        alert(
-            message +
-            "\n\n" +
-            value
-        );
-
-    }
-
-
-    if (
-        recordSearchForm &&
-        recordSearch
-    ) {
-
-        recordSearchForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                performSearch(
-                    recordSearch,
-                    "Searching legislative records for:"
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       LEGISLATIVE PAGE SEARCH
-    ====================================================== */
-
-    const legislativeSearchForm =
-        document.getElementById(
-            "legislativeSearchForm"
-        );
-
-
-    const legislativeSearch =
-        document.getElementById(
-            "legislativeSearch"
-        );
-
-
-    if (
-        legislativeSearchForm &&
-        legislativeSearch
-    ) {
-
-        legislativeSearchForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                performSearch(
-                    legislativeSearch,
-                    "Searching legislative records for:"
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       ORDINANCES
-    ====================================================== */
-
-    const ordinancesPage =
-        document.getElementById(
-            "page-ordinances"
-        );
-
-
-    if (ordinancesPage) {
-
-        const form =
-            ordinancesPage.querySelector(
-                "form"
-            );
-
-
-        const input =
-            ordinancesPage.querySelector(
-                'input[type="search"], input[type="text"]'
-            );
-
-
-        if (
-            form &&
-            input
-        ) {
-
-            form.addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
-
-
-                    performSearch(
-                        input,
-                        "Searching ordinances for:"
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       RESOLUTIONS
-    ====================================================== */
-
-    const resolutionsPage =
-        document.getElementById(
-            "page-resolutions"
-        );
-
-
-    if (resolutionsPage) {
-
-        const form =
-            resolutionsPage.querySelector(
-                "form"
-            );
-
-
-        const input =
-            resolutionsPage.querySelector(
-                'input[type="search"], input[type="text"]'
-            );
-
-
-        if (
-            form &&
-            input
-        ) {
-
-            form.addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
-
-
-                    performSearch(
-                        input,
-                        "Searching resolutions for:"
-                    );
-
-                }
-            );
-
-        }
-
-    }
+        });
+    });
 
 
     /* =====================================================
        REQUEST TRACKING
     ====================================================== */
 
-    const trackingForm =
-        document.getElementById(
-            "trackingForm"
-        );
+    const trackingForm = document.getElementById("trackingForm");
+    const trackingNumber = document.getElementById("trackingNumber");
 
+    if (trackingForm && trackingNumber) {
 
-    const trackingNumber =
-        document.getElementById(
-            "trackingNumber"
-        );
+        trackingForm.addEventListener("submit", function (event) {
 
+            event.preventDefault();
 
-    if (
-        trackingForm &&
-        trackingNumber
-    ) {
+            const reference = trackingNumber.value.trim().toUpperCase();
 
-        trackingForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                const reference =
-                    trackingNumber.value
-                        .trim()
-                        .toUpperCase();
-
-
-                if (!reference) {
-
-                    alert(
-                        "Please enter your request reference number."
-                    );
-
-
-                    trackingNumber.focus();
-
-                    return;
-
-                }
-
-
-                alert(
-                    "Checking request status for:\n\n" +
-                    reference
-                );
-
+            if (!reference) {
+                alert("Please enter your request reference number.");
+                trackingNumber.focus();
+                return;
             }
-        );
 
+            alert(
+                "Request tracking UI only.\n\nReference number: " + reference
+            );
+
+        });
     }
 
 
@@ -1585,350 +534,326 @@ document.addEventListener("DOMContentLoaded", function () {
        FEEDBACK FORM
     ====================================================== */
 
-    const feedbackForm =
-        document.getElementById(
-            "feedbackForm"
-        );
-
-
-    const feedbackName =
-        document.getElementById(
-            "feedbackName"
-        );
-
-
-    const feedbackEmail =
-        document.getElementById(
-            "feedbackEmail"
-        );
-
-
-    const feedbackMessage =
-        document.getElementById(
-            "feedbackMessage"
-        );
-
+    const feedbackForm = document.getElementById("feedbackForm");
 
     if (feedbackForm) {
 
-        feedbackForm.addEventListener(
-            "submit",
-            function (event) {
+        feedbackForm.addEventListener("submit", function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
+            const name = document.getElementById("feedbackName");
+            const email = document.getElementById("feedbackEmail");
+            const message = document.getElementById("feedbackMessage");
 
-                const name =
-                    feedbackName
-                        ? feedbackName.value.trim()
-                        : "";
-
-
-                const email =
-                    feedbackEmail
-                        ? feedbackEmail.value.trim()
-                        : "";
-
-
-                const message =
-                    feedbackMessage
-                        ? feedbackMessage.value.trim()
-                        : "";
-
-
-                if (!name) {
-
-                    alert(
-                        "Please enter your name."
-                    );
-
-
-                    if (feedbackName) {
-                        feedbackName.focus();
-                    }
-
-
-                    return;
-
-                }
-
-
-                if (!email) {
-
-                    alert(
-                        "Please enter your email address."
-                    );
-
-
-                    if (feedbackEmail) {
-                        feedbackEmail.focus();
-                    }
-
-
-                    return;
-
-                }
-
-
-                if (!message) {
-
-                    alert(
-                        "Please enter your feedback."
-                    );
-
-
-                    if (feedbackMessage) {
-                        feedbackMessage.focus();
-                    }
-
-
-                    return;
-
-                }
-
-
-                alert(
-                    "Thank you for your feedback, " +
-                    name +
-                    "!"
-                );
-
-
-                feedbackForm.reset();
-
+            if (!name || !name.value.trim()) {
+                alert("Please enter your name.");
+                if (name) name.focus();
+                return;
             }
-        );
 
+            if (!email || !email.value.trim()) {
+                alert("Please enter your email address.");
+                if (email) email.focus();
+                return;
+            }
+
+            if (!message || !message.value.trim()) {
+                alert("Please enter your feedback.");
+                if (message) message.focus();
+                return;
+            }
+
+            alert("Thank you for your feedback, " + name.value.trim() + "!");
+
+            feedbackForm.reset();
+
+        });
     }
 
 
     /* =====================================================
-       LOGIN
+       LOGIN FORM
     ====================================================== */
 
-    const loginForm =
-        document.getElementById(
-            "loginForm"
-        );
-
-
-    const username =
-        document.getElementById(
-            "username"
-        );
-
-
-    const password =
-        document.getElementById(
-            "password"
-        );
-
+    const loginForm = document.getElementById("loginForm");
 
     if (loginForm) {
 
-        loginForm.addEventListener(
-            "submit",
-            function (event) {
+        loginForm.addEventListener("submit", function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
+            const username = document.getElementById("username");
+            const password = document.getElementById("password");
 
-                const usernameValue =
-                    username
-                        ? username.value.trim()
-                        : "";
-
-
-                const passwordValue =
-                    password
-                        ? password.value
-                        : "";
-
-
-                if (!usernameValue) {
-
-                    alert(
-                        "Please enter your username."
-                    );
-
-
-                    if (username) {
-                        username.focus();
-                    }
-
-
-                    return;
-
-                }
-
-
-                if (!passwordValue) {
-
-                    alert(
-                        "Please enter your password."
-                    );
-
-
-                    if (password) {
-                        password.focus();
-                    }
-
-
-                    return;
-
-                }
-
-
-                alert(
-                    "Login functionality is ready to be connected to the OSSP-TOM authentication system."
-                );
-
+            if (!username || !username.value.trim()) {
+                alert("Please enter your username.");
+                if (username) username.focus();
+                return;
             }
-        );
 
+            if (!password || !password.value) {
+                alert("Please enter your password.");
+                if (password) password.focus();
+                return;
+            }
+
+            alert("Login interface only. Authentication is not connected.");
+
+        });
     }
 
 
     /* =====================================================
-       RESIZE
+       ASK OSSP CHATBOT
     ====================================================== */
 
-    window.addEventListener(
-        "resize",
-        function () {
+    const chatbotWidget = document.getElementById("chatbotWidget");
+    const chatbotToggle = document.getElementById("chatbotToggle");
+    const chatbotPanel = document.getElementById("chatbotPanel");
+    const chatbotClose = document.getElementById("chatbotClose");
+    const chatbotForm = document.getElementById("chatbotForm");
+    const chatbotInput = document.getElementById("chatbotInput");
+    const chatbotMessages = document.getElementById("chatbotMessages");
 
-            if (
-                window.innerWidth >
-                MOBILE_BREAKPOINT
-            ) {
+    function openChatbot() {
 
-                closeMobileMenu();
+        if (!chatbotWidget || !chatbotPanel) return;
 
+        chatbotWidget.classList.add("open");
+        chatbotPanel.classList.add("open");
+        chatbotPanel.setAttribute("aria-hidden", "false");
+
+        if (chatbotToggle) {
+            chatbotToggle.setAttribute("aria-expanded", "true");
+        }
+
+        if (chatbotInput) {
+            setTimeout(function () {
+                chatbotInput.focus();
+            }, 200);
+        }
+    }
+
+    function closeChatbot() {
+
+        if (!chatbotWidget || !chatbotPanel) return;
+
+        chatbotWidget.classList.remove("open");
+        chatbotPanel.classList.remove("open");
+        chatbotPanel.setAttribute("aria-hidden", "true");
+
+        if (chatbotToggle) {
+            chatbotToggle.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    function toggleChatbot() {
+
+        if (!chatbotPanel) return;
+
+        if (chatbotPanel.classList.contains("open")) {
+            closeChatbot();
+        } else {
+            openChatbot();
+        }
+    }
+
+    if (chatbotToggle) {
+        chatbotToggle.addEventListener("click", toggleChatbot);
+    }
+
+    if (chatbotClose) {
+        chatbotClose.addEventListener("click", closeChatbot);
+    }
+
+    function addChatMessage(message, sender) {
+
+        if (!chatbotMessages) return;
+
+        const messageElement = document.createElement("div");
+
+        messageElement.classList.add(
+            "chatbot-message",
+            sender === "user"
+                ? "chatbot-message-user"
+                : "chatbot-message-bot"
+        );
+
+        messageElement.textContent = message;
+
+        chatbotMessages.appendChild(messageElement);
+
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function getChatbotResponse(message) {
+
+        const text = message.toLowerCase().trim();
+
+        if (
+            text.includes("hello") ||
+            text.includes("hi") ||
+            text.includes("good morning") ||
+            text.includes("good afternoon") ||
+            text.includes("good evening")
+        ) {
+            return "Hello! Welcome to OSSP-TOM. How may we assist you today?";
+        }
+
+        if (
+            text.includes("office") ||
+            text.includes("address") ||
+            text.includes("location")
+        ) {
+            return "The Office of the Secretary to the Sangguniang Panlungsod is part of the Quezon City Government. Please refer to the official OSSP contact information for office location and directions.";
+        }
+
+        if (text.includes("ordinance")) {
+            return "You may visit the Legislative Records section to explore ordinances and related legislative documents.";
+        }
+
+        if (text.includes("resolution")) {
+            return "You may visit the Legislative Records section to explore resolutions and related legislative documents.";
+        }
+
+        if (
+            text.includes("certified true copy") ||
+            text.includes("ctc")
+        ) {
+            return "You may visit Online Services and select Request Certified True Copy for information about this service.";
+        }
+
+        if (
+            text.includes("tracking") ||
+            text.includes("track request") ||
+            text.includes("reference number")
+        ) {
+            return "You may use the Request Tracking section under Online Services to check your request.";
+        }
+
+        if (text.includes("announcement")) {
+            return "Please visit the Announcements section for official notices, news, and public advisories.";
+        }
+
+        if (
+            text.includes("directory") ||
+            text.includes("personnel")
+        ) {
+            return "Please visit the Directory section for office and personnel information.";
+        }
+
+        if (
+            text.includes("contact") ||
+            text.includes("email") ||
+            text.includes("phone")
+        ) {
+            return "For official inquiries, please visit the Directory or Contact section of the OSSP-TOM website.";
+        }
+
+        if (
+            text.includes("thank you") ||
+            text.includes("thanks")
+        ) {
+            return "You're welcome! Thank you for visiting OSSP-TOM.";
+        }
+
+        if (
+            text.includes("help") ||
+            text.includes("services")
+        ) {
+            return "I can help guide you through the website. You can ask about Legislative Records, Online Services, Announcements, Directory, and FAQs.";
+        }
+
+        return "Thank you for your message. For accurate assistance, please explore the relevant section of the OSSP-TOM website or contact the Office directly through its official channels.";
+    }
+
+    if (chatbotForm && chatbotInput) {
+
+        chatbotForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const message = chatbotInput.value.trim();
+
+            if (!message) {
+                chatbotInput.focus();
+                return;
             }
 
+            addChatMessage(message, "user");
+
+            chatbotInput.value = "";
+
+            setTimeout(function () {
+
+                addChatMessage(
+                    getChatbotResponse(message),
+                    "bot"
+                );
+
+            }, 500);
+
+        });
+    }
+
+    document.addEventListener("click", function (event) {
+
+        if (
+            chatbotWidget &&
+            chatbotPanel &&
+            chatbotPanel.classList.contains("open") &&
+            !chatbotWidget.contains(event.target)
+        ) {
+            closeChatbot();
         }
-    );
+    });
 
 
     /* =====================================================
        NAVIGATION SHADOW
     ====================================================== */
 
+    const mainNavigation = document.querySelector(".main-navigation");
+
     function updateNavigationShadow() {
 
-        if (!mainNavigation) {
-            return;
-        }
+        if (!mainNavigation) return;
 
-
-        if (
+        mainNavigation.style.boxShadow =
             window.scrollY > 20
-        ) {
-
-            mainNavigation.style.boxShadow =
-                "0 6px 20px rgba(0, 0, 0, 0.14)";
-
-        }
-        else {
-
-            mainNavigation.style.boxShadow =
-                "0 3px 15px rgba(0, 0, 0, 0.08)";
-
-        }
-
+                ? "0 6px 20px rgba(0, 0, 0, 0.14)"
+                : "0 3px 15px rgba(0, 0, 0, 0.08)";
     }
 
-
-    window.addEventListener(
-        "scroll",
-        updateNavigationShadow
-    );
-
+    window.addEventListener("scroll", updateNavigationShadow);
 
     updateNavigationShadow();
 
 
     /* =====================================================
-       INITIALIZE PAGE
-       
-       IMPORTANT:
-       Do this LAST after all event listeners
-       have been registered.
+       WINDOW RESIZE
     ====================================================== */
 
-    const initialPage =
-        getPageFromHash();
+    window.addEventListener("resize", function () {
 
-
-    showPage(
-        initialPage,
-        false
-    );
-
-
-    /* =====================================================
-       INITIAL ARIA STATES
-    ====================================================== */
-
-    if (navMenu) {
-
-        navMenu.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-    }
-
-
-    dropdowns.forEach(
-        function (dropdown) {
-
-            const button =
-                dropdown.querySelector(
-                    ".dropdown-button"
-                );
-
-
-            if (button) {
-
-                button.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }
-
+        if (window.innerWidth > MOBILE_BREAKPOINT) {
+            closeMobileMenu();
         }
-    );
+    });
 
 
     /* =====================================================
-       CONSOLE DEBUG
+       INITIALIZE WEBSITE
     ====================================================== */
 
-    console.log(
-        "=========================================="
-    );
+    closeAllDropdowns();
+    closeMobileMenu();
+    closeChatbot();
 
-    console.log(
-        "OSSP-TOM WEBSITE"
-    );
-
-    console.log(
-        "JavaScript initialized successfully."
-    );
-
-    console.log(
-        "Available pages:",
-        pageSections.map(
-            function (section) {
-                return section.id;
-            }
-        )
-    );
-
-    console.log(
-        "=========================================="
-    );
+    console.log("OSSP-TOM UI initialized.");
+    console.log("Direct HTML navigation enabled.");
+    console.log("No server or fetch required.");
 
 });
