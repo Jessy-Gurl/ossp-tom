@@ -1,9 +1,7 @@
-
 /* =========================================================
    OSSP-TOM WEBSITE
    MAIN JAVASCRIPT
-   UI-ONLY VERSION
-   NO SERVER / NO FETCH
+   DYNAMIC PAGE CONTENT VERSION
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -153,12 +151,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       NORMAL HTML PAGE NAVIGATION
-       NO FETCH / NO DYNAMIC HTML LOADING
+       DYNAMIC PAGE CONTENT
+       HEADER, NAVIGATION, FOOTER AND CHATBOT STAY IN INDEX.HTML.
+       ONLY #mainContent CHANGES WHEN A PAGE IS CLICKED.
     ====================================================== */
 
     const PAGE_LINKS = {
-        home: "index.html",
+        home: "pages/home.html",
         councilors: "pages/councilors.html",
         "order-business": "pages/order-business.html",
         committee: "pages/committee.html",
@@ -180,64 +179,41 @@ document.addEventListener("DOMContentLoaded", function () {
         contact: "pages/contact.html"
     };
 
-    document.addEventListener("click", function (event) {
-
-        const link = event.target.closest("[data-page]");
-
-        if (!link) return;
-
-        if (link.classList.contains("dropdown-button")) return;
-
-        const page = link.getAttribute("data-page");
-
-        if (!page || !PAGE_LINKS[page]) return;
-
-        event.preventDefault();
-
-        window.location.href = PAGE_LINKS[page];
-
-    });
+    const mainContent = document.getElementById("mainContent");
+    const homeBanner = document.getElementById("homeBanner");
 
 
     /* =====================================================
-       HOME LOGO LINKS
+       UPDATE ACTIVE NAVIGATION
     ====================================================== */
 
-    document.addEventListener("click", function (event) {
+    function updateActiveNavigation(page) {
 
-        const homeLink = event.target.closest(".home-link");
+        document.querySelectorAll(
+            "#navMenu [data-page], .footer-nav-link[data-page]"
+        ).forEach(function (link) {
 
-        if (!homeLink) return;
+            link.classList.remove("active");
 
-        event.preventDefault();
+            const parent = link.closest(".nav-item");
 
-        window.location.href = "index.html";
+            if (parent) {
+                parent.classList.remove("active");
+            }
 
-    });
+            const dropdown = link.closest(".dropdown");
 
+            if (dropdown) {
+                dropdown.classList.remove("active");
+            }
+        });
 
-    /* =====================================================
-       ACTIVE NAVIGATION
-    ====================================================== */
+        const activeLinks = document.querySelectorAll(
+            '#navMenu [data-page="' + page + '"], .footer-nav-link[data-page="' + page + '"]'
+        );
 
-    const currentFile = window.location.pathname.split("/").pop();
+        activeLinks.forEach(function (link) {
 
-    const currentPage = currentFile.replace(".html", "");
-
-    document.querySelectorAll("#navMenu [data-page]").forEach(function (link) {
-
-        const page = link.getAttribute("data-page");
-
-        const target = PAGE_LINKS[page];
-
-        if (!target) return;
-
-        const targetFile = target.split("/").pop();
-
-        if (
-            targetFile === currentFile ||
-            (currentFile === "index.html" && page === "home")
-        ) {
             link.classList.add("active");
 
             const parent = link.closest(".nav-item");
@@ -251,8 +227,152 @@ document.addEventListener("DOMContentLoaded", function () {
             if (dropdown) {
                 dropdown.classList.add("active");
             }
+        });
+    }
+
+
+    /* =====================================================
+       LOAD PAGE CONTENT
+    ====================================================== */
+
+    async function loadPage(page, updateAddress) {
+
+        if (!PAGE_LINKS[page] || !mainContent) return;
+
+        closeAllDropdowns();
+        closeMobileMenu();
+
+        /* Show banner only on Home */
+        if (homeBanner) {
+            homeBanner.style.display = page === "home" ? "" : "none";
+            homeBanner.setAttribute(
+                "aria-hidden",
+                page === "home" ? "false" : "true"
+            );
         }
+
+        mainContent.setAttribute("aria-busy", "true");
+
+        mainContent.innerHTML =
+            '<div class="page-loading" role="status">Loading page...</div>';
+
+        try {
+
+            const response = await fetch(PAGE_LINKS[page], {
+                method: "GET",
+                cache: "no-cache"
+            });
+
+            if (!response.ok) {
+                throw new Error(
+                    "Page could not be loaded: " + response.status
+                );
+            }
+
+            const pageHTML = await response.text();
+
+            mainContent.innerHTML = pageHTML;
+
+            mainContent.setAttribute("aria-busy", "false");
+
+            updateActiveNavigation(page);
+
+            /* Update browser address without reloading the whole website */
+            if (updateAddress) {
+
+                const newURL = page === "home"
+                    ? window.location.pathname
+                    : window.location.pathname +
+                      "?page=" + encodeURIComponent(page);
+
+                window.history.pushState(
+                    { page: page },
+                    "",
+                    newURL
+                );
+            }
+
+            /* Activate forms inside the newly loaded page */
+            initializePageForms();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        } catch (error) {
+
+            console.error("OSSP-TOM page loading error:", error);
+
+            mainContent.setAttribute("aria-busy", "false");
+
+            mainContent.innerHTML =
+                '<section class="page-error">' +
+                    '<h2>Unable to load this page</h2>' +
+                    '<p>Please check that <strong>' +
+                    PAGE_LINKS[page] +
+                    '</strong> exists inside your pages folder and try again.</p>' +
+                '</section>';
+        }
+    }
+
+
+    /* =====================================================
+       NAVIGATION CLICK EVENTS
+    ====================================================== */
+
+    document.addEventListener("click", function (event) {
+
+        const link = event.target.closest("[data-page], .home-link");
+
+        if (!link) return;
+
+        if (link.classList.contains("dropdown-button")) return;
+
+        let page = link.getAttribute("data-page");
+
+        /* Clicking either header logo returns to Home */
+        if (link.classList.contains("home-link")) {
+            page = "home";
+        }
+
+        if (!page || !PAGE_LINKS[page]) return;
+
+        event.preventDefault();
+
+        loadPage(page, true);
     });
+
+
+    /* =====================================================
+       BROWSER BACK AND FORWARD BUTTONS
+    ====================================================== */
+
+    window.addEventListener("popstate", function () {
+
+        const params = new URLSearchParams(window.location.search);
+
+        const page = params.get("page") || "home";
+
+        loadPage(
+            PAGE_LINKS[page] ? page : "home",
+            false
+        );
+    });
+
+
+    /* =====================================================
+       LOAD INITIAL PAGE
+    ====================================================== */
+
+    const initialParams = new URLSearchParams(window.location.search);
+
+    const initialPage = initialParams.get("page") || "home";
+
+    loadPage(
+        PAGE_LINKS[initialPage] ? initialPage : "home",
+        false
+    );
 
 
     /* =====================================================
@@ -320,11 +440,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             dot.type = "button";
             dot.className = "slider-dot";
-            dot.setAttribute("aria-label", "Go to banner " + (index + 1));
+
+            dot.setAttribute(
+                "aria-label",
+                "Go to banner " + (index + 1)
+            );
 
             dot.addEventListener("click", function () {
+
                 showSlide(index);
                 restartSlider();
+
             });
 
             dotsContainer.appendChild(dot);
@@ -339,7 +465,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         dots.forEach(function (dot, index) {
 
-            dot.classList.toggle("active", index === currentSlide);
+            dot.classList.toggle(
+                "active",
+                index === currentSlide
+            );
 
             dot.setAttribute(
                 "aria-current",
@@ -353,11 +482,17 @@ document.addEventListener("DOMContentLoaded", function () {
         if (slides.length === 0) return;
 
         if (index >= slides.length) {
+
             currentSlide = 0;
+
         } else if (index < 0) {
+
             currentSlide = slides.length - 1;
+
         } else {
+
             currentSlide = index;
+
         }
 
         slides.forEach(function (slide, slideIndex) {
@@ -382,7 +517,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function stopSlider() {
 
         if (sliderTimer) {
+
             clearInterval(sliderTimer);
+
             sliderTimer = null;
         }
     }
@@ -394,11 +531,14 @@ document.addEventListener("DOMContentLoaded", function () {
         stopSlider();
 
         sliderTimer = setInterval(function () {
+
             nextSlide();
+
         }, SLIDER_INTERVAL);
     }
 
     function restartSlider() {
+
         stopSlider();
         startSlider();
     }
@@ -406,21 +546,29 @@ document.addEventListener("DOMContentLoaded", function () {
     createSliderDots();
 
     if (slides.length > 0) {
+
         showSlide(0);
         startSlider();
+
     }
 
     if (nextButton) {
+
         nextButton.addEventListener("click", function () {
+
             nextSlide();
             restartSlider();
+
         });
     }
 
     if (prevButton) {
+
         prevButton.addEventListener("click", function () {
+
             previousSlide();
             restartSlider();
+
         });
     }
 
@@ -428,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         bannerSlider.addEventListener("mouseenter", stopSlider);
         bannerSlider.addEventListener("mouseleave", startSlider);
+
         bannerSlider.addEventListener("focusin", stopSlider);
         bannerSlider.addEventListener("focusout", startSlider);
 
@@ -436,9 +585,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("visibilitychange", function () {
 
         if (document.hidden) {
+
             stopSlider();
+
         } else {
+
             startSlider();
+
         }
     });
 
@@ -456,152 +609,196 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isTyping) return;
 
         if (event.key === "ArrowRight") {
+
             nextSlide();
             restartSlider();
+
         }
 
         if (event.key === "ArrowLeft") {
+
             previousSlide();
             restartSlider();
+
         }
     });
 
 
     /* =====================================================
-       LEGISLATIVE RECORD SEARCH
+       PAGE FORM HANDLERS
+       RE-RUN AFTER LOADING EACH PAGE FRAGMENT.
     ====================================================== */
 
-    document.querySelectorAll(
-        "#recordSearchForm, #legislativeSearchForm"
-    ).forEach(function (form) {
+    function initializePageForms() {
 
-        form.addEventListener("submit", function (event) {
+        /* =====================================================
+           LEGISLATIVE RECORD SEARCH
+        ====================================================== */
 
-            event.preventDefault();
+        document.querySelectorAll(
+            "#recordSearchForm, #legislativeSearchForm"
+        ).forEach(function (form) {
 
-            const input = form.querySelector(
-                'input[type="search"], input[type="text"]'
-            );
+            form.addEventListener("submit", function (event) {
 
-            if (!input) return;
+                event.preventDefault();
 
-            const value = input.value.trim();
+                const input = form.querySelector(
+                    'input[type="search"], input[type="text"]'
+                );
 
-            if (!value) {
-                alert("Please enter a search term.");
-                input.focus();
-                return;
-            }
+                if (!input) return;
 
-            alert(
-                "Search interface only.\n\nYour search term:\n" + value
-            );
+                const value = input.value.trim();
 
+                if (!value) {
+
+                    alert("Please enter a search term.");
+
+                    input.focus();
+
+                    return;
+                }
+
+                alert(
+                    "Search interface only.\n\nYour search term:\n" + value
+                );
+
+            });
         });
-    });
 
 
-    /* =====================================================
-       REQUEST TRACKING
-    ====================================================== */
+        /* =====================================================
+           REQUEST TRACKING
+        ====================================================== */
 
-    const trackingForm = document.getElementById("trackingForm");
-    const trackingNumber = document.getElementById("trackingNumber");
+        const trackingForm = document.getElementById("trackingForm");
 
-    if (trackingForm && trackingNumber) {
+        const trackingNumber = document.getElementById("trackingNumber");
 
-        trackingForm.addEventListener("submit", function (event) {
+        if (trackingForm && trackingNumber) {
 
-            event.preventDefault();
+            trackingForm.addEventListener("submit", function (event) {
 
-            const reference = trackingNumber.value.trim().toUpperCase();
+                event.preventDefault();
 
-            if (!reference) {
-                alert("Please enter your request reference number.");
-                trackingNumber.focus();
-                return;
-            }
+                const reference = trackingNumber.value.trim().toUpperCase();
 
-            alert(
-                "Request tracking UI only.\n\nReference number: " + reference
-            );
+                if (!reference) {
 
-        });
-    }
+                    alert("Please enter your request reference number.");
 
+                    trackingNumber.focus();
 
-    /* =====================================================
-       FEEDBACK FORM
-    ====================================================== */
+                    return;
+                }
 
-    const feedbackForm = document.getElementById("feedbackForm");
+                alert(
+                    "Request tracking UI only.\n\nReference number: " + reference
+                );
 
-    if (feedbackForm) {
-
-        feedbackForm.addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
-            const name = document.getElementById("feedbackName");
-            const email = document.getElementById("feedbackEmail");
-            const message = document.getElementById("feedbackMessage");
-
-            if (!name || !name.value.trim()) {
-                alert("Please enter your name.");
-                if (name) name.focus();
-                return;
-            }
-
-            if (!email || !email.value.trim()) {
-                alert("Please enter your email address.");
-                if (email) email.focus();
-                return;
-            }
-
-            if (!message || !message.value.trim()) {
-                alert("Please enter your feedback.");
-                if (message) message.focus();
-                return;
-            }
-
-            alert("Thank you for your feedback, " + name.value.trim() + "!");
-
-            feedbackForm.reset();
-
-        });
-    }
+            });
+        }
 
 
-    /* =====================================================
-       LOGIN FORM
-    ====================================================== */
+        /* =====================================================
+           FEEDBACK FORM
+        ====================================================== */
 
-    const loginForm = document.getElementById("loginForm");
+        const feedbackForm = document.getElementById("feedbackForm");
 
-    if (loginForm) {
+        if (feedbackForm) {
 
-        loginForm.addEventListener("submit", function (event) {
+            feedbackForm.addEventListener("submit", function (event) {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            const username = document.getElementById("username");
-            const password = document.getElementById("password");
+                const name = document.getElementById("feedbackName");
 
-            if (!username || !username.value.trim()) {
-                alert("Please enter your username.");
-                if (username) username.focus();
-                return;
-            }
+                const email = document.getElementById("feedbackEmail");
 
-            if (!password || !password.value) {
-                alert("Please enter your password.");
-                if (password) password.focus();
-                return;
-            }
+                const message = document.getElementById("feedbackMessage");
 
-            alert("Login interface only. Authentication is not connected.");
+                if (!name || !name.value.trim()) {
 
-        });
+                    alert("Please enter your name.");
+
+                    if (name) name.focus();
+
+                    return;
+                }
+
+                if (!email || !email.value.trim()) {
+
+                    alert("Please enter your email address.");
+
+                    if (email) email.focus();
+
+                    return;
+                }
+
+                if (!message || !message.value.trim()) {
+
+                    alert("Please enter your feedback.");
+
+                    if (message) message.focus();
+
+                    return;
+                }
+
+                alert(
+                    "Thank you for your feedback, " +
+                    name.value.trim() +
+                    "!"
+                );
+
+                feedbackForm.reset();
+
+            });
+        }
+
+
+        /* =====================================================
+           LOGIN FORM
+        ====================================================== */
+
+        const loginForm = document.getElementById("loginForm");
+
+        if (loginForm) {
+
+            loginForm.addEventListener("submit", function (event) {
+
+                event.preventDefault();
+
+                const username = document.getElementById("username");
+
+                const password = document.getElementById("password");
+
+                if (!username || !username.value.trim()) {
+
+                    alert("Please enter your username.");
+
+                    if (username) username.focus();
+
+                    return;
+                }
+
+                if (!password || !password.value) {
+
+                    alert("Please enter your password.");
+
+                    if (password) password.focus();
+
+                    return;
+                }
+
+                alert(
+                    "Login interface only. Authentication is not connected."
+                );
+
+            });
+        }
+
     }
 
 
@@ -610,63 +807,94 @@ document.addEventListener("DOMContentLoaded", function () {
     ====================================================== */
 
     const chatbotWidget = document.getElementById("chatbotWidget");
+
     const chatbotToggle = document.getElementById("chatbotToggle");
+
     const chatbotPanel = document.getElementById("chatbotPanel");
+
     const chatbotClose = document.getElementById("chatbotClose");
+
     const chatbotForm = document.getElementById("chatbotForm");
+
     const chatbotInput = document.getElementById("chatbotInput");
+
     const chatbotMessages = document.getElementById("chatbotMessages");
+
 
     function openChatbot() {
 
         if (!chatbotWidget || !chatbotPanel) return;
 
         chatbotWidget.classList.add("open");
+
         chatbotPanel.classList.add("open");
+
         chatbotPanel.setAttribute("aria-hidden", "false");
 
         if (chatbotToggle) {
+
             chatbotToggle.setAttribute("aria-expanded", "true");
+
         }
 
         if (chatbotInput) {
+
             setTimeout(function () {
+
                 chatbotInput.focus();
+
             }, 200);
+
         }
     }
+
 
     function closeChatbot() {
 
         if (!chatbotWidget || !chatbotPanel) return;
 
         chatbotWidget.classList.remove("open");
+
         chatbotPanel.classList.remove("open");
+
         chatbotPanel.setAttribute("aria-hidden", "true");
 
         if (chatbotToggle) {
+
             chatbotToggle.setAttribute("aria-expanded", "false");
+
         }
     }
+
 
     function toggleChatbot() {
 
         if (!chatbotPanel) return;
 
         if (chatbotPanel.classList.contains("open")) {
+
             closeChatbot();
+
         } else {
+
             openChatbot();
+
         }
     }
 
+
     if (chatbotToggle) {
+
         chatbotToggle.addEventListener("click", toggleChatbot);
+
     }
 
     if (chatbotClose) {
+
         chatbotClose.addEventListener("click", closeChatbot);
+
     }
+
 
     function addChatMessage(message, sender) {
 
@@ -688,6 +916,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     }
 
+
     function getChatbotResponse(message) {
 
         const text = message.toLowerCase().trim();
@@ -699,7 +928,9 @@ document.addEventListener("DOMContentLoaded", function () {
             text.includes("good afternoon") ||
             text.includes("good evening")
         ) {
+
             return "Hello! Welcome to OSSP-TOM. How may we assist you today?";
+
         }
 
         if (
@@ -707,22 +938,30 @@ document.addEventListener("DOMContentLoaded", function () {
             text.includes("address") ||
             text.includes("location")
         ) {
+
             return "The Office of the Secretary to the Sangguniang Panlungsod is part of the Quezon City Government. Please refer to the official OSSP contact information for office location and directions.";
+
         }
 
         if (text.includes("ordinance")) {
+
             return "You may visit the Legislative Records section to explore ordinances and related legislative documents.";
+
         }
 
         if (text.includes("resolution")) {
+
             return "You may visit the Legislative Records section to explore resolutions and related legislative documents.";
+
         }
 
         if (
             text.includes("certified true copy") ||
             text.includes("ctc")
         ) {
+
             return "You may visit Online Services and select Request Certified True Copy for information about this service.";
+
         }
 
         if (
@@ -730,18 +969,24 @@ document.addEventListener("DOMContentLoaded", function () {
             text.includes("track request") ||
             text.includes("reference number")
         ) {
+
             return "You may use the Request Tracking section under Online Services to check your request.";
+
         }
 
         if (text.includes("announcement")) {
+
             return "Please visit the Announcements section for official notices, news, and public advisories.";
+
         }
 
         if (
             text.includes("directory") ||
             text.includes("personnel")
         ) {
+
             return "Please visit the Directory section for office and personnel information.";
+
         }
 
         if (
@@ -749,25 +994,32 @@ document.addEventListener("DOMContentLoaded", function () {
             text.includes("email") ||
             text.includes("phone")
         ) {
+
             return "For official inquiries, please visit the Directory or Contact section of the OSSP-TOM website.";
+
         }
 
         if (
             text.includes("thank you") ||
             text.includes("thanks")
         ) {
+
             return "You're welcome! Thank you for visiting OSSP-TOM.";
+
         }
 
         if (
             text.includes("help") ||
             text.includes("services")
         ) {
+
             return "I can help guide you through the website. You can ask about Legislative Records, Online Services, Announcements, Directory, and FAQs.";
+
         }
 
         return "Thank you for your message. For accurate assistance, please explore the relevant section of the OSSP-TOM website or contact the Office directly through its official channels.";
     }
+
 
     if (chatbotForm && chatbotInput) {
 
@@ -778,7 +1030,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const message = chatbotInput.value.trim();
 
             if (!message) {
+
                 chatbotInput.focus();
+
                 return;
             }
 
@@ -798,6 +1052,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
     document.addEventListener("click", function (event) {
 
         if (
@@ -806,7 +1061,9 @@ document.addEventListener("DOMContentLoaded", function () {
             chatbotPanel.classList.contains("open") &&
             !chatbotWidget.contains(event.target)
         ) {
+
             closeChatbot();
+
         }
     });
 
@@ -839,7 +1096,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("resize", function () {
 
         if (window.innerWidth > MOBILE_BREAKPOINT) {
+
             closeMobileMenu();
+
         }
     });
 
@@ -849,11 +1108,15 @@ document.addEventListener("DOMContentLoaded", function () {
     ====================================================== */
 
     closeAllDropdowns();
+
     closeMobileMenu();
+
     closeChatbot();
 
     console.log("OSSP-TOM UI initialized.");
-    console.log("Direct HTML navigation enabled.");
-    console.log("No server or fetch required.");
+
+    console.log("Dynamic page content loading enabled.");
+
+    console.log("Run this website using Live Server or another local web server.");
 
 });
