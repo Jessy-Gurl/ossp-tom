@@ -1,148 +1,439 @@
-<!-- HOME PAGE CONTENT: loaded inside #mainContent by js/index.js -->
+
+<!-- =========================================================
+     OSSP-TOM HOME PAGE
+     Three-container homepage
+     Loaded dynamically inside #mainContent
+========================================================= -->
+
 <section class="page-section active-page" id="page-home">
 
-        <!-- LEGISLATIVE RECORD SEARCH -->
-        <section class="records-section">
-          <div class="content-container">
-            <div class="section-heading">
-              <span class="section-label">OSSP-TOM</span>
-              <h2>Search Legislative Records</h2>
-              <p>Search ordinances, resolutions and other authorized legislative documents.</p>
+    <!-- =====================================================
+         CONTAINER 1: WELCOME AND LEGISLATIVE SEARCH
+    ====================================================== -->
+
+    <section class="home-welcome-section">
+
+        <div class="welcome-decoration welcome-decoration-one" aria-hidden="true">
+            <svg viewBox="0 0 200 200" fill="none">
+                <path d="M100 25V175M35 55H165M50 55L25 105H75L50 55ZM150 55L125 105H175L150 55Z"
+                      stroke="currentColor" stroke-width="3"/>
+                <path d="M75 175H125M85 160H115" stroke="currentColor" stroke-width="3"/>
+                <circle cx="100" cy="25" r="8" stroke="currentColor" stroke-width="3"/>
+            </svg>
+        </div>
+
+        <div class="welcome-decoration welcome-decoration-two" aria-hidden="true">
+            <svg viewBox="0 0 180 180" fill="none">
+                <path d="M45 130L125 50M105 40L140 75M35 140L55 120M115 30L150 65"
+                      stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                <path d="M30 150L50 130" stroke="currentColor" stroke-width="5"/>
+            </svg>
+        </div>
+
+        <div class="welcome-inner">
+
+            <div class="welcome-copy">
+
+                <span class="welcome-eyebrow">
+                    <span class="eyebrow-line"></span>
+                    OFFICE OF THE SECRETARY TO THE
+                </span>
+
+                <h1 class="welcome-title">
+                    Welcome to <span>OSSP-TOM</span>
+                </h1>
+
+                <h2 class="welcome-subtitle">
+                    Quezon City Legislative Navigator
+                </h2>
+
+                <p class="welcome-description">
+                    Your gateway to authorized legislative records and
+                    convenient public services. Search ordinances,
+                    resolutions, and other official documents, or submit
+                    and monitor your Certified True Copy requests online.
+                </p>
+
             </div>
 
-            <div class="search-card">
-              <form id="recordSearchForm">
-                <div class="search-input-wrapper">
-                  <span class="search-icon" aria-hidden="true">⌕</span>
-                  <input
-                    type="search"
-                    id="recordSearch"
-                    placeholder="Enter title, number, keyword or year..."
-                    aria-label="Search legislative records"
-                  />
-                </div>
-                <button type="submit" class="search-button">SEARCH</button>
-              </form>
+            <!-- LEGISLATIVE SEARCH -->
 
-              <div class="record-shortcuts">
-                <a href="pages/ordinances.html" class="record-card" data-page="ordinances">
-                  <span class="record-icon" aria-hidden="true">▣</span>
-                  <span>Ordinances</span>
+            <div class="home-search-container">
+
+                <div class="home-search-heading">
+                    <span class="home-search-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="10.8" cy="10.8" r="7.5"></circle>
+                            <path d="m16.5 16.5 5 5"></path>
+                        </svg>
+                    </span>
+
+                    <div>
+                        <strong>Search Legislative Records</strong>
+                        <span>Find ordinances, resolutions and official documents.</span>
+                    </div>
+                </div>
+
+                <form id="recordSearchForm" class="home-search-form">
+
+                    <div class="home-search-input-wrap">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true">
+                            <circle cx="10.8" cy="10.8" r="7.5"></circle>
+                            <path d="m16.5 16.5 5 5"></path>
+                        </svg>
+
+                        <input
+                            type="search"
+                            id="recordSearch"
+                            name="search"
+                            placeholder="Enter title, number, keyword or year..."
+                            aria-label="Search legislative records"
+                        />
+                    </div>
+
+                    <button type="submit" class="home-search-button">
+                        Search
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </button>
+
+                </form>
+
+                <p id="homeSearchFeedback"
+                   class="home-search-feedback"
+                   role="status"
+                   aria-live="polite"></p>
+
+            </div>
+
+            <!-- WELCOME ACTIONS -->
+
+            <div class="welcome-actions">
+
+                <a href="#" class="welcome-action welcome-action-primary"
+                   data-page="ordinances">
+
+                    <span class="welcome-action-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
+                            <path d="M14 2v6h6M8 12h8M8 16h8"></path>
+                        </svg>
+                    </span>
+
+                    <span class="welcome-action-copy">
+                        <strong>Browse Ordinances</strong>
+                        <small>Explore legislative records</small>
+                    </span>
+
+                    <span class="welcome-action-arrow">›</span>
                 </a>
-                <a href="pages/resolutions.html" class="record-card" data-page="resolutions">
-                  <span class="record-icon" aria-hidden="true">▤</span>
-                  <span>Resolutions</span>
+
+                <a href="#" class="welcome-action welcome-action-secondary"
+                   data-page="ctc">
+
+                    <span class="welcome-action-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
+                            <path d="M14 2v6h6"></path>
+                            <path d="m8 15 2.5 2.5L16 12"></path>
+                        </svg>
+                    </span>
+
+                    <span class="welcome-action-copy">
+                        <strong>Request CTC</strong>
+                        <small>Request Certified True Copies</small>
+                    </span>
+
+                    <span class="welcome-action-arrow">›</span>
                 </a>
-                <a href="pages/ctc.html" class="record-card" data-page="ctc">
-                  <span class="record-icon" aria-hidden="true">✓</span>
-                  <span>Request CTC</span>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTAINER 2: QUICK ACCESS PHOTO SECTION
+    ====================================================== -->
+
+    <section class="home-quick-section">
+
+        <div class="quick-photo-overlay" aria-hidden="true"></div>
+
+        <div class="quick-blue-panel">
+
+            <div class="quick-panel-topline">
+                <span class="quick-panel-label">OSSP-TOM PORTAL</span>
+                <span class="quick-panel-line"></span>
+                <span class="quick-panel-number">02 / QUICK ACCESS</span>
+            </div>
+
+            <div class="quick-panel-heading">
+
+                <span class="quick-heading-eyebrow">
+                    YOUR ACCESS TO PUBLIC SERVICE
+                </span>
+
+                <h2>
+                    Everything You Need,
+                    <span>Within Reach.</span>
+                </h2>
+
+                <p>
+                    Navigate essential legislative information and
+                    OSSP services through these quick links.
+                </p>
+
+            </div>
+
+            <!-- GLASS QUICK ACCESS CARDS -->
+
+            <div class="quick-access-grid">
+
+                <!-- TRACK REQUEST -->
+
+                <a href="#" class="quick-access-card"
+                   data-page="tracking">
+
+                    <span class="quick-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.7"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                            <path d="M8 8h8M8 12h8M8 16h5"></path>
+                            <path d="m15 16 2 2 4-4"></path>
+                        </svg>
+                    </span>
+
+                    <span class="quick-card-title">Track Request</span>
+
+                    <span class="quick-card-description">
+                        Monitor the status of your submitted requests.
+                    </span>
+
+                    <span class="quick-card-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+
                 </a>
-              </div>
+
+
+                <!-- LEGISLATIVE RECORDS -->
+
+                <a href="#" class="quick-access-card"
+                   data-page="legislative">
+
+                    <span class="quick-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.7"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
+                            <path d="M14 2v6h6M8 12h8M8 16h8"></path>
+                        </svg>
+                    </span>
+
+                    <span class="quick-card-title">Legislative Records</span>
+
+                    <span class="quick-card-description">
+                        Browse ordinances, resolutions and official records.
+                    </span>
+
+                    <span class="quick-card-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+
+                </a>
+
+
+                <!-- ABOUT OSSP -->
+
+                <a href="#" class="quick-access-card"
+                   data-page="about">
+
+                    <span class="quick-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.7"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9 12 3l9 6"></path>
+                            <path d="M5 10h14M6 10v9M10 10v9M14 10v9M18 10v9"></path>
+                            <path d="M3 21h18"></path>
+                        </svg>
+                    </span>
+
+                    <span class="quick-card-title">About OSSP</span>
+
+                    <span class="quick-card-description">
+                        Learn about the office, its mandate and functions.
+                    </span>
+
+                    <span class="quick-card-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+
+                </a>
+
             </div>
-          </div>
-        </section>
 
-        <!-- INFORMATION CARDS -->
-        <section class="information-section">
-          <div class="content-container">
-            <div class="information-grid">
+            
 
-              <a href="pages/about.html" class="information-card" data-page="about">
-                <div class="information-icon" aria-hidden="true">◈</div>
-                <div>
-                  <h3>About OSSP</h3>
-                  <p>The Office of the Secretary to the Sangguniang Panlungsod (OSSP) provides administrative, secretarial, legislative, and technical support services to the Sangguniang Panlungsod in the performance of its functions as the legislative, deliberative, and policy-making body of the City Government.</p>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTAINER 3: ACHIEVEMENTS
+    ====================================================== -->
+
+    <section class="home-achievements-section">
+
+        <div class="achievements-header">
+
+            <div class="achievements-heading-copy">
+                <span class="achievements-eyebrow">
+                    OUR MILESTONES
+                </span>
+
+                <h2>Achievements &amp; Innovations</h2>
+
+                <p>
+                    Recognizing milestones, initiatives and accomplishments
+                    that strengthen public service and legislative support.
+                </p>
+            </div>
+
+            <div class="achievements-heading-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"></path>
+                </svg>
+            </div>
+
+        </div>
+
+
+        <div class="achievements-grid">
+
+            <!-- ACHIEVEMENT CARD 1 -->
+
+            <article class="achievement-card">
+
+                <div class="achievement-image achievement-image-one">
+                    <span class="achievement-image-label">INNOVATION</span>
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.3"
+                         aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+                        <path d="M8 21h8M12 17v4M7 9h10M7 13h6"></path>
+                    </svg>
                 </div>
-              </a>
 
-              <a href="pages/announcements.html" class="information-card" data-page="news">
-                <div class="information-icon" aria-hidden="true">◉</div>
-                <div>
-                  <h3>Announcements</h3>
-                  <p>Official notices, news and public advisories.</p>
+                <div class="achievement-content">
+                    <span class="achievement-category">DIGITAL TRANSFORMATION</span>
+                    <h3>Digital Systems &amp; Innovations</h3>
+                    <p>
+                        Highlight OSSP digital initiatives, systems and
+                        technology-driven improvements in office operations.
+                    </p>
+                    <span class="achievement-edit-note">
+                        Replace with your achievement details
+                    </span>
                 </div>
-              </a>
 
-              <a href="pages/services.html" class="information-card" data-page="services">
-                <div class="information-icon" aria-hidden="true">▣</div>
-                <div>
-                  <h3>Citizen Services</h3>
-                  <p>Service requirements, procedures and online requests.</p>
+            </article>
+
+
+            <!-- ACHIEVEMENT CARD 2 -->
+
+            <article class="achievement-card">
+
+                <div class="achievement-image achievement-image-two">
+                    <span class="achievement-image-label">MILESTONE</span>
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.3"
+                         aria-hidden="true">
+                        <path d="M12 3 15 9l6 .9-4.5 4.4 1 6.2-5.5-3-5.5 3 1-6.2L3 9.9 9 9l3-6Z"></path>
+                    </svg>
                 </div>
-              </a>
 
-              <a href="pages/feedback.html" class="information-card" data-page="feedback">
-                <div class="information-icon" aria-hidden="true">◌</div>
-                <div>
-                  <h3>Feedback</h3>
-                  <p>Rate services, submit comments and report issues.</p>
+                <div class="achievement-content">
+                    <span class="achievement-category">OFFICE MILESTONES</span>
+                    <h3>Programs &amp; Accomplishments</h3>
+                    <p>
+                        Showcase significant office milestones, completed
+                        projects and notable accomplishments.
+                    </p>
+                    <span class="achievement-edit-note">
+                        Replace with your achievement details
+                    </span>
                 </div>
-              </a>
 
-            </div>
-          </div>
-        </section>
+            </article>
 
-        <!-- QUICK ACCESS -->
-        <section class="quick-links-section">
-          <div class="content-container">
-            <div class="section-heading center">
-              <span class="section-label">QUICK ACCESS</span>
-              <h2>Government Services</h2>
-              <p>Access important OSSP-TOM information and public services.</p>
-            </div>
 
-            <div class="secretariat-signature" aria-label="OSSP Secretariat identity">
-              <div class="secretariat-signature-ornament secretariat-ornament-left" aria-hidden="true">
-                <span>⚖</span><span class="ornament-line"></span><span>▤</span>
-              </div>
-              <div class="secretariat-signature-seal" aria-hidden="true">
-                <span class="secretariat-seal-ring">🏛</span>
-              </div>
-              <div class="secretariat-signature-copy">
-                <span class="secretariat-eyebrow">OFFICE OF THE SECRETARY TO THE</span>
-                <strong>SANGGUNIANG PANLUNGSOD</strong>
-                <span class="secretariat-motto">LEGISLATIVE RECORDS <i></i> OFFICIAL PROCEEDINGS <i></i> PUBLIC SERVICE</span>
-              </div>
-              <div class="secretariat-signature-ornament secretariat-ornament-right" aria-hidden="true">
-                <span>✒</span><span class="ornament-line"></span><span>⚒</span>
-              </div>
-            </div>
+            <!-- ACHIEVEMENT CARD 3 -->
 
-            <div class="quick-links-grid" aria-label="OSSP-TOM quick access">
-              <a href="pages/legislative.html" class="quick-link quick-link-legislative" data-page="legislative">
-                <span class="quick-link-number">01</span>
-                <span class="quick-link-icon" aria-hidden="true">▤</span>
-                <span class="quick-link-title">Legislative Records</span>
-                <span class="quick-link-description">Browse ordinances, resolutions and official legislative documents.</span>
-                <span class="quick-link-arrow" aria-hidden="true">→</span>
-              </a>
+            <article class="achievement-card">
 
-              <a href="pages/services.html" class="quick-link quick-link-services" data-page="services">
-                <span class="quick-link-number">02</span>
-                <span class="quick-link-icon" aria-hidden="true">▣</span>
-                <span class="quick-link-title">Online Services</span>
-                <span class="quick-link-description">Explore available public services and document requests.</span>
-                <span class="quick-link-arrow" aria-hidden="true">→</span>
-              </a>
+                <div class="achievement-image achievement-image-three">
+                    <span class="achievement-image-label">PUBLIC SERVICE</span>
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.3"
+                         aria-hidden="true">
+                        <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"></path>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                </div>
 
-              <a href="pages/directory.html" class="quick-link quick-link-directory" data-page="directory">
-                <span class="quick-link-number">03</span>
-                <span class="quick-link-icon" aria-hidden="true">♙</span>
-                <span class="quick-link-title">Directory</span>
-                <span class="quick-link-description">Find office information and directory details.</span>
-                <span class="quick-link-arrow" aria-hidden="true">→</span>
-              </a>
+                <div class="achievement-content">
+                    <span class="achievement-category">SERVICE EXCELLENCE</span>
+                    <h3>Commitment to Public Service</h3>
+                    <p>
+                        Feature recognitions, service improvements and
+                        initiatives supporting transparent public service.
+                    </p>
+                    <span class="achievement-edit-note">
+                        Replace with your achievement details
+                    </span>
+                </div>
 
-              <a href="pages/faqs.html" class="quick-link quick-link-faqs" data-page="faqs">
-                <span class="quick-link-number">04</span>
-                <span class="quick-link-icon" aria-hidden="true">?</span>
-                <span class="quick-link-title">FAQs</span>
-                <span class="quick-link-description">Find answers to frequently asked questions.</span>
-                <span class="quick-link-arrow" aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        </section>
+            </article>
 
-      </section>
+        </div>
+
+        <div class="achievements-bottom-line">
+            <span></span>
+            <p>OFFICE OF THE SECRETARY TO THE SANGGUNIANG PANLUNGSOD</p>
+            <span></span>
+        </div>
+
+    </section>
+
+</section>
